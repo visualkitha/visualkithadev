@@ -46,7 +46,10 @@ export default function LoginPage() {
       toast({
         variant: 'destructive',
         title: 'Login Failed',
-        description: error.message || 'An unknown error occurred.',
+        description:
+          error.code === 'auth/invalid-credential'
+            ? 'Invalid email or password. Please try again.'
+            : error.message || 'An unknown error occurred.',
       });
     } finally {
       setIsLoading(false);
