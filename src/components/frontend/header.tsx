@@ -18,6 +18,9 @@ export function Header() {
           <Link href="/products" className="transition-colors hover:text-primary">
             Products
           </Link>
+          <Link href="/news" className="transition-colors hover:text-primary">
+            News
+          </Link>
           <Link href="/login" className="transition-colors hover:text-primary">
             Admin Login
           </Link>

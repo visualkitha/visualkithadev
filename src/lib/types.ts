@@ -14,9 +14,12 @@ export type Page = {
 };
 
 export type BlogPost = {
-  id:string;
+  id: string;
   title: string;
   author: string;
   status: 'Published' | 'Draft';
   createdAt: string;
+  imageUrl: string;
+  excerpt: string;
+  content: string;
 };
