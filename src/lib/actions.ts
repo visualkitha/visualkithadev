@@ -126,7 +126,7 @@ export async function saveBlogPost(data: {
   title: string;
   author: string;
   status: 'Published' | 'Draft';
-  imageUrl: string;
+  imageUrl?: string | null;
   excerpt: string;
   content: string;
 }): Promise<{ success: boolean; error?: string }> {
@@ -139,7 +139,7 @@ export async function saveBlogPost(data: {
     slug: slug,
     author: data.author,
     status: data.status,
-    imageUrl: data.imageUrl,
+    imageUrl: data.imageUrl || 'https://placehold.co/1200x600.png',
     excerpt: data.excerpt,
     content: data.content,
   };

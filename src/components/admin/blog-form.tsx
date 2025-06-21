@@ -34,7 +34,7 @@ const formSchema = z.object({
   title: z.string().min(2, 'Judul harus minimal 2 karakter.'),
   author: z.string().min(2, 'Nama penulis harus minimal 2 karakter.'),
   status: z.enum(['Published', 'Draft']),
-  imageUrl: z.string().url('URL Gambar tidak valid.').min(1, 'URL Gambar diperlukan.'),
+  imageUrl: z.string().url('URL Gambar tidak valid.').optional().or(z.literal('')),
   excerpt: z.string().min(10, 'Kutipan harus minimal 10 karakter.').max(200, 'Kutipan tidak boleh lebih dari 200 karakter.'),
   content: z.string().min(20, 'Konten harus minimal 20 karakter.'),
 });
@@ -171,7 +171,7 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: Blog
                   <FormItem>
                     <FormControl>
                       <Input
-                        placeholder="https://placehold.co/1200x600.png"
+                        placeholder="Opsional. Kosongkan untuk gambar placeholder."
                         {...field}
                         disabled={isSubmitting || isUploading}
                       />
