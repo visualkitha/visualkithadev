@@ -11,6 +11,7 @@ import {
   Tv2,
   LogOut,
   FileText,
+  Tags,
 } from 'lucide-react';
 
 import {
@@ -28,6 +29,7 @@ const menuItems = [
   { href: '/admin/dashboard', label: 'Dasbor', icon: LayoutDashboard },
   { href: '/admin/equipment', label: 'Peralatan', icon: Package },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
+  { href: '/admin/blog/categories', label: 'Kategori Blog', icon: Tags },
   { href: '/admin/pages', label: 'Halaman', icon: FileText },
 ];
 
@@ -59,7 +61,7 @@ export function AdminSidebar() {
             <SidebarMenuItem key={item.href}>
               <SidebarMenuButton
                 asChild
-                isActive={pathname.startsWith(item.href)}
+                isActive={pathname === item.href || (item.href !== '/admin/blog' && pathname.startsWith(item.href) && item.href !== '/admin/blog/categories') || (item.href === '/admin/blog' && pathname.startsWith('/admin/blog') && !pathname.includes('/categories'))}
                 tooltip={{ children: item.label }}
               >
                 <Link href={item.href}>

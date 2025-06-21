@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { BlogPost } from '@/lib/types';
+import type { BlogPost, BlogCategory } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -14,7 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { PlusCircle, MoreHorizontal, Pencil, Trash2, Tags } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,12 +43,14 @@ import { useToast } from '@/hooks/use-toast';
 import { deleteBlogPost, saveBlogPost } from '@/lib/actions';
 import { BlogForm, BlogFormValues } from './blog-form';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Link from 'next/link';
 
 interface BlogClientPageProps {
   initialPosts: BlogPost[];
+  initialCategories: BlogCategory[];
 }
 
-export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
+export function BlogClientPage({ initialPosts, initialCategories }: BlogClientPageProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -112,10 +114,18 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
             <h1 className="font-headline text-3xl font-bold tracking-tight">Postingan Blog</h1>
             <p className="text-muted-foreground">Buat dan kelola konten blog Anda.</p>
           </div>
-          <Button onClick={() => handleOpenDialog()}>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Posting Baru
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button asChild variant="outline">
+                <Link href="/admin/blog/categories">
+                    <Tags className="mr-2 h-4 w-4" />
+                    Kelola Kategori
+                </Link>
+            </Button>
+            <Button onClick={() => handleOpenDialog()}>
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Posting Baru
+            </Button>
+          </div>
         </div>
 
         <Card>
@@ -205,6 +215,7 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
               <BlogForm
                 key={selectedPost?.id || 'new'}
                 initialData={selectedPost}
+                categories={initialCategories}
                 onSubmit={handleFormSubmit}
                 onCancel={handleCloseDialog}
                 isSubmitting={isSubmitting}

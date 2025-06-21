@@ -1,4 +1,4 @@
-import { fetchBlogPosts } from '@/lib/data';
+import { fetchBlogPosts, fetchBlogCategories } from '@/lib/data';
 import { BlogPostCard } from '@/components/frontend/blog-post-card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -7,6 +7,7 @@ import { Search } from 'lucide-react';
 
 export default async function NewsPage() {
   const posts = await fetchBlogPosts();
+  const categories = await fetchBlogCategories();
   const popularPosts = posts.slice(0, 3); // Ambil 3 post pertama sebagai 'populer'
 
   return (
@@ -37,11 +38,9 @@ export default async function NewsPage() {
           </div>
           <div className="flex gap-2 mt-4 justify-center flex-wrap">
             <Button variant="ghost" size="sm">Semua</Button>
-            <Button variant="ghost" size="sm">Event</Button>
-            <Button variant="ghost" size="sm">Wedding</Button>
-            <Button variant="ghost" size="sm">Tips & Edukasi</Button>
-            <Button variant="ghost" size="sm">Promo</Button>
-            <Button variant="ghost" size="sm">Behind the Scene</Button>
+            {categories.map((category) => (
+              <Button key={category.id} variant="ghost" size="sm">{category.name}</Button>
+            ))}
           </div>
         </div>
       </section>

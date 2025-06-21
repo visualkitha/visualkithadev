@@ -179,3 +179,43 @@ export async function deleteBlogPost(id: string): Promise<{ success: boolean; er
     return { success: false, error: `Gagal menghapus postingan blog: ${errorMessage}` };
   }
 }
+
+
+export async function saveBlogCategory(category: { id?: string; name: string }): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+  if (!category.name) return { success: false, error: 'Nama kategori diperlukan.' };
+
+  const dataToSave = { name: category.name };
+
+  try {
+    if (category.id) {
+      await setDoc(doc(db, 'blogCategories', category.id), dataToSave);
+    } else {
+      await addDoc(collection(db, 'blogCategories'), dataToSave);
+    }
+    revalidatePath('/admin/blog/categories');
+    revalidatePath('/admin/blog');
+    revalidatePath('/news');
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menyimpan kategori blog:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menyimpan kategori blog: ${errorMessage}` };
+  }
+}
+
+export async function deleteBlogCategory(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+
+  try {
+    await deleteDoc(doc(db, 'blogCategories', id));
+    revalidatePath('/admin/blog/categories');
+    revalidatePath('/admin/blog');
+    revalidatePath('/news');
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menghapus kategori blog:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menghapus kategori blog: ${errorMessage}` };
+  }
+}

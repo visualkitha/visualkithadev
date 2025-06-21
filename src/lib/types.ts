@@ -29,3 +29,8 @@ export type BlogPost = {
   excerpt: string;
   content: string;
 };
+
+export type BlogCategory = {
+  id: string;
+  name: string;
+};

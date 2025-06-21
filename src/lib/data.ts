@@ -1,7 +1,7 @@
 import 'server-only';
 import { collection, getDocs, query, orderBy, where, limit } from 'firebase/firestore';
 import { db } from './firebase';
-import type { Equipment, BlogPost, Page } from './types';
+import type { Equipment, BlogPost, Page, BlogCategory } from './types';
 
 export async function fetchEquipment(): Promise<Equipment[]> {
   if (!db) {
@@ -181,5 +181,39 @@ export async function fetchPageBySlug(slug: string): Promise<Page | null> {
   } catch(error) {
     console.error("Gagal mengambil halaman berdasarkan slug:", error);
     return null;
+  }
+}
+
+export async function fetchBlogCategories(): Promise<BlogCategory[]> {
+  if (!db) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk kategori blog.");
+    }
+    return [
+      { id: '1', name: 'Event' },
+      { id: '2', name: 'Wedding' },
+      { id: '3', name: 'Tips & Edukasi' },
+      { id: '4', name: 'Promo' },
+      { id: '5', name: 'Behind the Scene' },
+    ];
+  }
+
+  try {
+    const categoriesCollection = collection(db, 'blogCategories');
+    const q = query(categoriesCollection, orderBy('name'));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log('Tidak ada kategori blog yang ditemukan di Firestore.');
+      return [];
+    }
+
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as BlogCategory[];
+  } catch (error) {
+    console.error("Gagal mengambil kategori blog:", error);
+    return [];
   }
 }

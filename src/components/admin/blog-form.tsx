@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { LoaderCircle, Upload } from 'lucide-react';
-import type { BlogPost } from '@/lib/types';
+import type { BlogPost, BlogCategory } from '@/lib/types';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { storage } from '@/lib/firebase';
@@ -44,12 +44,13 @@ export type BlogFormValues = z.infer<typeof formSchema>;
 
 interface BlogFormProps {
   initialData?: BlogPost | null;
+  categories: BlogCategory[];
   onSubmit: (data: BlogFormValues) => void;
   onCancel: () => void;
   isSubmitting: boolean;
 }
 
-export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: BlogFormProps) {
+export function BlogForm({ initialData, categories, onSubmit, onCancel, isSubmitting }: BlogFormProps) {
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
   
@@ -172,11 +173,9 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: Blog
                         </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                        <SelectItem value="Event">Event</SelectItem>
-                        <SelectItem value="Wedding">Wedding</SelectItem>
-                        <SelectItem value="Tips & Edukasi">Tips & Edukasi</SelectItem>
-                        <SelectItem value="Promo">Promo</SelectItem>
-                        <SelectItem value="Behind the Scene">Behind the Scene</SelectItem>
+                          {categories.map((cat) => (
+                            <SelectItem key={cat.id} value={cat.name}>{cat.name}</SelectItem>
+                          ))}
                         </SelectContent>
                     </Select>
                     <FormMessage />
