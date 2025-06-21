@@ -17,7 +17,7 @@ export default function ServicesPage() {
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
             Visual Kitha menyediakan berbagai pilihan layanan videotron untuk semua jenis kebutuhan event — dari yang intimate sampai yang megah.
           </p>
-          <div className="mt-6 flex flex-col sm:flex-row justify-center gap-4">
+          <div className="mt-6 flex flex-col gap-4 min-[400px]:flex-row justify-center">
             <Button asChild size="lg">
               <Link href="/contact-us">Konsultasi Gratis</Link>
             </Button>
@@ -36,59 +36,59 @@ export default function ServicesPage() {
               Kami Menyediakan Layanan Videotron untuk:
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-            <Card className="text-center hover:shadow-lg transition-shadow">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <Card className="flex flex-col text-center transition-shadow hover:shadow-lg">
               <CardHeader>
-                <div className="mx-auto bg-primary/10 text-primary p-3 rounded-full w-fit">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <Music className="h-8 w-8" />
                 </div>
                 <CardTitle className="font-headline pt-4">Event Musik & Hiburan</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-grow">
                 <p className="text-sm text-muted-foreground">Tampilan LED untuk konser, festival, dan show entertainment. Visual yang terang, jelas, dan kuat di tengah keramaian.</p>
               </CardContent>
             </Card>
-             <Card className="text-center hover:shadow-lg transition-shadow">
+             <Card className="flex flex-col text-center transition-shadow hover:shadow-lg">
               <CardHeader>
-                <div className="mx-auto bg-primary/10 text-primary p-3 rounded-full w-fit">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <Heart className="h-8 w-8" />
                 </div>
                 <CardTitle className="font-headline pt-4">Acara Pernikahan & Keluarga</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-grow">
                 <p className="text-sm text-muted-foreground">Backdrop LED untuk akad, resepsi, lamaran, hingga ulang tahun. Menambah kesan mewah dan memorable.</p>
               </CardContent>
             </Card>
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="flex flex-col text-center transition-shadow hover:shadow-lg">
               <CardHeader>
-                <div className="mx-auto bg-primary/10 text-primary p-3 rounded-full w-fit">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <Building2 className="h-8 w-8" />
                 </div>
                 <CardTitle className="font-headline pt-4">Corporate & Brand Event</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-grow">
                 <p className="text-sm text-muted-foreground">Layar untuk presentasi, launching produk, atau company gathering. Membantu brand tampil lebih profesional.</p>
               </CardContent>
             </Card>
-             <Card className="text-center hover:shadow-lg transition-shadow">
+             <Card className="flex flex-col text-center transition-shadow hover:shadow-lg">
               <CardHeader>
-                <div className="mx-auto bg-primary/10 text-primary p-3 rounded-full w-fit">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <Landmark className="h-8 w-8" />
                 </div>
                 <CardTitle className="font-headline pt-4">Event Pemerintahan</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-grow">
                 <p className="text-sm text-muted-foreground">Layanan untuk kegiatan sosial, kampanye, sosialisasi, atau acara pemerintahan lainnya.</p>
               </CardContent>
             </Card>
-            <Card className="text-center hover:shadow-lg transition-shadow">
+            <Card className="flex flex-col text-center transition-shadow hover:shadow-lg">
               <CardHeader>
-                <div className="mx-auto bg-primary/10 text-primary p-3 rounded-full w-fit">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <Settings className="h-8 w-8" />
                 </div>
                 <CardTitle className="font-headline pt-4">Videotron Custom</CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex-grow">
                 <p className="text-sm text-muted-foreground">Butuh ukuran atau konsep spesifik? Tim kami siap bantu dengan solusi videotron yang dikustomisasi.</p>
               </CardContent>
             </Card>
