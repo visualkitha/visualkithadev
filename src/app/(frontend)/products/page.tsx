@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { Music, Heart, Building2, Landmark, Settings, Award, Users, Clock, ShieldCheck, Wrench } from 'lucide-react';
+import { Music, Heart, Building2, Landmark, Settings, Award, Users, Clock, ShieldCheck, Wrench, Camera } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -90,6 +90,17 @@ export default function ServicesPage() {
               </CardHeader>
               <CardContent className="flex-grow">
                 <p className="text-sm text-muted-foreground">Butuh ukuran atau konsep spesifik? Tim kami siap bantu dengan solusi videotron yang dikustomisasi.</p>
+              </CardContent>
+            </Card>
+             <Card className="flex flex-col text-center transition-shadow hover:shadow-lg">
+              <CardHeader>
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <Camera className="h-8 w-8" />
+                </div>
+                <CardTitle className="font-headline pt-4">Live Jib & Multicam</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <p className="text-sm text-muted-foreground">Tingkatkan produksi acara Anda dengan layanan multicamera dan Jib crane profesional untuk angle sinematik.</p>
               </CardContent>
             </Card>
           </div>
