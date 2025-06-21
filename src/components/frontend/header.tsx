@@ -7,10 +7,10 @@ export async function Header() {
   const navPages = pages.filter(p => p.slug !== 'home');
 
   return (
-    <header className="bg-black text-white fixed top-0 left-0 right-0 z-40 border-b border-gray-800">
+    <header className="bg-black text-white fixed top-0 left-0 right-0 z-40">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Tv2 className="h-6 w-6 text-primary" />
+          <Tv2 className="h-6 w-6" />
           <span className="font-headline text-lg font-bold">Visual Kitha</span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
