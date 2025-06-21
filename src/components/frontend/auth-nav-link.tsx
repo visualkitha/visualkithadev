@@ -22,7 +22,7 @@ export function AuthNavLink({ className }: { className?: string }) {
 
   return (
     <Link href="/login" className={cn("transition-colors hover:text-primary", className)}>
-      Login Admin
+      login
     </Link>
   );
 }
