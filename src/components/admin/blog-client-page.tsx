@@ -42,6 +42,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { deleteBlogPost, saveBlogPost } from '@/lib/actions';
 import { BlogForm, BlogFormValues } from './blog-form';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface BlogClientPageProps {
   initialPosts: BlogPost[];
@@ -197,15 +198,17 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
               {selectedPost ? 'Perbarui detail untuk postingan ini.' : 'Tulis artikel baru untuk blog Anda.'}
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4">
-            <BlogForm
-              key={selectedPost?.id || 'new'}
-              initialData={selectedPost}
-              onSubmit={handleFormSubmit}
-              onCancel={handleCloseDialog}
-              isSubmitting={isSubmitting}
-            />
-          </div>
+          <ScrollArea className="h-[70vh]">
+            <div className="py-4 pr-6">
+              <BlogForm
+                key={selectedPost?.id || 'new'}
+                initialData={selectedPost}
+                onSubmit={handleFormSubmit}
+                onCancel={handleCloseDialog}
+                isSubmitting={isSubmitting}
+              />
+            </div>
+          </ScrollArea>
         </DialogContent>
       </Dialog>
     </>
