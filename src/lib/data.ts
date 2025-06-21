@@ -92,8 +92,8 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
     }
     const mockPages: Page[] = [
       { id: '1', title: 'Home', slug: 'home', content: 'Welcome to the home page.', status: 'Published', createdAt: '2023-10-01' },
-      { id: '2', title: 'About Us', slug: 'about-us', content: 'Visual Kitha is a leading provider of Videotron equipment and services. Our mission is to connect people and businesses with the technology they need to thrive in a digital world.', status: 'Published', createdAt: '2023-10-02' },
-      { id: '3', title: 'Contact', slug: 'contact', content: 'Get in touch with us.', status: 'Draft', createdAt: '2023-10-05' },
+      { id: '2', title: 'About Us', slug: 'about-us', content: 'Visual Kitha is a leading provider of Videotron equipment and services. Our mission is to connect people and businesses with the technology they need to thrive in a digital world.', status: 'Published', createdAt: '2023-10-02', vision: "Menjadi penyedia visual event terbaik dan paling dipercaya di Indonesia.", mission: "Membantu klien menyampaikan pesan secara kuat dan berkesan lewat visual yang memukau." },
+      { id: '3', title: 'Contact Us', slug: 'contact-us', content: 'Get in touch with us.', status: 'Published', createdAt: '2023-10-05' },
     ];
     return includeDrafts ? mockPages : mockPages.filter(p => p.status === 'Published');
   }
@@ -135,8 +135,8 @@ export async function fetchPageBySlug(slug: string): Promise<Page | null> {
     }
     const mockPages: Page[] = [
       { id: '1', title: 'Home', slug: 'home', content: 'Welcome to the home page.', status: 'Published', createdAt: '2023-10-01' },
-      { id: '2', title: 'About Us', slug: 'about-us', content: 'Visual Kitha is a leading provider of Videotron equipment and services. Our mission is to connect people and businesses with the technology they need to thrive in a digital world.', status: 'Published', createdAt: '2023-10-02' },
-      { id: '3', title: 'Contact', slug: 'contact', content: 'Get in touch with us.', status: 'Draft', createdAt: '2023-10-05' },
+      { id: '2', title: 'About Us', slug: 'about-us', content: 'Visual Kitha is a leading provider of Videotron equipment and services. Our mission is to connect people and businesses with the technology they need to thrive in a digital world.', status: 'Published', createdAt: '2023-10-02', vision: "Menjadi penyedia visual event terbaik dan paling dipercaya di Indonesia.", mission: "Membantu klien menyampaikan pesan secara kuat dan berkesan lewat visual yang memukau." },
+      { id: '3', title: 'Contact Us', slug: 'contact-us', content: 'Get in touch with us.', status: 'Published', createdAt: '2023-10-05' },
     ];
     const page = mockPages.find((p) => p.slug === slug);
     return (page && page.status === 'Published') ? page : null;

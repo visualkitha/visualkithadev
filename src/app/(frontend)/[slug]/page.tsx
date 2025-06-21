@@ -90,11 +90,11 @@ export default async function DynamicPage({ params }: PageProps) {
             <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 pt-8 md:grid-cols-2">
               <div className="space-y-2">
                  <h3 className="font-headline text-2xl font-bold">Visi</h3>
-                 <p className="text-muted-foreground">"Menjadi penyedia visual event terbaik dan paling dipercaya di Indonesia."</p>
+                 <p className="text-muted-foreground">"{page.vision || 'Visi kami belum ditetapkan.'}"</p>
               </div>
                <div className="space-y-2">
                  <h3 className="font-headline text-2xl font-bold">Misi</h3>
-                 <p className="text-muted-foreground">"Membantu klien menyampaikan pesan secara kuat dan berkesan lewat visual yang memukau."</p>
+                 <p className="text-muted-foreground">"{page.mission || 'Misi kami belum ditetapkan.'}"</p>
               </div>
             </div>
           </div>

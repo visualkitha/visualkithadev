@@ -28,6 +28,8 @@ const formSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters.'),
   content: z.string().min(10, 'Content must be at least 10 characters.'),
   status: z.enum(['Published', 'Draft']),
+  vision: z.string().optional(),
+  mission: z.string().optional(),
 });
 
 export type PageFormValues = z.infer<typeof formSchema>;
@@ -47,11 +49,15 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
           title: initialData.title,
           content: initialData.content,
           status: initialData.status,
+          vision: initialData.vision || '',
+          mission: initialData.mission || '',
         }
       : {
           title: '',
           content: '',
           status: 'Draft',
+          vision: '',
+          mission: '',
         },
   });
 
@@ -66,7 +72,7 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
               <FormItem className="md:col-span-2">
                 <FormLabel>Page Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., About Us" {...field} disabled={isSubmitting} />
+                  <Input placeholder="e.g., About Us" {...field} disabled={isSubmitting || !!initialData} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -100,11 +106,11 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
           name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Content</FormLabel>
+              <FormLabel>Main Content</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Enter the page content here..."
-                  className="min-h-[300px] resize-y"
+                  placeholder="Enter the main page content here..."
+                  className="min-h-[200px] resize-y"
                   {...field}
                   disabled={isSubmitting}
                 />
@@ -114,6 +120,46 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
           )}
         />
 
+        {initialData?.slug === 'about-us' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField
+              control={form.control}
+              name="vision"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Visi</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter the company vision..."
+                      className="min-h-[100px] resize-y"
+                      {...field}
+                      disabled={isSubmitting}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="mission"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Misi</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Enter the company mission..."
+                      className="min-h-[100px] resize-y"
+                      {...field}
+                      disabled={isSubmitting}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+        )}
 
         <div className="flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>

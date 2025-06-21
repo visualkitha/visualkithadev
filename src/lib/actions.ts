@@ -64,7 +64,7 @@ export async function deleteEquipment(id: string): Promise<{ success: boolean; e
 }
 
 
-export async function savePage(page: Pick<Page, 'title' | 'content' | 'status'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
+export async function savePage(page: Pick<Page, 'title' | 'content' | 'status' | 'vision' | 'mission'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
   if (!db) return { success: false, error: 'Firestore is not initialized.' };
 
   const slug = page.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
@@ -74,6 +74,8 @@ export async function savePage(page: Pick<Page, 'title' | 'content' | 'status'> 
     content: page.content,
     status: page.status,
     slug: slug,
+    vision: page.vision || "",
+    mission: page.mission || "",
   };
 
   try {

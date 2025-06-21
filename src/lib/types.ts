@@ -13,6 +13,8 @@ export type Page = {
   content: string;
   status: 'Published' | 'Draft';
   createdAt: string;
+  vision?: string;
+  mission?: string;
 };
 
 export type BlogPost = {
