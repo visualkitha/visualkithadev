@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { CheckCircle, Quote, Phone, MessageSquare } from 'lucide-react';
+import { CheckCircle, Phone, MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 
 export default function HomePage() {
@@ -141,57 +141,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. Apa Kata Klien Kami */}
+      {/* 5. Telah Dipercaya oleh */}
       <section className="w-full py-12 md:py-20 lg:py-28">
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
-              Apa Kata Klien Kami
+            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">
+              Telah Dipercaya oleh
             </h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-lg">
+                Kami bangga telah menjadi bagian dari kesuksesan berbagai brand dan acara ternama.
+            </p>
           </div>
-          <div className="grid gap-8 lg:grid-cols-3">
-            <Card>
-              <CardHeader>
-                <Quote className="h-8 w-8 text-primary" />
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">"Pelayanan Visual Kitha benar-benar profesional. Pemasangan cepat, hasil maksimal, dan kru-nya komunikatif."</p>
-              </CardContent>
-              <CardFooter>
-                <div>
-                  <p className="font-semibold">Rizky</p>
-                  <p className="text-xs text-muted-foreground">Event Organizer</p>
-                </div>
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
-                <Quote className="h-8 w-8 text-primary" />
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">"Backdrop LED dari Visual Kitha bikin acara nikahan anak saya jadi elegan banget. Semua tamu puas."</p>
-              </CardContent>
-              <CardFooter>
-                <div>
-                  <p className="font-semibold">Ibu Retno</p>
-                  <p className="text-xs text-muted-foreground">Klien Wedding</p>
-                </div>
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader>
-                <Quote className="h-8 w-8 text-primary" />
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">"Acara peluncuran produk kami jadi lebih meriah dan impactful dengan tampilan LED dari Visual Kitha."</p>
-              </CardContent>
-              <CardFooter>
-                <div>
-                  <p className="font-semibold">Rina</p>
-                  <p className="text-xs text-muted-foreground">Brand Manager</p>
-                </div>
-              </CardFooter>
-            </Card>
+          <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
+            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 1" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
+            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 2" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
+            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 3" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
+            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 4" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
+            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 5" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
+            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 6" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
           </div>
         </div>
       </section>
