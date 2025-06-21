@@ -12,7 +12,7 @@ interface BlogPostCardProps {
 export function BlogPostCard({ post }: BlogPostCardProps) {
   return (
     <Card className="flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-      <Link href="#" className="aspect-video block border-b">
+      <Link href={`/news/${post.slug}`} className="aspect-video block border-b">
           <Image
             src={post.imageUrl}
             alt={post.title}
@@ -24,7 +24,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
       </Link>
       <CardHeader>
         <CardTitle className="font-headline text-xl">
-            <Link href="#" className="hover:text-primary transition-colors">{post.title}</Link>
+            <Link href={`/news/${post.slug}`} className="hover:text-primary transition-colors">{post.title}</Link>
         </CardTitle>
         <div className="flex items-center gap-4 text-xs text-muted-foreground pt-2">
             <div className="flex items-center gap-1.5">
@@ -42,7 +42,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
       </CardContent>
       <CardFooter>
         <Button asChild variant="secondary" className="w-full">
-          <Link href="#">Baca Selengkapnya</Link>
+          <Link href={`/news/${post.slug}`}>Baca Selengkapnya</Link>
         </Button>
       </CardFooter>
     </Card>

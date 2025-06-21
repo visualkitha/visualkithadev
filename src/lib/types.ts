@@ -20,6 +20,7 @@ export type Page = {
 export type BlogPost = {
   id: string;
   title: string;
+  slug: string;
   author: string;
   status: 'Published' | 'Draft';
   createdAt: string;
