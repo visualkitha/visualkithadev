@@ -1,6 +1,10 @@
 'use server';
 
 import { generateProductDescription } from '@/ai/flows/generate-product-description';
+import { db } from '@/lib/firebase';
+import type { Equipment, Page } from '@/lib/types';
+import { addDoc, collection, deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { revalidatePath } from 'next/cache';
 
 export async function generateDescriptionAction(productName: string, keySpecifications: string): Promise<{ description?: string; error?: string }> {
   if (!productName || !keySpecifications) {
@@ -16,5 +20,84 @@ export async function generateDescriptionAction(productName: string, keySpecific
   } catch (error) {
     console.error('AI description generation failed:', error);
     return { error: 'An error occurred while generating the description.' };
+  }
+}
+
+
+export async function saveEquipment(equipment: Omit<Equipment, 'id'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore is not initialized.' };
+
+  const dataToSave = { ...equipment };
+  delete dataToSave.id;
+
+  try {
+    if (equipment.id) {
+      await setDoc(doc(db, 'equipment', equipment.id), dataToSave, { merge: true });
+    } else {
+      await addDoc(collection(db, 'equipment'), dataToSave);
+    }
+    revalidatePath('/admin/equipment');
+    revalidatePath('/products');
+    revalidatePath('/');
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to save equipment:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+    return { success: false, error: `Failed to save equipment: ${errorMessage}` };
+  }
+}
+
+export async function deleteEquipment(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore is not initialized.' };
+
+  try {
+    await deleteDoc(doc(db, 'equipment', id));
+    revalidatePath('/admin/equipment');
+    revalidatePath('/products');
+    revalidatePath('/');
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to delete equipment:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+    return { success: false, error: `Failed to delete equipment: ${errorMessage}` };
+  }
+}
+
+
+export async function savePage(page: Omit<Page, 'id' | 'createdAt'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore is not initialized.' };
+
+  const pageData: Omit<Page, 'id' | 'createdAt'> = {
+    title: page.title,
+    status: page.status,
+  };
+
+  try {
+    if (page.id) {
+      await setDoc(doc(db, 'pages', page.id), pageData, { merge: true });
+    } else {
+      const dataWithTimestamp = { ...pageData, createdAt: serverTimestamp() };
+      await addDoc(collection(db, 'pages'), dataWithTimestamp);
+    }
+    revalidatePath('/admin/pages');
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to save page:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+    return { success: false, error: `Failed to save page: ${errorMessage}` };
+  }
+}
+
+export async function deletePage(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore is not initialized.' };
+
+  try {
+    await deleteDoc(doc(db, 'pages', id));
+    revalidatePath('/admin/pages');
+    return { success: true };
+  } catch (error) {
+    console.error('Failed to delete page:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
+    return { success: false, error: `Failed to delete page: ${errorMessage}` };
   }
 }

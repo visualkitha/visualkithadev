@@ -69,10 +69,14 @@ export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}):
         return [];
     }
 
-    return querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    })) as BlogPost[];
+    return querySnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+            id: doc.id,
+            ...data,
+            createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
+        }
+    }) as BlogPost[];
 
   } catch (error) {
     console.error("Failed to fetch blog posts:", error);
@@ -102,10 +106,14 @@ export async function fetchPages(): Promise<Page[]> {
       return [];
     }
     
-    return querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Page[];
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+          id: doc.id,
+          ...data,
+          createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
+      }
+    }) as Page[];
 
   } catch(error) {
     console.error("Failed to fetch pages:", error);

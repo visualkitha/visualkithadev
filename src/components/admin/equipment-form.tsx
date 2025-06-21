@@ -26,17 +26,19 @@ const formSchema = z.object({
   name: z.string().min(2, 'Product name must be at least 2 characters.'),
   specifications: z.string().min(10, 'Specifications must be at least 10 characters.'),
   description: z.string().min(20, 'Description must be at least 20 characters.'),
+  imageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
 });
 
-type EquipmentFormValues = z.infer<typeof formSchema>;
+export type EquipmentFormValues = z.infer<typeof formSchema>;
 
 interface EquipmentFormProps {
   initialData?: Equipment | null;
   onSubmit: (data: EquipmentFormValues) => void;
   onCancel: () => void;
+  isSubmitting: boolean;
 }
 
-export function EquipmentForm({ initialData, onSubmit, onCancel }: EquipmentFormProps) {
+export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }: EquipmentFormProps) {
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -47,11 +49,13 @@ export function EquipmentForm({ initialData, onSubmit, onCancel }: EquipmentForm
           name: initialData.name,
           specifications: initialData.specifications,
           description: initialData.description,
+          imageUrl: initialData.imageUrl || '',
         }
       : {
           name: '',
           specifications: '',
           description: '',
+          imageUrl: '',
         },
   });
 
@@ -82,19 +86,34 @@ export function EquipmentForm({ initialData, onSubmit, onCancel }: EquipmentForm
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product Name</FormLabel>
-              <FormControl>
-                <Input placeholder="e.g., Helix Fi 2 Gateway" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., Helix Fi 2 Gateway" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image URL</FormLabel>
+                <FormControl>
+                  <Input placeholder="https://placehold.co/400x225.png" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FormField
               control={form.control}
@@ -107,6 +126,7 @@ export function EquipmentForm({ initialData, onSubmit, onCancel }: EquipmentForm
                       placeholder="Enter key specs, one per line. e.g., Wi-Fi 6, 4x4 MU-MIMO"
                       className="min-h-[150px] resize-y"
                       {...field}
+                      disabled={isSubmitting}
                     />
                   </FormControl>
                   <FormMessage />
@@ -120,7 +140,7 @@ export function EquipmentForm({ initialData, onSubmit, onCancel }: EquipmentForm
                         <Button
                             type="button"
                             onClick={handleGenerateDescription}
-                            disabled={isGenerating || !productName || !keySpecifications}
+                            disabled={isGenerating || !productName || !keySpecifications || isSubmitting}
                             variant="outline"
                             size="sm"
                             className="w-full"
@@ -144,6 +164,7 @@ export function EquipmentForm({ initialData, onSubmit, onCancel }: EquipmentForm
                                     placeholder="Click 'Generate with AI' or write your own description..."
                                     className="min-h-[118px] resize-y bg-background"
                                     {...field}
+                                    disabled={isSubmitting}
                                   />
                                 </FormControl>
                                 <FormMessage />
@@ -156,10 +177,13 @@ export function EquipmentForm({ initialData, onSubmit, onCancel }: EquipmentForm
         </div>
         
         <div className="flex justify-end gap-2">
-          <Button type="button" variant="ghost" onClick={onCancel}>
+          <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>
             Cancel
           </Button>
-          <Button type="submit">{initialData ? 'Save Changes' : 'Create Equipment'}</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
+            {initialData ? 'Save Changes' : 'Create Equipment'}
+          </Button>
         </div>
       </form>
     </Form>
