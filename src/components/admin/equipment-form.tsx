@@ -20,7 +20,7 @@ import { Wand2, LoaderCircle } from 'lucide-react';
 import type { Equipment } from '@/lib/types';
 import { generateDescriptionAction } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Product name must be at least 2 characters.'),

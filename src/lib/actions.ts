@@ -64,13 +64,14 @@ export async function deleteEquipment(id: string): Promise<{ success: boolean; e
 }
 
 
-export async function savePage(page: Pick<Page, 'title' | 'status'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
+export async function savePage(page: Pick<Page, 'title' | 'content' | 'status'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
   if (!db) return { success: false, error: 'Firestore is not initialized.' };
 
   const slug = page.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 
   const pageData = {
     title: page.title,
+    content: page.content,
     status: page.status,
     slug: slug,
   };
@@ -84,6 +85,7 @@ export async function savePage(page: Pick<Page, 'title' | 'status'> & { id?: str
     }
     revalidatePath('/admin/pages');
     revalidatePath('/');
+    revalidatePath(`/${slug}`);
     return { success: true };
   } catch (error) {
     console.error('Failed to save page:', error);

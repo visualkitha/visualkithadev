@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { Equipment } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/button';
 
 interface ProductCardProps {
   product: Equipment;

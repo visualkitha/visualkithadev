@@ -22,9 +22,11 @@ import {
 } from '@/components/ui/select';
 import { LoaderCircle } from 'lucide-react';
 import type { Page } from '@/lib/types';
+import { Textarea } from '@/components/ui/textarea';
 
 const formSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters.'),
+  content: z.string().min(10, 'Content must be at least 10 characters.'),
   status: z.enum(['Published', 'Draft']),
 });
 
@@ -43,10 +45,12 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
     defaultValues: initialData
       ? {
           title: initialData.title,
+          content: initialData.content,
           status: initialData.status,
         }
       : {
           title: '',
+          content: '',
           status: 'Draft',
         },
   });
@@ -54,40 +58,62 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem className="md:col-span-2">
+                <FormLabel>Page Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="e.g., About Us" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a status" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Published">Published</SelectItem>
+                    <SelectItem value="Draft">Draft</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
-          name="title"
+          name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Page Title</FormLabel>
+              <FormLabel>Content</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., About Us" {...field} disabled={isSubmitting} />
+                <Textarea
+                  placeholder="Enter the page content here..."
+                  className="min-h-[300px] resize-y"
+                  {...field}
+                  disabled={isSubmitting}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="status"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Status</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a status" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="Published">Published</SelectItem>
-                  <SelectItem value="Draft">Draft</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
 
         <div className="flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>

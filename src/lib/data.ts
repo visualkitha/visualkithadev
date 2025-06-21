@@ -1,5 +1,5 @@
 import 'server-only';
-import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, where, limit } from 'firebase/firestore';
 import { db } from './firebase';
 import type { Equipment, BlogPost, Page } from './types';
 
@@ -91,9 +91,9 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
       console.log("Firestore is not initialized. Returning mock data for pages.");
     }
     const mockPages: Page[] = [
-      { id: '1', title: 'Home', slug: 'home', status: 'Published', createdAt: '2023-10-01' },
-      { id: '2', title: 'About Us', slug: 'about-us', status: 'Published', createdAt: '2023-10-02' },
-      { id: '3', title: 'Contact', slug: 'contact', status: 'Draft', createdAt: '2023-10-05' },
+      { id: '1', title: 'Home', slug: 'home', content: 'Welcome to the home page.', status: 'Published', createdAt: '2023-10-01' },
+      { id: '2', title: 'About Us', slug: 'about-us', content: 'Visual Kitha is a leading provider of Videotron equipment and services. Our mission is to connect people and businesses with the technology they need to thrive in a digital world.', status: 'Published', createdAt: '2023-10-02' },
+      { id: '3', title: 'Contact', slug: 'contact', content: 'Get in touch with us.', status: 'Draft', createdAt: '2023-10-05' },
     ];
     return includeDrafts ? mockPages : mockPages.filter(p => p.status === 'Published');
   }
@@ -125,5 +125,47 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
   } catch(error) {
     console.error("Failed to fetch pages:", error);
     return [];
+  }
+}
+
+export async function fetchPageBySlug(slug: string): Promise<Page | null> {
+  if (!db) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log("Firestore is not initialized. Returning mock data for a single page.");
+    }
+    const mockPages: Page[] = [
+      { id: '1', title: 'Home', slug: 'home', content: 'Welcome to the home page.', status: 'Published', createdAt: '2023-10-01' },
+      { id: '2', title: 'About Us', slug: 'about-us', content: 'Visual Kitha is a leading provider of Videotron equipment and services. Our mission is to connect people and businesses with the technology they need to thrive in a digital world.', status: 'Published', createdAt: '2023-10-02' },
+      { id: '3', title: 'Contact', slug: 'contact', content: 'Get in touch with us.', status: 'Draft', createdAt: '2023-10-05' },
+    ];
+    const page = mockPages.find((p) => p.slug === slug);
+    return (page && page.status === 'Published') ? page : null;
+  }
+
+  try {
+    const pagesCollection = collection(db, 'pages');
+    const q = query(pagesCollection, where('slug', '==', slug), limit(1));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return null;
+    }
+
+    const doc = querySnapshot.docs[0];
+    const data = doc.data();
+    
+    if (data.status !== 'Published') {
+      return null;
+    }
+
+    return {
+      id: doc.id,
+      ...data,
+      createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
+    } as Page;
+
+  } catch(error) {
+    console.error("Failed to fetch page by slug:", error);
+    return null;
   }
 }
