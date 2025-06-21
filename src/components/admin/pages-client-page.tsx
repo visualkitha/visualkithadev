@@ -39,7 +39,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { PageForm, PageFormValues } from './page-form';
+import { PageForm, PageFormValues } from '@/components/admin/page-form';
 import { useToast } from '@/hooks/use-toast';
 import { deletePage, savePage } from '@/lib/actions';
 import Link from 'next/link';

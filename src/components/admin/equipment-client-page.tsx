@@ -33,7 +33,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { PlusCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import Image from 'next/image';
-import { EquipmentForm } from '@/components/admin/equipment-form';
+import { EquipmentForm, EquipmentFormValues } from '@/components/admin/equipment-form';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,7 +42,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/hooks/use-toast';
 import { deleteEquipment, saveEquipment } from '@/lib/actions';
-import { EquipmentFormValues } from './equipment-form';
 
 interface EquipmentClientPageProps {
   initialData: Equipment[];
