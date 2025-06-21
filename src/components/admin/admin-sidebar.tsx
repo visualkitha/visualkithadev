@@ -25,10 +25,10 @@ import {
 } from '@/components/ui/sidebar';
 
 const menuItems = [
-  { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/equipment', label: 'Equipment', icon: Package },
+  { href: '/admin/dashboard', label: 'Dasbor', icon: LayoutDashboard },
+  { href: '/admin/equipment', label: 'Peralatan', icon: Package },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
-  { href: '/admin/pages', label: 'Pages', icon: FileText },
+  { href: '/admin/pages', label: 'Halaman', icon: FileText },
 ];
 
 export function AdminSidebar() {
@@ -74,9 +74,9 @@ export function AdminSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={handleLogout} tooltip={{children: "Logout"}}>
+            <SidebarMenuButton onClick={handleLogout} tooltip={{children: "Keluar"}}>
               <LogOut />
-              <span>Logout</span>
+              <span>Keluar</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

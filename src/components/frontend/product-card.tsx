@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardHeader>
       <CardContent className="flex flex-1 flex-col">
         <CardDescription className="flex-grow">{product.description}</CardDescription>
-        <Button variant="secondary" className="mt-4 w-full">View Details</Button>
+        <Button variant="secondary" className="mt-4 w-full">Lihat Detail</Button>
       </CardContent>
     </Card>
   );

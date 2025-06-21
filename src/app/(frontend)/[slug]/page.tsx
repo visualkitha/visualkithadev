@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const page = await fetchPageBySlug(params.slug);
   if (!page) {
     return {
-      title: 'Page Not Found',
+      title: 'Halaman Tidak Ditemukan',
     }
   }
   return {
@@ -35,7 +35,7 @@ export default async function DynamicPage({ params }: PageProps) {
     notFound();
   }
 
-  // Specific template for "About Us" page
+  // Template khusus untuk halaman "Tentang Kami"
   if (page.slug === 'about-us') {
     return (
       <>
@@ -226,7 +226,7 @@ export default async function DynamicPage({ params }: PageProps) {
     );
   }
 
-  // Specific template for "Contact Us" page
+  // Template khusus untuk halaman "Hubungi Kami"
   if (page.slug === 'contact-us') {
     return (
       <>
@@ -236,7 +236,7 @@ export default async function DynamicPage({ params }: PageProps) {
               {page.title}
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-              We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.
+              Kami siap mendengar dari Anda. Isi formulir di bawah ini dan kami akan segera menghubungi Anda.
             </p>
           </div>
         </section>
@@ -246,38 +246,38 @@ export default async function DynamicPage({ params }: PageProps) {
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
               <Card>
                 <CardHeader>
-                  <CardTitle>Send us a Message</CardTitle>
+                  <CardTitle>Kirimkan Pesan</CardTitle>
                   <CardDescription>
-                    Any question or remarks? Just write us a message!
+                    Ada pertanyaan atau komentar? Cukup tulis pesan kepada kami!
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
+                      <Label htmlFor="name">Nama Lengkap</Label>
                       <Input id="name" placeholder="John Doe" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
+                      <Label htmlFor="email">Alamat Email</Label>
                       <Input id="email" type="email" placeholder="john@example.com" />
                     </div>
                      <div className="space-y-2">
-                      <Label htmlFor="subject">Subject</Label>
-                      <Input id="subject" placeholder="Question about a product" />
+                      <Label htmlFor="subject">Subjek</Label>
+                      <Input id="subject" placeholder="Pertanyaan tentang produk" />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="message">Message</Label>
-                      <Textarea id="message" placeholder="Your message..." className="min-h-[120px]" />
+                      <Label htmlFor="message">Pesan</Label>
+                      <Textarea id="message" placeholder="Pesan Anda..." className="min-h-[120px]" />
                     </div>
-                    <Button type="submit" className="w-full">Send Message</Button>
+                    <Button type="submit" className="w-full">Kirim Pesan</Button>
                   </form>
                 </CardContent>
               </Card>
               <div className="flex flex-col justify-center space-y-8">
                 <div>
-                  <h3 className="font-headline text-2xl font-bold mb-4">Contact Information</h3>
+                  <h3 className="font-headline text-2xl font-bold mb-4">Informasi Kontak</h3>
                   <p className="text-muted-foreground mb-6">
-                    Our team is available to help answer your questions.
+                    Tim kami tersedia untuk membantu menjawab pertanyaan Anda.
                   </p>
                 </div>
                 <div className="space-y-6">
@@ -295,7 +295,7 @@ export default async function DynamicPage({ params }: PageProps) {
                       <Phone className="h-5 w-5" />
                     </div>
                     <div>
-                      <h4 className="font-semibold">Phone</h4>
+                      <h4 className="font-semibold">Telepon</h4>
                       <p className="text-muted-foreground">+1 (555) 123-4567</p>
                     </div>
                   </div>
@@ -304,7 +304,7 @@ export default async function DynamicPage({ params }: PageProps) {
                       <MapPin className="h-5 w-5" />
                     </div>
                     <div>
-                      <h4 className="font-semibold">Office Address</h4>
+                      <h4 className="font-semibold">Alamat Kantor</h4>
                       <p className="text-muted-foreground">123 Videotron Ave, Montreal, QC, Canada</p>
                     </div>
                   </div>
@@ -317,7 +317,7 @@ export default async function DynamicPage({ params }: PageProps) {
     );
   }
 
-  // Generic page renderer for other pages
+  // Perender halaman generik untuk halaman lainnya
   return (
     <div className="container mx-auto py-20 px-4 md:px-6">
       <Card>

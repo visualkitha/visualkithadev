@@ -14,14 +14,14 @@ export function AuthNavLink() {
   if (user) {
     return (
       <Link href="/admin" className="transition-colors hover:text-primary">
-        Admin Panel
+        Panel Admin
       </Link>
     );
   }
 
   return (
     <Link href="/login" className="transition-colors hover:text-primary">
-      Admin Login
+      Login Admin
     </Link>
   );
 }

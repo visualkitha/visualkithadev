@@ -73,8 +73,8 @@ export function EquipmentClientPage({ initialData }: EquipmentClientPageProps) {
 
     if (result.success) {
       toast({
-        title: 'Success!',
-        description: `Equipment has been ${selectedEquipment ? 'updated' : 'created'}.`,
+        title: 'Berhasil!',
+        description: `Peralatan telah ${selectedEquipment ? 'diperbarui' : 'dibuat'}.`,
       });
       router.refresh();
       handleCloseDialog();
@@ -91,8 +91,8 @@ export function EquipmentClientPage({ initialData }: EquipmentClientPageProps) {
     const result = await deleteEquipment(id);
     if (result.success) {
       toast({
-        title: 'Success!',
-        description: 'Equipment has been deleted.',
+        title: 'Berhasil!',
+        description: 'Peralatan telah dihapus.',
       });
       router.refresh();
     } else {
@@ -109,12 +109,12 @@ export function EquipmentClientPage({ initialData }: EquipmentClientPageProps) {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="font-headline text-3xl font-bold tracking-tight">Equipment</h1>
-            <p className="text-muted-foreground">Manage your Videotron equipment catalog.</p>
+            <h1 className="font-headline text-3xl font-bold tracking-tight">Peralatan</h1>
+            <p className="text-muted-foreground">Kelola katalog peralatan Videotron Anda.</p>
           </div>
           <Button onClick={() => handleOpenDialog()}>
             <PlusCircle className="mr-2 h-4 w-4" />
-            Add Equipment
+            Tambah Peralatan
           </Button>
         </div>
 
@@ -123,10 +123,10 @@ export function EquipmentClientPage({ initialData }: EquipmentClientPageProps) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[80px]">Image</TableHead>
-                  <TableHead>Name</TableHead>
-                  <TableHead className="hidden md:table-cell">Description</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="w-[80px]">Gambar</TableHead>
+                  <TableHead>Nama</TableHead>
+                  <TableHead className="hidden md:table-cell">Deskripsi</TableHead>
+                  <TableHead className="text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -151,7 +151,7 @@ export function EquipmentClientPage({ initialData }: EquipmentClientPageProps) {
                             <DropdownMenuTrigger asChild>
                               <Button variant="ghost" size="icon">
                                 <MoreHorizontal className="h-4 w-4" />
-                                <span className="sr-only">Actions</span>
+                                <span className="sr-only">Aksi</span>
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
@@ -160,22 +160,22 @@ export function EquipmentClientPage({ initialData }: EquipmentClientPageProps) {
                               </DropdownMenuItem>
                               <AlertDialogTrigger asChild>
                                 <DropdownMenuItem className="text-destructive focus:text-destructive focus:bg-destructive/10">
-                                  <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                  <Trash2 className="mr-2 h-4 w-4" /> Hapus
                                 </DropdownMenuItem>
                               </AlertDialogTrigger>
                             </DropdownMenuContent>
                           </DropdownMenu>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogTitle>Apakah Anda benar-benar yakin?</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete this equipment.
+                                Tindakan ini tidak dapat dibatalkan. Ini akan menghapus peralatan ini secara permanen.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel>Batal</AlertDialogCancel>
                               <AlertDialogAction onClick={() => handleDelete(item.id)} className="bg-destructive hover:bg-destructive/90">
-                                Delete
+                                Hapus
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -186,7 +186,7 @@ export function EquipmentClientPage({ initialData }: EquipmentClientPageProps) {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={4} className="h-24 text-center">
-                      No equipment found.
+                      Tidak ada peralatan ditemukan.
                     </TableCell>
                   </TableRow>
                 )}
@@ -200,10 +200,10 @@ export function EquipmentClientPage({ initialData }: EquipmentClientPageProps) {
         <DialogContent className="sm:max-w-4xl">
           <DialogHeader>
             <DialogTitle className="font-headline">
-              {selectedEquipment ? 'Edit Equipment' : 'Add New Equipment'}
+              {selectedEquipment ? 'Edit Peralatan' : 'Tambah Peralatan Baru'}
             </DialogTitle>
             <DialogDescription>
-              Fill in the details for the equipment. Use the AI tool to help with descriptions.
+              Isi detail untuk peralatan. Gunakan alat AI untuk membantu dengan deskripsi.
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">

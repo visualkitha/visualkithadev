@@ -33,7 +33,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
             </div>
             <div className="flex items-center gap-1.5">
                 <Calendar className="h-3 w-3" />
-                <time dateTime={post.createdAt}>{new Date(post.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                <time dateTime={post.createdAt}>{new Date(post.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
             </div>
         </div>
       </CardHeader>
@@ -42,7 +42,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
       </CardContent>
       <CardFooter>
         <Button asChild variant="secondary" className="w-full">
-          <Link href="#">Read More</Link>
+          <Link href="#">Baca Selengkapnya</Link>
         </Button>
       </CardFooter>
     </Card>

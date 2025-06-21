@@ -6,13 +6,13 @@ import type { Equipment, BlogPost, Page } from './types';
 export async function fetchEquipment(): Promise<Equipment[]> {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
-      console.log("Firestore is not initialized. Returning mock data for equipment.");
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk peralatan.");
     }
     // Fallback to mock data if Firestore is not available
     return [
-        { id: '1', name: 'Helix Fi 2 Gateway', specifications: 'Wi-Fi 6, 4x4 MU-MIMO', description: 'Experience the future of connectivity with the Helix Fi 2 gateway. Enjoy faster speeds, wider coverage, and a more reliable connection for all your devices.', imageUrl: 'https://placehold.co/400x225.png' },
-        { id: '2', name: 'Helix TV Terminal', specifications: '4K Ultra HD, Voice Remote', description: 'Transform your entertainment with the Helix TV terminal. Access your favorite channels, apps, and streaming services in stunning 4K Ultra HD resolution.', imageUrl: 'https://placehold.co/400x225.png' },
-        { id: '3', name: 'Voice Remote', specifications: 'Bluetooth, Backlit keys', description: 'Control your entertainment with the sound of your voice. The Helix voice remote makes it easy to find what you want to watch, faster.', imageUrl: 'https://placehold.co/400x225.png' },
+        { id: '1', name: 'Gateway Helix Fi 2', specifications: 'Wi-Fi 6, 4x4 MU-MIMO', description: 'Rasakan masa depan konektivitas dengan gateway Helix Fi 2. Nikmati kecepatan lebih tinggi, jangkauan lebih luas, dan koneksi yang lebih andal untuk semua perangkat Anda.', imageUrl: 'https://placehold.co/400x225.png' },
+        { id: '2', name: 'Terminal TV Helix', specifications: '4K Ultra HD, Remote Suara', description: 'Ubah hiburan Anda dengan terminal TV Helix. Akses saluran, aplikasi, dan layanan streaming favorit Anda dalam resolusi 4K Ultra HD yang menakjubkan.', imageUrl: 'https://placehold.co/400x225.png' },
+        { id: '3', name: 'Remote Suara', specifications: 'Bluetooth, Tombol dengan lampu latar', description: 'Kontrol hiburan Anda dengan suara Anda. Remote suara Helix memudahkan untuk menemukan apa yang ingin Anda tonton, lebih cepat.', imageUrl: 'https://placehold.co/400x225.png' },
     ];
   }
 
@@ -22,7 +22,7 @@ export async function fetchEquipment(): Promise<Equipment[]> {
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      console.log('No equipment found in Firestore. Returning empty array.');
+      console.log('Tidak ada peralatan yang ditemukan di Firestore. Mengembalikan array kosong.');
       return [];
     }
 
@@ -33,7 +33,7 @@ export async function fetchEquipment(): Promise<Equipment[]> {
 
     return equipmentList;
   } catch (error) {
-    console.error("Failed to fetch equipment:", error);
+    console.error("Gagal mengambil data peralatan:", error);
     // In case of error, return an empty array to prevent crashing the page.
     return [];
   }
@@ -43,28 +43,27 @@ export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}):
   const { includeDrafts = false } = options;
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
-      console.log("Firestore is not initialized. Returning mock data for blog posts.");
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk postingan blog.");
     }
     // Fallback to mock data
     const mockPosts: BlogPost[] = [
-        { id: '1', title: 'The Future of Wi-Fi: What is Wi-Fi 6?', author: 'Admin', status: 'Published', createdAt: '2023-11-15', imageUrl: 'https://placehold.co/600x400.png', excerpt: 'Wi-Fi 6 (802.11ax) is the latest generation of Wi-Fi technology...', content: '' },
-        { id: '2', title: 'How to Get the Most Out of Your 4K TV', author: 'Editor', status: 'Published', createdAt: '2023-11-10', imageUrl: 'https://placehold.co/600x400.png', excerpt: 'A 4K TV is a great investment, but are you using it to its full potential?', content: '' },
-        { id: '3', title: 'Mesh Networks Explained', author: 'Admin', status: 'Draft', createdAt: '2023-11-05', imageUrl: 'https://placehold.co/600x400.png', excerpt: 'Tired of Wi-Fi dead zones? A mesh network might be the solution.', content: '' },
+        { id: '1', title: 'Masa Depan Wi-Fi: Apa itu Wi-Fi 6?', author: 'Admin', status: 'Published', createdAt: '2023-11-15', imageUrl: 'https://placehold.co/600x400.png', excerpt: 'Wi-Fi 6 (802.11ax) adalah generasi terbaru dari teknologi Wi-Fi...', content: '' },
+        { id: '2', title: 'Cara Mendapatkan Hasil Maksimal dari TV 4K Anda', author: 'Editor', status: 'Published', createdAt: '2023-11-10', imageUrl: 'https://placehold.co/600x400.png', excerpt: 'TV 4K adalah investasi besar, tetapi apakah Anda menggunakannya secara maksimal?', content: '' },
+        { id: '3', title: 'Penjelasan Jaringan Mesh', author: 'Admin', status: 'Draft', createdAt: '2023-11-05', imageUrl: 'https://placehold.co/600x400.png', excerpt: 'Bosan dengan zona mati Wi-Fi? Jaringan mesh mungkin solusinya.', content: '' },
     ];
     return includeDrafts ? mockPosts : mockPosts.filter(p => p.status === 'Published');
   }
 
   try {
     const blogCollection = collection(db, 'blogPosts');
-    const q = query(blogCollection, orderBy('createdAt', 'desc'));
-    const querySnapshot = await getDocs(q);
+    const allPostsSnapshot = await getDocs(query(blogCollection, orderBy('createdAt', 'desc')));
     
-    if (querySnapshot.empty) {
-        console.log('No blog posts found in Firestore.');
+    if (allPostsSnapshot.empty) {
+        console.log('Tidak ada postingan blog yang ditemukan di Firestore.');
         return [];
     }
 
-    const allPosts = querySnapshot.docs.map(doc => {
+    const allPosts = allPostsSnapshot.docs.map(doc => {
         const data = doc.data();
         return {
             id: doc.id,
@@ -79,7 +78,7 @@ export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}):
     return allPosts.filter(p => p.status === 'Published');
 
   } catch (error) {
-    console.error("Failed to fetch blog posts:", error);
+    console.error("Gagal mengambil postingan blog:", error);
     return [];
   }
 }
@@ -88,23 +87,23 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
   const { includeDrafts = false } = options;
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
-      console.log("Firestore is not initialized. Returning mock data for pages.");
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk halaman.");
     }
     const mockPages: Page[] = [
-      { id: '1', title: 'Home', slug: 'home', content: 'Welcome to the home page.', status: 'Published', createdAt: '2023-10-01' },
-      { id: '2', title: 'About Us', slug: 'about-us', content: 'Visual Kitha is a leading provider of Videotron equipment and services. Our mission is to connect people and businesses with the technology they need to thrive in a digital world.', status: 'Published', createdAt: '2023-10-02', vision: "Menjadi penyedia visual event terbaik dan paling dipercaya di Indonesia.", mission: "Membantu klien menyampaikan pesan secara kuat dan berkesan lewat visual yang memukau." },
-      { id: '3', title: 'Contact Us', slug: 'contact-us', content: 'Get in touch with us.', status: 'Published', createdAt: '2023-10-05' },
+      { id: '1', title: 'Beranda', slug: 'home', content: 'Selamat datang di halaman beranda.', status: 'Published', createdAt: '2023-10-01' },
+      { id: '2', title: 'Tentang Kami', slug: 'about-us', content: 'Visual Kitha adalah penyedia terkemuka peralatan dan layanan Videotron. Misi kami adalah menghubungkan orang dan bisnis dengan teknologi yang mereka butuhkan untuk berkembang di dunia digital.', status: 'Published', createdAt: '2023-10-02', vision: "Menjadi penyedia visual event terbaik dan paling dipercaya di Indonesia.", mission: "Membantu klien menyampaikan pesan secara kuat dan berkesan lewat visual yang memukau." },
+      { id: '3', title: 'Hubungi Kami', slug: 'contact-us', content: 'Hubungi kami.', status: 'Published', createdAt: '2023-10-05' },
     ];
     return includeDrafts ? mockPages : mockPages.filter(p => p.status === 'Published');
   }
 
   try {
     const pagesCollection = collection(db, 'pages');
-    const q = query(pagesCollection, orderBy('title'));
-    const querySnapshot = await getDocs(q);
+    // We fetch all and then filter, to avoid needing a composite index on status and title
+    const querySnapshot = await getDocs(query(pagesCollection, orderBy('title')));
 
     if (querySnapshot.empty) {
-      console.log('No pages found in Firestore.');
+      console.log('Tidak ada halaman yang ditemukan di Firestore.');
       return [];
     }
     
@@ -123,7 +122,7 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
     return allPages.filter(p => p.status === 'Published');
 
   } catch(error) {
-    console.error("Failed to fetch pages:", error);
+    console.error("Gagal mengambil data halaman:", error);
     return [];
   }
 }
@@ -131,12 +130,12 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
 export async function fetchPageBySlug(slug: string): Promise<Page | null> {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
-      console.log("Firestore is not initialized. Returning mock data for a single page.");
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk satu halaman.");
     }
     const mockPages: Page[] = [
-      { id: '1', title: 'Home', slug: 'home', content: 'Welcome to the home page.', status: 'Published', createdAt: '2023-10-01' },
-      { id: '2', title: 'About Us', slug: 'about-us', content: 'Visual Kitha is a leading provider of Videotron equipment and services. Our mission is to connect people and businesses with the technology they need to thrive in a digital world.', status: 'Published', createdAt: '2023-10-02', vision: "Menjadi penyedia visual event terbaik dan paling dipercaya di Indonesia.", mission: "Membantu klien menyampaikan pesan secara kuat dan berkesan lewat visual yang memukau." },
-      { id: '3', title: 'Contact Us', slug: 'contact-us', content: 'Get in touch with us.', status: 'Published', createdAt: '2023-10-05' },
+      { id: '1', title: 'Beranda', slug: 'home', content: 'Selamat datang di halaman beranda.', status: 'Published', createdAt: '2023-10-01' },
+      { id: '2', title: 'Tentang Kami', slug: 'about-us', content: 'Visual Kitha adalah penyedia terkemuka peralatan dan layanan Videotron. Misi kami adalah menghubungkan orang dan bisnis dengan teknologi yang mereka butuhkan untuk berkembang di dunia digital.', status: 'Published', createdAt: '2023-10-02', vision: "Menjadi penyedia visual event terbaik dan paling dipercaya di Indonesia.", mission: "Membantu klien menyampaikan pesan secara kuat dan berkesan lewat visual yang memukau." },
+      { id: '3', title: 'Hubungi Kami', slug: 'contact-us', content: 'Hubungi kami.', status: 'Published', createdAt: '2023-10-05' },
     ];
     const page = mockPages.find((p) => p.slug === slug);
     return (page && page.status === 'Published') ? page : null;
@@ -165,7 +164,7 @@ export async function fetchPageBySlug(slug: string): Promise<Page | null> {
     } as Page;
 
   } catch(error) {
-    console.error("Failed to fetch page by slug:", error);
+    console.error("Gagal mengambil halaman berdasarkan slug:", error);
     return null;
   }
 }

@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache';
 
 export async function generateDescriptionAction(productName: string, keySpecifications: string): Promise<{ description?: string; error?: string }> {
   if (!productName || !keySpecifications) {
-    return { error: 'Product name and key specifications are required.' };
+    return { error: 'Nama produk dan spesifikasi utama diperlukan.' };
   }
 
   try {
@@ -16,16 +16,16 @@ export async function generateDescriptionAction(productName: string, keySpecific
     if (result && result.productDescription) {
         return { description: result.productDescription };
     }
-    return { error: 'Failed to generate a valid description.' };
+    return { error: 'Gagal menghasilkan deskripsi yang valid.' };
   } catch (error) {
-    console.error('AI description generation failed:', error);
-    return { error: 'An error occurred while generating the description.' };
+    console.error('Pembuatan deskripsi AI gagal:', error);
+    return { error: 'Terjadi kesalahan saat membuat deskripsi.' };
   }
 }
 
 
 export async function saveEquipment(equipment: Omit<Equipment, 'id'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
-  if (!db) return { success: false, error: 'Firestore is not initialized.' };
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
   const dataToSave = { ...equipment };
   delete dataToSave.id;
@@ -41,14 +41,14 @@ export async function saveEquipment(equipment: Omit<Equipment, 'id'> & { id?: st
     revalidatePath('/');
     return { success: true };
   } catch (error) {
-    console.error('Failed to save equipment:', error);
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-    return { success: false, error: `Failed to save equipment: ${errorMessage}` };
+    console.error('Gagal menyimpan peralatan:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menyimpan peralatan: ${errorMessage}` };
   }
 }
 
 export async function deleteEquipment(id: string): Promise<{ success: boolean; error?: string }> {
-  if (!db) return { success: false, error: 'Firestore is not initialized.' };
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
   try {
     await deleteDoc(doc(db, 'equipment', id));
@@ -57,15 +57,15 @@ export async function deleteEquipment(id: string): Promise<{ success: boolean; e
     revalidatePath('/');
     return { success: true };
   } catch (error) {
-    console.error('Failed to delete equipment:', error);
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-    return { success: false, error: `Failed to delete equipment: ${errorMessage}` };
+    console.error('Gagal menghapus peralatan:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menghapus peralatan: ${errorMessage}` };
   }
 }
 
 
 export async function savePage(page: Pick<Page, 'title' | 'content' | 'status' | 'vision' | 'mission'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
-  if (!db) return { success: false, error: 'Firestore is not initialized.' };
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
   const slug = page.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
 
@@ -90,14 +90,14 @@ export async function savePage(page: Pick<Page, 'title' | 'content' | 'status' |
     revalidatePath(`/${slug}`);
     return { success: true };
   } catch (error) {
-    console.error('Failed to save page:', error);
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-    return { success: false, error: `Failed to save page: ${errorMessage}` };
+    console.error('Gagal menyimpan halaman:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menyimpan halaman: ${errorMessage}` };
   }
 }
 
 export async function deletePage(id: string): Promise<{ success: boolean; error?: string }> {
-  if (!db) return { success: false, error: 'Firestore is not initialized.' };
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
   try {
     await deleteDoc(doc(db, 'pages', id));
@@ -105,8 +105,8 @@ export async function deletePage(id: string): Promise<{ success: boolean; error?
     revalidatePath('/');
     return { success: true };
   } catch (error) {
-    console.error('Failed to delete page:', error);
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-    return { success: false, error: `Failed to delete page: ${errorMessage}` };
+    console.error('Gagal menghapus halaman:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menghapus halaman: ${errorMessage}` };
   }
 }

@@ -29,11 +29,11 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Email and password are required.' });
+        toast({ variant: 'destructive', title: 'Error', description: 'Email dan kata sandi diperlukan.' });
         return;
     }
     if (!auth) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Firebase is not configured correctly.' });
+        toast({ variant: 'destructive', title: 'Error', description: 'Firebase tidak dikonfigurasi dengan benar.' });
         return;
     }
 
@@ -41,19 +41,19 @@ export default function LoginPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       toast({
-        title: 'Login Successful',
-        description: 'Redirecting to the admin dashboard...',
+        title: 'Login Berhasil',
+        description: 'Mengarahkan ke dasbor admin...',
       });
       router.push('/admin');
     } catch (error: any) {
-      console.error('Login failed:', error);
+      console.error('Login gagal:', error);
       toast({
         variant: 'destructive',
-        title: 'Login Failed',
+        title: 'Login Gagal',
         description:
           error.code === 'auth/invalid-credential'
-            ? 'Invalid email or password. Please try again.'
-            : error.message || 'An unknown error occurred.',
+            ? 'Email atau kata sandi tidak valid. Silakan coba lagi.'
+            : error.message || 'Terjadi kesalahan yang tidak diketahui.',
       });
     } finally {
       setIsLoading(false);
@@ -70,7 +70,7 @@ export default function LoginPage() {
                 <Tv2 className="h-8 w-8" />
               </div>
               <CardTitle className="font-headline text-2xl">Visual Kitha CMS</CardTitle>
-              <CardDescription>Enter your credentials to access the admin panel.</CardDescription>
+              <CardDescription>Masukkan kredensial Anda untuk mengakses panel admin.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
@@ -86,7 +86,7 @@ export default function LoginPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Kata Sandi</Label>
                 <Input
                   id="password"
                   type="password"
@@ -103,7 +103,7 @@ export default function LoginPage() {
                 Login
               </Button>
                <Button variant="link" size="sm" asChild className="w-full">
-                <Link href="/">Back to website</Link>
+                <Link href="/">Kembali ke situs web</Link>
               </Button>
             </CardFooter>
           </Card>

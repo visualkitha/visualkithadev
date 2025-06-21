@@ -44,12 +44,12 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                    <h1 className="font-headline text-3xl font-bold tracking-tight">Blog Posts</h1>
-                    <p className="text-muted-foreground">Create and manage your blog content.</p>
+                    <h1 className="font-headline text-3xl font-bold tracking-tight">Postingan Blog</h1>
+                    <p className="text-muted-foreground">Buat dan kelola konten blog Anda.</p>
                 </div>
                 <Button onClick={() => setIsDialogOpen(true)}>
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    New Post
+                    Posting Baru
                 </Button>
             </div>
 
@@ -58,11 +58,11 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
                     <Table>
                     <TableHeader>
                         <TableRow>
-                        <TableHead>Title</TableHead>
-                        <TableHead className="hidden md:table-cell">Author</TableHead>
+                        <TableHead>Judul</TableHead>
+                        <TableHead className="hidden md:table-cell">Penulis</TableHead>
                         <TableHead>Status</TableHead>
-                        <TableHead className="hidden md:table-cell">Created At</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead className="hidden md:table-cell">Dibuat Pada</TableHead>
+                        <TableHead className="text-right">Aksi</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -72,7 +72,7 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
                             <TableCell className="hidden md:table-cell">{post.author}</TableCell>
                             <TableCell>
                                 <Badge variant={post.status === 'Published' ? 'default' : 'secondary'}>
-                                    {post.status}
+                                    {post.status === 'Published' ? 'Diterbitkan' : 'Draf'}
                                 </Badge>
                             </TableCell>
                             <TableCell className="hidden md:table-cell">{post.createdAt}</TableCell>
@@ -86,7 +86,7 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
                                 <DropdownMenuContent align="end">
                                 <DropdownMenuItem><Pencil className="mr-2 h-4 w-4" /> Edit</DropdownMenuItem>
                                 <DropdownMenuItem className="text-destructive focus:text-destructive focus:bg-destructive/10">
-                                    <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                    <Trash2 className="mr-2 h-4 w-4" /> Hapus
                                 </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
@@ -102,18 +102,18 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle className="font-headline">Create New Post</DialogTitle>
-                    <DialogDescription>Write a new article for your blog.</DialogDescription>
+                    <DialogTitle className="font-headline">Buat Postingan Baru</DialogTitle>
+                    <DialogDescription>Tulis artikel baru untuk blog Anda.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="title" className="text-right">Title</Label>
-                        <Input id="title" placeholder="Your blog post title" className="col-span-3" />
+                        <Label htmlFor="title" className="text-right">Judul</Label>
+                        <Input id="title" placeholder="Judul postingan blog Anda" className="col-span-3" />
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button variant="ghost" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                    <Button onClick={() => setIsDialogOpen(false)}>Create Post</Button>
+                    <Button variant="ghost" onClick={() => setIsDialogOpen(false)}>Batal</Button>
+                    <Button onClick={() => setIsDialogOpen(false)}>Buat Postingan</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

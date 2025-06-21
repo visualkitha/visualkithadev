@@ -13,15 +13,15 @@ export default function HomePage() {
             Visual Kitha CMS
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-            The modern, intuitive content management system for Videotron equipment.
-            Effortlessly manage pages, products, and blog posts with the power of AI.
+            Sistem manajemen konten yang modern dan intuitif untuk peralatan Videotron.
+            Kelola halaman, produk, dan postingan blog dengan mudah menggunakan kekuatan AI.
           </p>
           <div className="mt-8 flex justify-center gap-4">
             <Button asChild size="lg">
-              <Link href="/products">View Products</Link>
+              <Link href="/products">Lihat Produk</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link href="/login">Admin Login</Link>
+              <Link href="/login">Login Admin</Link>
             </Button>
           </div>
         </div>
@@ -32,36 +32,36 @@ export default function HomePage() {
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">
-                Core Features
+                Fitur Utama
               </div>
               <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
-                Everything You Need to Succeed
+                Semua yang Anda Butuhkan untuk Sukses
               </h2>
               <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Our CMS is packed with features to help you manage your digital presence with ease and efficiency.
+                CMS kami dilengkapi dengan fitur-fitur untuk membantu Anda mengelola kehadiran digital Anda dengan mudah dan efisien.
               </p>
             </div>
           </div>
           <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 lg:max-w-none mt-12">
             <div className="grid gap-1 text-center">
               <SlidersHorizontal className="h-10 w-10 mx-auto text-primary" />
-              <h3 className="font-headline text-lg font-bold">Equipment Management</h3>
+              <h3 className="font-headline text-lg font-bold">Manajemen Peralatan</h3>
               <p className="text-sm text-muted-foreground">
-                Easily add, update, and manage your Videotron equipment catalog.
+                Tambah, perbarui, dan kelola katalog peralatan Videotron Anda dengan mudah.
               </p>
             </div>
             <div className="grid gap-1 text-center">
               <FileText className="h-10 w-10 mx-auto text-primary" />
-              <h3 className="font-headline text-lg font-bold">Content Creation</h3>
+              <h3 className="font-headline text-lg font-bold">Pembuatan Konten</h3>
               <p className="text-sm text-muted-foreground">
-                Intuitive tools for creating and managing website pages and blog posts.
+                Alat intuitif untuk membuat dan mengelola halaman situs web dan postingan blog.
               </p>
             </div>
             <div className="grid gap-1 text-center">
               <Bot className="h-10 w-10 mx-auto text-primary" />
-              <h3 className="font-headline text-lg font-bold">AI-Powered Descriptions</h3>
+              <h3 className="font-headline text-lg font-bold">Deskripsi Berbasis AI</h3>
               <p className="text-sm text-muted-foreground">
-                Generate compelling product descriptions instantly with our integrated AI tool.
+                Hasilkan deskripsi produk yang menarik secara instan dengan alat AI terintegrasi kami.
               </p>
             </div>
           </div>
@@ -72,19 +72,19 @@ export default function HomePage() {
         <div className="container mx-auto grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
           <div className="space-y-4">
             <h2 className="font-headline text-3xl font-bold tracking-tighter md:text-4xl/tight">
-              A Glimpse of Our Product Line
+              Sekilas Lini Produk Kami
             </h2>
             <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Explore our curated selection of high-performance Videotron equipment, designed for reliability and speed.
+              Jelajahi pilihan peralatan Videotron berkinerja tinggi kami, yang dirancang untuk keandalan dan kecepatan.
             </p>
             <Button asChild>
-              <Link href="/products">Explore All Products</Link>
+              <Link href="/products">Jelajahi Semua Produk</Link>
             </Button>
           </div>
           <div className="flex items-center justify-center">
              <Image 
                 src="https://placehold.co/600x400.png" 
-                alt="Product Showcase"
+                alt="Pameran Produk"
                 width={600}
                 height={400}
                 className="rounded-xl shadow-2xl"

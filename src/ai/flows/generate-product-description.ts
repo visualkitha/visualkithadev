@@ -36,14 +36,14 @@ const prompt = ai.definePrompt({
   name: 'generateProductDescriptionPrompt',
   input: {schema: GenerateProductDescriptionInputSchema},
   output: {schema: GenerateProductDescriptionOutputSchema},
-  prompt: `You are an expert copywriter specializing in writing product descriptions for Videotron equipment.
+  prompt: `Anda adalah seorang copywriter ahli yang berspesialisasi dalam menulis deskripsi produk untuk peralatan Videotron dalam Bahasa Indonesia.
 
-  Based on the key specifications provided, generate a compelling and informative product description.
+  Berdasarkan spesifikasi utama yang diberikan, buatlah deskripsi produk yang menarik dan informatif.
 
-  Product Name: {{productName}}
-  Key Specifications: {{keySpecifications}}
+  Nama Produk: {{productName}}
+  Spesifikasi Utama: {{keySpecifications}}
 
-  Product Description:`,
+  Deskripsi Produk:`,
 });
 
 const generateProductDescriptionFlow = ai.defineFlow(

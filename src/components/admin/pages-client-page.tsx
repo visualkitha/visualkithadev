@@ -73,8 +73,8 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
 
     if (result.success) {
       toast({
-        title: 'Success!',
-        description: `Page has been ${selectedPage ? 'updated' : 'created'}.`,
+        title: 'Berhasil!',
+        description: `Halaman telah ${selectedPage ? 'diperbarui' : 'dibuat'}.`,
       });
       router.refresh();
       handleCloseDialog();
@@ -91,8 +91,8 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
     const result = await deletePage(id);
     if (result.success) {
       toast({
-        title: 'Success!',
-        description: 'Page has been deleted.',
+        title: 'Berhasil!',
+        description: 'Halaman telah dihapus.',
       });
       router.refresh();
     } else {
@@ -109,12 +109,12 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="font-headline text-3xl font-bold tracking-tight">Pages</h1>
-            <p className="text-muted-foreground">Manage your website's static pages.</p>
+            <h1 className="font-headline text-3xl font-bold tracking-tight">Halaman</h1>
+            <p className="text-muted-foreground">Kelola halaman statis situs web Anda.</p>
           </div>
           <Button onClick={() => handleOpenDialog()}>
             <PlusCircle className="mr-2 h-4 w-4" />
-            Add Page
+            Tambah Halaman
           </Button>
         </div>
 
@@ -123,11 +123,11 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Title</TableHead>
+                  <TableHead>Judul</TableHead>
                   <TableHead>Path</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead className="hidden md:table-cell">Created At</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead className="hidden md:table-cell">Dibuat Pada</TableHead>
+                  <TableHead className="text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -142,7 +142,7 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
                     </TableCell>
                     <TableCell>
                       <Badge variant={page.status === 'Published' ? 'default' : 'secondary'}>
-                        {page.status}
+                        {page.status === 'Published' ? 'Diterbitkan' : 'Draf'}
                       </Badge>
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
@@ -162,22 +162,22 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
                             </DropdownMenuItem>
                              <AlertDialogTrigger asChild>
                                 <DropdownMenuItem className="text-destructive focus:text-destructive focus:bg-destructive/10">
-                                  <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                  <Trash2 className="mr-2 h-4 w-4" /> Hapus
                                 </DropdownMenuItem>
                               </AlertDialogTrigger>
                           </DropdownMenuContent>
                         </DropdownMenu>
                         <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogTitle>Apakah Anda benar-benar yakin?</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete this page.
+                                Tindakan ini tidak dapat dibatalkan. Ini akan menghapus halaman ini secara permanen.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel>Batal</AlertDialogCancel>
                               <AlertDialogAction onClick={() => handleDelete(page.id)} className="bg-destructive hover:bg-destructive/90">
-                                Delete
+                                Hapus
                               </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
@@ -194,9 +194,9 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
       <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="font-headline">{selectedPage ? 'Edit Page' : 'Add New Page'}</DialogTitle>
+            <DialogTitle className="font-headline">{selectedPage ? 'Edit Halaman' : 'Tambah Halaman Baru'}</DialogTitle>
             <DialogDescription>
-              {selectedPage ? 'Update the details for this page.' : 'Create a new static page for your website.'}
+              {selectedPage ? 'Perbarui detail untuk halaman ini.' : 'Buat halaman statis baru untuk situs web Anda.'}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">

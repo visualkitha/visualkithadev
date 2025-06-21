@@ -23,10 +23,10 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Product name must be at least 2 characters.'),
-  specifications: z.string().min(10, 'Specifications must be at least 10 characters.'),
-  description: z.string().min(20, 'Description must be at least 20 characters.'),
-  imageUrl: z.string().url('Please enter a valid URL.').optional().or(z.literal('')),
+  name: z.string().min(2, 'Nama produk harus minimal 2 karakter.'),
+  specifications: z.string().min(10, 'Spesifikasi harus minimal 10 karakter.'),
+  description: z.string().min(20, 'Deskripsi harus minimal 20 karakter.'),
+  imageUrl: z.string().url('Silakan masukkan URL yang valid.').optional().or(z.literal('')),
 });
 
 export type EquipmentFormValues = z.infer<typeof formSchema>;
@@ -71,14 +71,14 @@ export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }:
     if (result.description) {
       setValue('description', result.description, { shouldValidate: true });
       toast({
-        title: 'Success',
-        description: 'Product description generated.',
+        title: 'Berhasil',
+        description: 'Deskripsi produk telah dibuat.',
       });
     } else {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: result.error || 'Failed to generate description.',
+        description: result.error || 'Gagal membuat deskripsi.',
       });
     }
   };
@@ -92,9 +92,9 @@ export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }:
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Product Name</FormLabel>
+                <FormLabel>Nama Produk</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., Helix Fi 2 Gateway" {...field} disabled={isSubmitting} />
+                  <Input placeholder="cth., Helix Fi 2 Gateway" {...field} disabled={isSubmitting} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -105,7 +105,7 @@ export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }:
             name="imageUrl"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Image URL</FormLabel>
+                <FormLabel>URL Gambar</FormLabel>
                 <FormControl>
                   <Input placeholder="https://placehold.co/400x225.png" {...field} disabled={isSubmitting} />
                 </FormControl>
@@ -120,10 +120,10 @@ export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }:
               name="specifications"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Key Specifications</FormLabel>
+                  <FormLabel>Spesifikasi Utama</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter key specs, one per line. e.g., Wi-Fi 6, 4x4 MU-MIMO"
+                      placeholder="Masukkan spesifikasi utama, satu per baris. cth., Wi-Fi 6, 4x4 MU-MIMO"
                       className="min-h-[150px] resize-y"
                       {...field}
                       disabled={isSubmitting}
@@ -134,7 +134,7 @@ export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }:
               )}
             />
             <div className="space-y-2">
-                <FormLabel>AI Generated Description</FormLabel>
+                <FormLabel>Deskripsi Dihasilkan AI</FormLabel>
                 <Card className="bg-secondary/50">
                     <CardHeader className="p-4">
                         <Button
@@ -150,7 +150,7 @@ export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }:
                             ) : (
                               <Wand2 className="mr-2 h-4 w-4" />
                             )}
-                            Generate with AI
+                            Hasilkan dengan AI
                         </Button>
                     </CardHeader>
                     <CardContent className="p-4 pt-0">
@@ -161,7 +161,7 @@ export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }:
                               <FormItem className="mt-2">
                                 <FormControl>
                                   <Textarea
-                                    placeholder="Click 'Generate with AI' or write your own description..."
+                                    placeholder="Klik 'Hasilkan dengan AI' atau tulis deskripsi Anda sendiri..."
                                     className="min-h-[118px] resize-y bg-background"
                                     {...field}
                                     disabled={isSubmitting}
@@ -178,11 +178,11 @@ export function EquipmentForm({ initialData, onSubmit, onCancel, isSubmitting }:
         
         <div className="flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>
-            Cancel
+            Batal
           </Button>
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-            {initialData ? 'Save Changes' : 'Create Equipment'}
+            {initialData ? 'Simpan Perubahan' : 'Buat Peralatan'}
           </Button>
         </div>
       </form>

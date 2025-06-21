@@ -10,10 +10,10 @@ export default async function ProductsPage() {
       <section className="w-full py-20 md:py-28 bg-secondary border-b">
         <div className="container px-4 md:px-6 text-center">
             <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-              Our Equipment Catalog
+              Katalog Peralatan Kami
             </h1>
             <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-              Browse our selection of cutting-edge Videotron equipment, designed for reliability and high performance.
+              Telusuri pilihan peralatan Videotron canggih kami, yang dirancang untuk keandalan dan kinerja tinggi.
             </p>
         </div>
       </section>
@@ -28,7 +28,7 @@ export default async function ProductsPage() {
             </div>
           ) : (
             <div className="text-center text-muted-foreground py-16">
-              <p>No products found. Please check back later.</p>
+              <p>Tidak ada produk yang ditemukan. Silakan periksa kembali nanti.</p>
             </div>
           )}
         </div>

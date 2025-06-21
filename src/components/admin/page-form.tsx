@@ -25,8 +25,8 @@ import type { Page } from '@/lib/types';
 import { Textarea } from '@/components/ui/textarea';
 
 const formSchema = z.object({
-  title: z.string().min(2, 'Title must be at least 2 characters.'),
-  content: z.string().min(10, 'Content must be at least 10 characters.'),
+  title: z.string().min(2, 'Judul harus minimal 2 karakter.'),
+  content: z.string().min(10, 'Konten harus minimal 10 karakter.'),
   status: z.enum(['Published', 'Draft']),
   vision: z.string().optional(),
   mission: z.string().optional(),
@@ -70,9 +70,9 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
             name="title"
             render={({ field }) => (
               <FormItem className="md:col-span-2">
-                <FormLabel>Page Title</FormLabel>
+                <FormLabel>Judul Halaman</FormLabel>
                 <FormControl>
-                  <Input placeholder="e.g., About Us" {...field} disabled={isSubmitting || !!initialData} />
+                  <Input placeholder="cth., Tentang Kami" {...field} disabled={isSubmitting || !!initialData} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -87,12 +87,12 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
                 <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a status" />
+                      <SelectValue placeholder="Pilih status" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Published">Published</SelectItem>
-                    <SelectItem value="Draft">Draft</SelectItem>
+                    <SelectItem value="Published">Diterbitkan</SelectItem>
+                    <SelectItem value="Draft">Draf</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -106,10 +106,10 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
           name="content"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Main Content</FormLabel>
+              <FormLabel>Konten Utama</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Enter the main page content here..."
+                  placeholder="Masukkan konten utama halaman di sini..."
                   className="min-h-[200px] resize-y"
                   {...field}
                   disabled={isSubmitting}
@@ -130,7 +130,7 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
                   <FormLabel>Visi</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter the company vision..."
+                      placeholder="Masukkan visi perusahaan..."
                       className="min-h-[100px] resize-y"
                       {...field}
                       disabled={isSubmitting}
@@ -148,7 +148,7 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
                   <FormLabel>Misi</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter the company mission..."
+                      placeholder="Masukkan misi perusahaan..."
                       className="min-h-[100px] resize-y"
                       {...field}
                       disabled={isSubmitting}
@@ -163,11 +163,11 @@ export function PageForm({ initialData, onSubmit, onCancel, isSubmitting }: Page
 
         <div className="flex justify-end gap-2">
           <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>
-            Cancel
+            Batal
           </Button>
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-            {initialData ? 'Save Changes' : 'Create Page'}
+            {initialData ? 'Simpan Perubahan' : 'Buat Halaman'}
           </Button>
         </div>
       </form>

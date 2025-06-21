@@ -9,17 +9,17 @@ import { Package, FileText, Newspaper } from 'lucide-react';
 
 export default function AdminDashboard() {
   const stats = [
-    { title: 'Equipment', value: '6', icon: Package, description: 'Total products managed' },
-    { title: 'Pages', value: '4', icon: FileText, description: 'Total static pages' },
-    { title: 'Blog Posts', value: '12', icon: Newspaper, description: 'Published articles' },
+    { title: 'Peralatan', value: '6', icon: Package, description: 'Total produk yang dikelola' },
+    { title: 'Halaman', value: '4', icon: FileText, description: 'Total halaman statis' },
+    { title: 'Postingan Blog', value: '12', icon: Newspaper, description: 'Artikel yang dipublikasikan' },
   ];
 
   return (
     <div className="space-y-6">
       <div className="space-y-1">
-        <h1 className="font-headline text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+        <h1 className="font-headline text-3xl font-bold tracking-tight">Dasbor Admin</h1>
         <p className="text-muted-foreground">
-          An overview of your website's content and activity.
+          Gambaran umum tentang konten dan aktivitas situs web Anda.
         </p>
       </div>
 
@@ -40,11 +40,11 @@ export default function AdminDashboard() {
 
        <Card>
           <CardHeader>
-            <CardTitle className="font-headline">Recent Activity</CardTitle>
-            <CardDescription>A log of recent changes across the system.</CardDescription>
+            <CardTitle className="font-headline">Aktivitas Terbaru</CardTitle>
+            <CardDescription>Catatan perubahan terbaru di seluruh sistem.</CardDescription>
           </CardHeader>
           <CardContent>
-             <p className="text-sm text-muted-foreground">No recent activity to display.</p>
+             <p className="text-sm text-muted-foreground">Tidak ada aktivitas terbaru untuk ditampilkan.</p>
           </CardContent>
         </Card>
     </div>
