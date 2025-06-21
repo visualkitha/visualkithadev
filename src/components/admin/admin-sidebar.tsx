@@ -6,7 +6,6 @@ import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import {
   LayoutDashboard,
-  FileText,
   Package,
   Newspaper,
   Tv2,
@@ -27,7 +26,6 @@ import {
 const menuItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/equipment', label: 'Equipment', icon: Package },
-  { href: '/admin/pages', label: 'Pages', icon: FileText },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
 ];
 
