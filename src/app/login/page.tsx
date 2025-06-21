@@ -40,6 +40,10 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      toast({
+        title: 'Login Successful',
+        description: 'Redirecting to the admin dashboard...',
+      });
       router.push('/admin');
     } catch (error: any) {
       console.error('Login failed:', error);
