@@ -9,6 +9,7 @@ export type Equipment = {
 export type Page = {
   id: string;
   title: string;
+  slug: string;
   status: 'Published' | 'Draft';
   createdAt: string;
 };

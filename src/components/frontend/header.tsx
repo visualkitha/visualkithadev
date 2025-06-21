@@ -1,12 +1,11 @@
-'use client';
-
 import Link from 'next/link';
 import { Tv2 } from 'lucide-react';
-import { useAuth } from '@/hooks/use-auth';
-import { Skeleton } from '@/components/ui/skeleton';
+import { fetchPages } from '@/lib/data';
+import { AuthNavLink } from './auth-nav-link';
 
-export function Header() {
-  const { user, loading } = useAuth();
+export async function Header() {
+  const pages = await fetchPages();
+  const navPages = pages.filter(p => p.slug !== 'home');
 
   return (
     <header className="bg-background/80 fixed top-0 left-0 right-0 z-40 border-b backdrop-blur-sm">
@@ -25,17 +24,12 @@ export function Header() {
           <Link href="/news" className="transition-colors hover:text-primary">
             News
           </Link>
-          {loading ? (
-            <Skeleton className="h-6 w-24" />
-          ) : user ? (
-            <Link href="/admin" className="transition-colors hover:text-primary">
-              Admin Panel
+          {navPages.map((page) => (
+            <Link key={page.id} href={`/${page.slug}`} className="transition-colors hover:text-primary">
+              {page.title}
             </Link>
-          ) : (
-            <Link href="/login" className="transition-colors hover:text-primary">
-              Admin Login
-            </Link>
-          )}
+          ))}
+          <AuthNavLink />
         </nav>
       </div>
     </header>

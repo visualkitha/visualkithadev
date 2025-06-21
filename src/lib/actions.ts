@@ -64,12 +64,15 @@ export async function deleteEquipment(id: string): Promise<{ success: boolean; e
 }
 
 
-export async function savePage(page: Omit<Page, 'id' | 'createdAt'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
+export async function savePage(page: Pick<Page, 'title' | 'status'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
   if (!db) return { success: false, error: 'Firestore is not initialized.' };
 
-  const pageData: Omit<Page, 'id' | 'createdAt'> = {
+  const slug = page.title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+
+  const pageData = {
     title: page.title,
     status: page.status,
+    slug: slug,
   };
 
   try {
@@ -80,6 +83,7 @@ export async function savePage(page: Omit<Page, 'id' | 'createdAt'> & { id?: str
       await addDoc(collection(db, 'pages'), dataWithTimestamp);
     }
     revalidatePath('/admin/pages');
+    revalidatePath('/');
     return { success: true };
   } catch (error) {
     console.error('Failed to save page:', error);
@@ -94,6 +98,7 @@ export async function deletePage(id: string): Promise<{ success: boolean; error?
   try {
     await deleteDoc(doc(db, 'pages', id));
     revalidatePath('/admin/pages');
+    revalidatePath('/');
     return { success: true };
   } catch (error) {
     console.error('Failed to delete page:', error);

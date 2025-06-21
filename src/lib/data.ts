@@ -84,21 +84,28 @@ export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}):
   }
 }
 
-export async function fetchPages(): Promise<Page[]> {
+export async function fetchPages(options: { includeDrafts?: boolean } = {}): Promise<Page[]> {
+  const { includeDrafts = false } = options;
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
       console.log("Firestore is not initialized. Returning mock data for pages.");
     }
-    return [
-      { id: '1', title: 'Home', status: 'Published', createdAt: '2023-10-01' },
-      { id: '2', title: 'About Us', status: 'Published', createdAt: '2023-10-02' },
-      { id: '3', title: 'Contact', status: 'Draft', createdAt: '2023-10-05' },
+    const mockPages: Page[] = [
+      { id: '1', title: 'Home', slug: 'home', status: 'Published', createdAt: '2023-10-01' },
+      { id: '2', title: 'About Us', slug: 'about-us', status: 'Published', createdAt: '2023-10-02' },
+      { id: '3', title: 'Contact', slug: 'contact', status: 'Draft', createdAt: '2023-10-05' },
     ];
+    return includeDrafts ? mockPages : mockPages.filter(p => p.status === 'Published');
   }
 
   try {
     const pagesCollection = collection(db, 'pages');
-    const q = query(pagesCollection, orderBy('title'));
+    let q;
+    if (includeDrafts) {
+      q = query(pagesCollection, orderBy('title'));
+    } else {
+      q = query(pagesCollection, where('status', '==', 'Published'), orderBy('title'));
+    }
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {

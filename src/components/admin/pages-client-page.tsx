@@ -14,7 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle, MoreHorizontal, Pencil, Trash2, LoaderCircle } from 'lucide-react';
+import { PlusCircle, MoreHorizontal, Pencil, Trash2, Link as LinkIcon } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,6 +42,7 @@ import {
 import { PageForm, PageFormValues } from './page-form';
 import { useToast } from '@/hooks/use-toast';
 import { deletePage, savePage } from '@/lib/actions';
+import Link from 'next/link';
 
 interface PagesClientPageProps {
   initialPages: Page[];
@@ -123,6 +124,7 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
               <TableHeader>
                 <TableRow>
                   <TableHead>Title</TableHead>
+                  <TableHead>Path</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="hidden md:table-cell">Created At</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -132,6 +134,12 @@ export function PagesClientPage({ initialPages }: PagesClientPageProps) {
                 {initialPages.map((page) => (
                   <TableRow key={page.id}>
                     <TableCell className="font-medium">{page.title}</TableCell>
+                    <TableCell>
+                      <Link href={`/${page.slug}`} target="_blank" className="text-sm text-muted-foreground hover:text-primary flex items-center gap-1">
+                        /{page.slug}
+                        <LinkIcon className="h-3 w-3" />
+                      </Link>
+                    </TableCell>
                     <TableCell>
                       <Badge variant={page.status === 'Published' ? 'default' : 'secondary'}>
                         {page.status}
