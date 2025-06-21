@@ -21,8 +21,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, Upload } from 'lucide-react';
 import type { BlogPost } from '@/lib/types';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import { storage } from '@/lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Image from 'next/image';
 
 const formSchema = z.object({
   title: z.string().min(2, 'Judul harus minimal 2 karakter.'),
@@ -43,6 +49,9 @@ interface BlogFormProps {
 }
 
 export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: BlogFormProps) {
+  const { toast } = useToast();
+  const [isUploading, setIsUploading] = useState(false);
+  
   const form = useForm<BlogFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
@@ -63,6 +72,35 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: Blog
           content: '',
         },
   });
+
+  const imageUrlValue = form.watch('imageUrl');
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      return;
+    }
+    const file = e.target.files[0];
+    if (!storage) {
+        toast({ variant: 'destructive', title: 'Error', description: 'Firebase Storage tidak dikonfigurasi.' });
+        return;
+    }
+    
+    setIsUploading(true);
+    try {
+        const storageRef = ref(storage, `blog-covers/${Date.now()}-${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        form.setValue('imageUrl', downloadURL, { shouldValidate: true });
+        toast({ title: 'Berhasil', description: 'Gambar berhasil diunggah.' });
+
+    } catch (error) {
+        console.error("Upload gambar gagal:", error);
+        toast({ variant: 'destructive', title: 'Error', description: 'Gagal mengunggah gambar.' });
+    } finally {
+        setIsUploading(false);
+    }
+  };
 
   return (
     <Form {...form}>
@@ -104,34 +142,88 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: Blog
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <FormField
-                control={form.control}
-                name="author"
-                render={({ field }) => (
-                <FormItem>
-                    <FormLabel>Penulis</FormLabel>
-                    <FormControl>
-                    <Input placeholder="Nama penulis" {...field} disabled={isSubmitting} />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-                )}
-            />
-             <FormField
+        <FormField
+            control={form.control}
+            name="author"
+            render={({ field }) => (
+            <FormItem>
+                <FormLabel>Penulis</FormLabel>
+                <FormControl>
+                <Input placeholder="Nama penulis" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+            </FormItem>
+            )}
+        />
+        
+        <div className="space-y-2">
+          <FormLabel>Gambar Cover</FormLabel>
+          <Tabs defaultValue="url" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="url">Link URL</TabsTrigger>
+              <TabsTrigger value="upload">Unggah Gambar</TabsTrigger>
+            </TabsList>
+            <TabsContent value="url">
+              <FormField
                 control={form.control}
                 name="imageUrl"
                 render={({ field }) => (
-                <FormItem>
-                    <FormLabel>URL Gambar Cover</FormLabel>
+                  <FormItem>
                     <FormControl>
-                    <Input placeholder="https://placehold.co/1200x600.png" {...field} disabled={isSubmitting} />
+                      <Input
+                        placeholder="https://placehold.co/1200x600.png"
+                        {...field}
+                        disabled={isSubmitting || isUploading}
+                      />
                     </FormControl>
                     <FormMessage />
-                </FormItem>
+                  </FormItem>
                 )}
-            />
+              />
+            </TabsContent>
+            <TabsContent value="upload">
+              <div className="flex flex-col items-center justify-center w-full gap-2">
+                <label htmlFor="file-upload" className="relative cursor-pointer w-full">
+                  <div className="flex items-center justify-center w-full h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50">
+                    {isUploading ? (
+                      <>
+                        <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                        <span>Mengunggah...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="mr-2 h-4 w-4" />
+                        <span>Pilih file untuk diunggah</span>
+                      </>
+                    )}
+                  </div>
+                  <input
+                    id="file-upload"
+                    name="file-upload"
+                    type="file"
+                    className="sr-only"
+                    onChange={handleImageUpload}
+                    accept="image/png, image/jpeg, image/gif, image/webp"
+                    disabled={isSubmitting || isUploading}
+                  />
+                </label>
+              </div>
+            </TabsContent>
+          </Tabs>
+          {imageUrlValue && (
+            <div className="mt-4">
+              <p className="text-sm font-medium mb-2">Pratinjau Gambar:</p>
+              <Image
+                src={imageUrlValue}
+                alt="Pratinjau gambar cover"
+                width={300}
+                height={150}
+                className="rounded-md border object-cover"
+              />
+            </div>
+          )}
         </div>
+
 
         <FormField
             control={form.control}
@@ -175,8 +267,8 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: Blog
           <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>
             Batal
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
+          <Button type="submit" disabled={isSubmitting || isUploading}>
+            {(isSubmitting || isUploading) && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
             {initialData ? 'Simpan Perubahan' : 'Buat Postingan'}
           </Button>
         </div>

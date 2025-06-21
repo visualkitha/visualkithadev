@@ -1,6 +1,7 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
 import { getFirestore, type Firestore } from "firebase/firestore";
 import { getAuth, type Auth } from "firebase/auth";
+import { getStorage, type FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,6 +15,7 @@ const firebaseConfig = {
 let app: FirebaseApp | undefined;
 let db: Firestore | undefined;
 let auth: Auth | undefined;
+let storage: FirebaseStorage | undefined;
 
 // Before initializing, check if the essential config values are present.
 if (firebaseConfig.projectId && firebaseConfig.apiKey) {
@@ -21,6 +23,7 @@ if (firebaseConfig.projectId && firebaseConfig.apiKey) {
     app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
     db = getFirestore(app);
     auth = getAuth(app);
+    storage = getStorage(app);
   } catch (error) {
     console.error("Firebase initialization failed:", error);
   }
@@ -33,4 +36,4 @@ if (firebaseConfig.projectId && firebaseConfig.apiKey) {
   }
 }
 
-export { db, auth };
+export { db, auth, storage };
