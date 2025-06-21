@@ -1,95 +1,209 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle, SlidersHorizontal, FileText, Bot } from 'lucide-react';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { CheckCircle, Quote, Phone, MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
-      <section className="relative w-full py-20 md:py-32 lg:py-40 bg-gradient-to-br from-background to-secondary">
-        <div className="container mx-auto px-4 md:px-6 text-center">
+      {/* 1. Hero Section */}
+      <section className="relative w-full py-20 md:py-32 lg:py-40 flex items-center justify-center text-center text-white">
+          <Image 
+            src="https://placehold.co/1920x1080.png" 
+            alt="Event meriah dengan videotron Visual Kitha" 
+            layout="fill" 
+            objectFit="cover" 
+            className="brightness-50" 
+            data-ai-hint="concert stage led" 
+          />
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-            Visual Kitha CMS
+            Bikin Event Kamu Lebih Hidup dengan Visual Kitha
           </h1>
-          <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-            Sistem manajemen konten yang modern dan intuitif untuk peralatan Videotron.
-            Kelola halaman, produk, dan postingan blog dengan mudah menggunakan kekuatan AI.
+          <p className="mx-auto max-w-[800px] text-lg md:text-xl mt-6">
+            Layanan sewa videotron profesional untuk segala jenis acara — mulai dari konser, pernikahan, sampai brand activation. Kualitas visual tajam, pelayanan cepat, hasil memukau.
           </p>
-          <div className="mt-8 flex justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg">
-              <Link href="/products">Lihat Produk</Link>
+              <Link href="/contact-us">
+                <MessageSquare className="mr-2"/>
+                Konsultasi Sekarang
+              </Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/login">Login Admin</Link>
+            <Button asChild variant="secondary" size="lg">
+              <Link href="https://wa.me/6281234567890" target="_blank">
+                <Phone className="mr-2"/>
+                Hubungi via WhatsApp
+              </Link>
             </Button>
           </div>
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 lg:py-32">
+      {/* 2. Kenapa Memilih Visual Kitha */}
+      <section className="w-full py-12 md:py-20 lg:py-28 bg-secondary">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">
-                Fitur Utama
-              </div>
-              <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
-                Semua yang Anda Butuhkan untuk Sukses
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-4">
+              <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Keunggulan Kami</div>
+              <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">
+                Kenapa Memilih Visual Kitha?
               </h2>
-              <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                CMS kami dilengkapi dengan fitur-fitur untuk membantu Anda mengelola kehadiran digital Anda dengan mudah dan efisien.
+              <p className="text-muted-foreground md:text-lg">
+                Kami bukan sekadar penyedia layar LED. Visual Kitha adalah partner visual untuk memastikan pesan kamu tersampaikan dengan cara yang paling berkesan.
               </p>
+              <ul className="grid gap-4 mt-6 text-base text-muted-foreground">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                  <span>Menggunakan videotron berkualitas tinggi untuk indoor dan outdoor.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                  <span>Instalasi cepat dan aman oleh tim berpengalaman.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                  <span>Support teknis selama acara berlangsung.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-5 w-5 mt-1 text-primary flex-shrink-0" />
+                  <span>Pelayanan ramah, respons cepat, dan fleksibel sesuai kebutuhan.</span>
+                </li>
+              </ul>
             </div>
-          </div>
-          <div className="mx-auto grid max-w-5xl items-start gap-8 sm:grid-cols-2 md:gap-12 lg:grid-cols-3 lg:max-w-none mt-12">
-            <div className="grid gap-1 text-center">
-              <SlidersHorizontal className="h-10 w-10 mx-auto text-primary" />
-              <h3 className="font-headline text-lg font-bold">Manajemen Peralatan</h3>
-              <p className="text-sm text-muted-foreground">
-                Tambah, perbarui, dan kelola katalog peralatan Videotron Anda dengan mudah.
-              </p>
-            </div>
-            <div className="grid gap-1 text-center">
-              <FileText className="h-10 w-10 mx-auto text-primary" />
-              <h3 className="font-headline text-lg font-bold">Pembuatan Konten</h3>
-              <p className="text-sm text-muted-foreground">
-                Alat intuitif untuk membuat dan mengelola halaman situs web dan postingan blog.
-              </p>
-            </div>
-            <div className="grid gap-1 text-center">
-              <Bot className="h-10 w-10 mx-auto text-primary" />
-              <h3 className="font-headline text-lg font-bold">Deskripsi Berbasis AI</h3>
-              <p className="text-sm text-muted-foreground">
-                Hasilkan deskripsi produk yang menarik secara instan dengan alat AI terintegrasi kami.
-              </p>
+            <div className="flex items-center justify-center">
+              <Image 
+                  src="https://placehold.co/550x400.png" 
+                  alt="Tim Visual Kitha sedang melakukan instalasi"
+                  width={550}
+                  height={400}
+                  className="rounded-xl shadow-2xl"
+                  data-ai-hint="event crew setup"
+              />
             </div>
           </div>
         </div>
       </section>
-      
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-secondary">
-        <div className="container mx-auto grid items-center gap-6 px-4 md:px-6 lg:grid-cols-2 lg:gap-10">
-          <div className="space-y-4">
-            <h2 className="font-headline text-3xl font-bold tracking-tighter md:text-4xl/tight">
-              Sekilas Lini Produk Kami
+
+      {/* 3. Layanan Kami */}
+      <section className="w-full py-12 md:py-20 lg:py-28">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Layanan</div>
+            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
+              Solusi Visual untuk Setiap Acara
             </h2>
-            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Jelajahi pilihan peralatan Videotron berkinerja tinggi kami, yang dirancang untuk keandalan dan kecepatan.
+            <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed">
+              Kami melayani berbagai kebutuhan visual event, siap membantu dari tahap perencanaan sampai eksekusi dengan hasil yang sesuai ekspektasi.
             </p>
-            <Button asChild>
-              <Link href="/products">Jelajahi Semua Produk</Link>
-            </Button>
           </div>
-          <div className="flex items-center justify-center">
-             <Image 
-                src="https://placehold.co/600x400.png" 
-                alt="Pameran Produk"
-                width={600}
-                height={400}
-                className="rounded-xl shadow-2xl"
-                data-ai-hint="modem router"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader><p className="font-headline font-semibold">Konser & Festival</p></CardHeader>
+              <CardContent><p className="text-sm text-muted-foreground">Videotron untuk konser, festival, atau pertunjukan musik.</p></CardContent>
+            </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader><p className="font-headline font-semibold">Pernikahan & Event Keluarga</p></CardHeader>
+              <CardContent><p className="text-sm text-muted-foreground">Backdrop pernikahan, engagement, dan acara keluarga.</p></CardContent>
+            </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader><p className="font-headline font-semibold">Branding & Launching</p></CardHeader>
+              <CardContent><p className="text-sm text-muted-foreground">Keperluan branding, company gathering, dan launching produk.</p></CardContent>
+            </Card>
+            <Card className="text-center hover:shadow-lg transition-shadow">
+              <CardHeader><p className="font-headline font-semibold">Acara Publik & Kampanye</p></CardHeader>
+              <CardContent><p className="text-sm text-muted-foreground">Layanan untuk kampanye, acara pemerintah, dan presentasi publik.</p></CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Proyek Terbaru */}
+      <section className="w-full py-12 md:py-20 lg:py-28 bg-secondary">
+        <div className="container mx-auto px-4 md:px-6">
+           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Portofolio</div>
+            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
+              Proyek Terbaru Kami
+            </h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed">
+              Setiap proyek kami tangani dengan detail, kreativitas, dan profesionalisme.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Konser musik independen" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="indie concert"/>
+            <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Pernikahan outdoor" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="outdoor wedding"/>
+            <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Company gathering" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="corporate gathering"/>
+            <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Kampanye politik" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="political campaign"/>
+          </div>
+           <p className="text-center text-sm text-muted-foreground mt-6">Dokumentasi lengkap tersedia atas permintaan.</p>
+        </div>
+      </section>
+
+      {/* 5. Apa Kata Klien Kami */}
+      <section className="w-full py-12 md:py-20 lg:py-28">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
+              Apa Kata Klien Kami
+            </h2>
+          </div>
+          <div className="grid gap-8 lg:grid-cols-3">
+            <Card>
+              <CardHeader>
+                <Quote className="h-8 w-8 text-primary" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">"Pelayanan Visual Kitha benar-benar profesional. Pemasangan cepat, hasil maksimal, dan kru-nya komunikatif."</p>
+              </CardContent>
+              <CardFooter>
+                <div>
+                  <p className="font-semibold">Rizky</p>
+                  <p className="text-xs text-muted-foreground">Event Organizer</p>
+                </div>
+              </CardFooter>
+            </Card>
+            <Card>
+              <CardHeader>
+                <Quote className="h-8 w-8 text-primary" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">"Backdrop LED dari Visual Kitha bikin acara nikahan anak saya jadi elegan banget. Semua tamu puas."</p>
+              </CardContent>
+              <CardFooter>
+                <div>
+                  <p className="font-semibold">Ibu Retno</p>
+                  <p className="text-xs text-muted-foreground">Klien Wedding</p>
+                </div>
+              </CardFooter>
+            </Card>
+            <Card>
+              <CardHeader>
+                <Quote className="h-8 w-8 text-primary" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-muted-foreground">"Acara peluncuran produk kami jadi lebih meriah dan impactful dengan tampilan LED dari Visual Kitha."</p>
+              </CardContent>
+              <CardFooter>
+                <div>
+                  <p className="font-semibold">Rina</p>
+                  <p className="text-xs text-muted-foreground">Brand Manager</p>
+                </div>
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
+      </section>
+      
+      {/* 6. Ajakan Aksi */}
+      <section className="w-full py-12 md:py-20 lg:py-28 bg-primary text-primary-foreground">
+        <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
+          <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Punya acara dalam waktu dekat?</h2>
+          <p className="max-w-2xl text-primary-foreground/80">Butuh tampilan visual yang bikin semua mata tertuju ke panggung? Visual Kitha siap bantu kamu mewujudkannya.</p>
+          <div className="mt-6 flex flex-col gap-4 min-[400px]:flex-row">
+            <Button asChild size="lg" variant="secondary"><Link href="/contact-us">Konsultasi Gratis Sekarang</Link></Button>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"><Link href="/contact-us">Hubungi Tim Kami</Link></Button>
           </div>
         </div>
       </section>
