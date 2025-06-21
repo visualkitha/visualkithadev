@@ -14,7 +14,7 @@ export function AuthNavLink() {
   if (user) {
     return (
       <Link href="/admin" className="transition-colors hover:text-primary">
-        Panel Admin
+        masuk
       </Link>
     );
   }
