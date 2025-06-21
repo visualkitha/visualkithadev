@@ -1,13 +1,6 @@
 'use server';
 
 import { generateProductDescription } from '@/ai/flows/generate-product-description';
-import { redirect } from 'next/navigation';
-
-export async function handleLogin() {
-  // In a real app, you'd validate credentials against a database.
-  // For this scaffold, we'll just redirect to the admin dashboard.
-  redirect('/admin');
-}
 
 export async function generateDescriptionAction(productName: string, keySpecifications: string): Promise<{ description?: string; error?: string }> {
   if (!productName || !keySpecifications) {

@@ -5,14 +5,13 @@ import {
   CardTitle,
   CardDescription
 } from '@/components/ui/card';
-import { Package, FileText, Newspaper, Users } from 'lucide-react';
+import { Package, FileText, Newspaper } from 'lucide-react';
 
 export default function AdminDashboard() {
   const stats = [
     { title: 'Equipment', value: '6', icon: Package, description: 'Total products managed' },
     { title: 'Pages', value: '4', icon: FileText, description: 'Total static pages' },
     { title: 'Blog Posts', value: '12', icon: Newspaper, description: 'Published articles' },
-    { title: 'User Roles', value: '3', icon: Users, description: 'Admin, Editor, Writer' },
   ];
 
   return (

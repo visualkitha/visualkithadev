@@ -1,7 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 import {
   LayoutDashboard,
   FileText,
@@ -31,6 +33,14 @@ const menuItems = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    if (auth) {
+      await signOut(auth);
+    }
+    router.push('/login');
+  };
 
   return (
     <Sidebar collapsible="icon" className="border-r">
@@ -64,11 +74,9 @@ export function AdminSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip={{children: "Logout"}}>
-              <Link href="/">
-                  <LogOut />
-                  <span>Logout</span>
-              </Link>
+            <SidebarMenuButton onClick={handleLogout} tooltip={{children: "Logout"}}>
+              <LogOut />
+              <span>Logout</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
