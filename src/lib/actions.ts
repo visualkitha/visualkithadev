@@ -110,3 +110,70 @@ export async function deletePage(id: string): Promise<{ success: boolean; error?
     return { success: false, error: `Gagal menghapus halaman: ${errorMessage}` };
   }
 }
+
+const createSlug = (title: string) => {
+  return title
+    .toLowerCase()
+    .replace(/\s+/g, '-') // Ganti spasi dengan -
+    .replace(/[^\w-]+/g, '') // Hapus semua karakter non-kata
+    .replace(/--+/g, '-') // Ganti beberapa - dengan satu -
+    .replace(/^-+/, '') // Potong - dari awal teks
+    .replace(/-+$/, ''); // Potong - dari akhir teks
+};
+
+export async function saveBlogPost(data: {
+  id?: string;
+  title: string;
+  author: string;
+  status: 'Published' | 'Draft';
+  imageUrl: string;
+  excerpt: string;
+  content: string;
+}): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+
+  const slug = createSlug(data.title);
+
+  const postData = {
+    title: data.title,
+    slug: slug,
+    author: data.author,
+    status: data.status,
+    imageUrl: data.imageUrl,
+    excerpt: data.excerpt,
+    content: data.content,
+  };
+
+  try {
+    if (data.id) {
+      const postRef = doc(db, 'blogPosts', data.id);
+      await setDoc(postRef, postData, { merge: true });
+    } else {
+      const dataWithTimestamp = { ...postData, createdAt: serverTimestamp() };
+      await addDoc(collection(db, 'blogPosts'), dataWithTimestamp);
+    }
+    revalidatePath('/admin/blog');
+    revalidatePath('/news');
+    revalidatePath(`/news/${slug}`);
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menyimpan postingan blog:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menyimpan postingan blog: ${errorMessage}` };
+  }
+}
+
+export async function deleteBlogPost(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+
+  try {
+    await deleteDoc(doc(db, 'blogPosts', id));
+    revalidatePath('/admin/blog');
+    revalidatePath('/news');
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menghapus postingan blog:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menghapus postingan blog: ${errorMessage}` };
+  }
+}
