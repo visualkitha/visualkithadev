@@ -2,8 +2,12 @@
 
 import Link from 'next/link';
 import { Tv2 } from 'lucide-react';
+import { useAuth } from '@/hooks/use-auth';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function Header() {
+  const { user, loading } = useAuth();
+
   return (
     <header className="bg-background/80 fixed top-0 left-0 right-0 z-40 border-b backdrop-blur-sm">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
@@ -21,9 +25,17 @@ export function Header() {
           <Link href="/news" className="transition-colors hover:text-primary">
             News
           </Link>
-          <Link href="/login" className="transition-colors hover:text-primary">
-            Admin Login
-          </Link>
+          {loading ? (
+            <Skeleton className="h-6 w-24" />
+          ) : user ? (
+            <Link href="/admin" className="transition-colors hover:text-primary">
+              Admin Panel
+            </Link>
+          ) : (
+            <Link href="/login" className="transition-colors hover:text-primary">
+              Admin Login
+            </Link>
+          )}
         </nav>
       </div>
     </header>
