@@ -47,7 +47,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               <CornerUpLeft className="h-4 w-4" />
               Kembali ke Semua Artikel
             </Link>
-            <p className="text-primary font-semibold text-sm tracking-wider uppercase">Tips Event</p>
+            <p className="text-primary font-semibold text-sm tracking-wider uppercase">{post.category}</p>
             <h1 className="font-headline text-3xl md:text-4xl lg:text-5xl font-bold tracking-tighter mt-2">{post.title}</h1>
             <div className="flex items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground mt-6 flex-wrap">
               <div className="flex items-center gap-2">

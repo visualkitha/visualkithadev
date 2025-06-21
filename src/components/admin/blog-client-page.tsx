@@ -125,6 +125,7 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
                 <TableRow>
                   <TableHead>Judul</TableHead>
                   <TableHead className="hidden md:table-cell">Penulis</TableHead>
+                  <TableHead className="hidden md:table-cell">Kategori</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="hidden md:table-cell">Dibuat Pada</TableHead>
                   <TableHead className="text-right">Aksi</TableHead>
@@ -135,6 +136,7 @@ export function BlogClientPage({ initialPosts }: BlogClientPageProps) {
                   <TableRow key={post.id}>
                     <TableCell className="font-medium">{post.title}</TableCell>
                     <TableCell className="hidden md:table-cell">{post.author}</TableCell>
+                    <TableCell className="hidden md:table-cell">{post.category}</TableCell>
                     <TableCell>
                       <Badge variant={post.status === 'Published' ? 'default' : 'secondary'}>
                         {post.status === 'Published' ? 'Diterbitkan' : 'Draf'}

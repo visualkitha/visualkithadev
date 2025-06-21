@@ -22,6 +22,7 @@ export type BlogPost = {
   title: string;
   slug: string;
   author: string;
+  category: string;
   status: 'Published' | 'Draft';
   createdAt: string;
   imageUrl: string;

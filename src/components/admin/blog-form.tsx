@@ -34,6 +34,7 @@ const formSchema = z.object({
   title: z.string().min(2, 'Judul harus minimal 2 karakter.'),
   author: z.string().min(2, 'Nama penulis harus minimal 2 karakter.'),
   status: z.enum(['Published', 'Draft']),
+  category: z.string().min(1, 'Kategori harus dipilih.'),
   imageUrl: z.string().url('URL Gambar tidak valid.').optional().or(z.literal('')),
   excerpt: z.string().min(10, 'Kutipan harus minimal 10 karakter.').max(200, 'Kutipan tidak boleh lebih dari 200 karakter.'),
   content: z.string().min(20, 'Konten harus minimal 20 karakter.'),
@@ -62,6 +63,7 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: Blog
           imageUrl: initialData.imageUrl,
           excerpt: initialData.excerpt,
           content: initialData.content,
+          category: initialData.category,
         }
       : {
           title: '',
@@ -70,6 +72,7 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: Blog
           imageUrl: '',
           excerpt: '',
           content: '',
+          category: '',
         },
   });
 
@@ -142,19 +145,45 @@ export function BlogForm({ initialData, onSubmit, onCancel, isSubmitting }: Blog
           />
         </div>
 
-        <FormField
-            control={form.control}
-            name="author"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabel>Penulis</FormLabel>
-                <FormControl>
-                <Input placeholder="Nama penulis" {...field} disabled={isSubmitting} />
-                </FormControl>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField
+                control={form.control}
+                name="author"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Penulis</FormLabel>
+                    <FormControl>
+                    <Input placeholder="Nama penulis" {...field} disabled={isSubmitting} />
+                    </FormControl>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
+             <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Kategori</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                        <FormControl>
+                        <SelectTrigger>
+                            <SelectValue placeholder="Pilih kategori" />
+                        </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                        <SelectItem value="Event">Event</SelectItem>
+                        <SelectItem value="Wedding">Wedding</SelectItem>
+                        <SelectItem value="Tips & Edukasi">Tips & Edukasi</SelectItem>
+                        <SelectItem value="Promo">Promo</SelectItem>
+                        <SelectItem value="Behind the Scene">Behind the Scene</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <FormMessage />
+                    </FormItem>
+                )}
+                />
+        </div>
         
         <div className="space-y-2">
           <FormLabel>Gambar Cover</FormLabel>

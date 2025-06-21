@@ -4,6 +4,7 @@ import type { BlogPost } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar, User } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface BlogPostCardProps {
   post: BlogPost;
@@ -23,6 +24,7 @@ export function BlogPostCard({ post }: BlogPostCardProps) {
           />
       </Link>
       <CardHeader>
+        <Badge variant="secondary" className="w-fit mb-2">{post.category}</Badge>
         <CardTitle className="font-headline text-xl">
             <Link href={`/news/${post.slug}`} className="hover:text-primary transition-colors">{post.title}</Link>
         </CardTitle>

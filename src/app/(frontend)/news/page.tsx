@@ -3,7 +3,7 @@ import { BlogPostCard } from '@/components/frontend/blog-post-card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Search, MessageSquare, Phone } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 export default async function NewsPage() {
   const posts = await fetchBlogPosts();
@@ -23,8 +23,8 @@ export default async function NewsPage() {
         </div>
       </section>
 
-      {/* 2. Search and Filter (Placeholder) */}
-      <section className="py-12">
+      {/* 2. Search and Filter */}
+      <section className="py-12 border-b">
         <div className="container px-4 md:px-6 max-w-4xl mx-auto">
           <div className="grid md:grid-cols-3 gap-4 items-center">
             <div className="relative md:col-span-2">
@@ -33,8 +33,15 @@ export default async function NewsPage() {
             </div>
             <div className="flex gap-2">
                  <Button className="w-full h-11">Cari</Button>
-                 <Button variant="outline" className="w-full h-11">Filter</Button>
             </div>
+          </div>
+          <div className="flex gap-2 mt-4 justify-center flex-wrap">
+            <Button variant="ghost" size="sm">Semua</Button>
+            <Button variant="ghost" size="sm">Event</Button>
+            <Button variant="ghost" size="sm">Wedding</Button>
+            <Button variant="ghost" size="sm">Tips & Edukasi</Button>
+            <Button variant="ghost" size="sm">Promo</Button>
+            <Button variant="ghost" size="sm">Behind the Scene</Button>
           </div>
         </div>
       </section>
