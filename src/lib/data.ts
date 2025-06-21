@@ -1,5 +1,5 @@
 import 'server-only';
-import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 import { db } from './firebase';
 import type { Equipment, BlogPost, Page } from './types';
 
@@ -56,12 +56,7 @@ export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}):
 
   try {
     const blogCollection = collection(db, 'blogPosts');
-    let q;
-    if (includeDrafts) {
-        q = query(blogCollection, orderBy('createdAt', 'desc'));
-    } else {
-        q = query(blogCollection, where('status', '==', 'Published'), orderBy('createdAt', 'desc'));
-    }
+    const q = query(blogCollection, orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
     
     if (querySnapshot.empty) {
@@ -69,7 +64,7 @@ export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}):
         return [];
     }
 
-    return querySnapshot.docs.map(doc => {
+    const allPosts = querySnapshot.docs.map(doc => {
         const data = doc.data();
         return {
             id: doc.id,
@@ -77,6 +72,11 @@ export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}):
             createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
         }
     }) as BlogPost[];
+
+    if (includeDrafts) {
+      return allPosts;
+    }
+    return allPosts.filter(p => p.status === 'Published');
 
   } catch (error) {
     console.error("Failed to fetch blog posts:", error);
@@ -100,12 +100,7 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
 
   try {
     const pagesCollection = collection(db, 'pages');
-    let q;
-    if (includeDrafts) {
-      q = query(pagesCollection, orderBy('title'));
-    } else {
-      q = query(pagesCollection, where('status', '==', 'Published'), orderBy('title'));
-    }
+    const q = query(pagesCollection, orderBy('title'));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
@@ -113,7 +108,7 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
       return [];
     }
     
-    return querySnapshot.docs.map(doc => {
+    const allPages = querySnapshot.docs.map(doc => {
       const data = doc.data();
       return {
           id: doc.id,
@@ -121,6 +116,11 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
           createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
       }
     }) as Page[];
+    
+    if (includeDrafts) {
+      return allPages;
+    }
+    return allPages.filter(p => p.status === 'Published');
 
   } catch(error) {
     console.error("Failed to fetch pages:", error);
