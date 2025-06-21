@@ -4,6 +4,13 @@ import { db } from './firebase';
 import type { Equipment } from './types';
 
 export async function fetchEquipment(): Promise<Equipment[]> {
+  if (!db) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log("Firestore is not initialized. Please check your Firebase configuration in the .env file. Returning empty array.");
+    }
+    return [];
+  }
+
   try {
     const equipmentCollection = collection(db, 'equipment');
     const q = query(equipmentCollection, orderBy('name'));

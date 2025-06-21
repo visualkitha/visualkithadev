@@ -1,5 +1,5 @@
-import { initializeApp, getApps, getApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
+import { getFirestore, type Firestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,8 +10,24 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-const db = getFirestore(app);
+let app: FirebaseApp | undefined;
+let db: Firestore | undefined;
+
+// Before initializing, check if the essential config values are present.
+if (firebaseConfig.projectId && firebaseConfig.apiKey) {
+  try {
+    app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+    db = getFirestore(app);
+  } catch (error) {
+    console.error("Firebase initialization failed:", error);
+  }
+} else {
+  // Only show this warning in development to avoid spamming production logs.
+  if (process.env.NODE_ENV !== 'production') {
+    console.warn(
+      "Firebase project ID or API Key is missing in your .env file. Firebase will not be initialized."
+    );
+  }
+}
 
 export { db };
