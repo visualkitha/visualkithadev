@@ -10,6 +10,7 @@ import {
   Newspaper,
   Tv2,
   LogOut,
+  FileText,
 } from 'lucide-react';
 
 import {
@@ -27,6 +28,7 @@ const menuItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/equipment', label: 'Equipment', icon: Package },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
+  { href: '/admin/pages', label: 'Pages', icon: FileText },
 ];
 
 export function AdminSidebar() {
