@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
-export function AuthNavLink() {
+export function AuthNavLink({ className }: { className?: string }) {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -13,14 +14,14 @@ export function AuthNavLink() {
 
   if (user) {
     return (
-      <Link href="/admin" className="transition-colors hover:text-primary">
+      <Link href="/admin" className={cn("transition-colors hover:text-primary", className)}>
         masuk
       </Link>
     );
   }
 
   return (
-    <Link href="/login" className="transition-colors hover:text-primary">
+    <Link href="/login" className={cn("transition-colors hover:text-primary", className)}>
       Login Admin
     </Link>
   );

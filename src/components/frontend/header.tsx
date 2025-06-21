@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Tv2 } from 'lucide-react';
 import { fetchPages } from '@/lib/data';
-import { AuthNavLink } from '@/components/frontend/auth-nav-link';
 
 export async function Header() {
   const pages = await fetchPages();
@@ -29,7 +28,6 @@ export async function Header() {
               {page.title}
             </Link>
           ))}
-          <AuthNavLink />
         </nav>
       </div>
     </header>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Tv2, Mail, MapPin, Phone, Clock, Instagram, Youtube } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { AuthNavLink } from './auth-nav-link';
 
 // Custom icon components for brands not in lucide-react
 const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -44,16 +45,17 @@ export function Footer() {
               <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Portofolio</Link></li>
               <li><Link href="/news" className="text-muted-foreground hover:text-primary transition-colors">News / Artikel</Link></li>
               <li><Link href="/contact-us" className="text-muted-foreground hover:text-primary transition-colors">Kontak</Link></li>
+              <li><AuthNavLink className="text-muted-foreground" /></li>
             </ul>
           </div>
 
           <div className="space-y-4">
             <h4 className="font-headline font-semibold">Layanan Unggulan</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>📽️ Sewa Videotron Indoor</li>
-              <li>🌤️ Sewa Videotron Outdoor</li>
-              <li>🎉 Paket Event</li>
-              <li>🛠️ Custom Installation</li>
+              <li>Sewa Videotron Indoor</li>
+              <li>Sewa Videotron Outdoor</li>
+              <li>Paket Event</li>
+              <li>Custom Installation</li>
             </ul>
           </div>
           
