@@ -1,4 +1,5 @@
 import { AdminSidebar } from '@/components/admin/admin-sidebar';
+import { AuthGuard } from '@/components/admin/auth-guard';
 import { SidebarProvider } from '@/components/ui/sidebar';
 
 export default function AdminLayout({
@@ -11,7 +12,7 @@ export default function AdminLayout({
       <div className="flex min-h-screen">
         <AdminSidebar />
         <main className="flex-1 p-4 md:p-6 lg:p-8 bg-secondary/50">
-          {children}
+          <AuthGuard>{children}</AuthGuard>
         </main>
       </div>
     </SidebarProvider>
