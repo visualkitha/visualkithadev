@@ -24,14 +24,6 @@ export default function HomePage() {
           <p className="mx-auto max-w-[800px] text-lg md:text-xl mt-6">
             Layanan sewa videotron profesional untuk segala jenis acara — mulai dari konser, pernikahan, sampai brand activation. Kualitas visual tajam, pelayanan cepat, hasil memukau.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-            <Button asChild variant="secondary" size="lg">
-              <Link href="https://wa.me/6281234567890" target="_blank">
-                <Phone className="mr-2"/>
-                Hubungi via WhatsApp
-              </Link>
-            </Button>
-          </div>
         </div>
       </section>
 
