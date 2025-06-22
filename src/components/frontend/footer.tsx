@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Tv2, Mail, MapPin, Phone, Clock, Instagram, Youtube } from 'lucide-react';
 import { Input } from '@/components/ui/input';
