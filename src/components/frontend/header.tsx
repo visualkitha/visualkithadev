@@ -4,7 +4,8 @@ import { fetchPages } from '@/lib/data';
 
 export async function Header() {
   const pages = await fetchPages();
-  const navPages = pages.filter(p => p.slug !== 'home');
+  // Filter out pages that have hardcoded links to avoid duplicates
+  const navPages = pages.filter(p => !['home', 'contact-us'].includes(p.slug));
 
   return (
     <header className="bg-black text-white fixed top-0 left-0 right-0 z-40">
@@ -28,6 +29,9 @@ export async function Header() {
               {page.title}
             </Link>
           ))}
+          <Link href="/contact-us" className="transition-colors hover:text-primary">
+            Hubungi Kami
+          </Link>
         </nav>
       </div>
     </header>
