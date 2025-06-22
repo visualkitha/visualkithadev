@@ -68,7 +68,7 @@ export function Footer() {
                 </div>
                 <div className="flex items-center gap-3">
                     <Phone className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
-                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                    <p className="text-muted-foreground">+62 821-3397-1373</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <Mail className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
@@ -104,7 +104,7 @@ export function Footer() {
                      <Link href="#" aria-label="YouTube" className="text-muted-foreground hover:text-primary transition-colors">
                         <Youtube className="h-6 w-6" />
                     </Link>
-                    <Link href="#" aria-label="WhatsApp" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Link href="https://wa.me/6282133971373" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-muted-foreground hover:text-primary transition-colors">
                         <WhatsAppIcon className="h-6 w-6" />
                     </Link>
                 </div>

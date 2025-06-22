@@ -95,7 +95,7 @@ export default async function NewsPage() {
           <p className="max-w-2xl text-primary-foreground/80">Kalau kamu tertarik dengan apa yang kamu baca, yuk ngobrol sama tim Visual Kitha! Kami siap bantu event kamu jadi makin wow.</p>
           <div className="mt-6 flex flex-col gap-4 min-[400px]:flex-row">
             <Button asChild size="lg" variant="secondary"><Link href="/contact-us">Konsultasi Sekarang</Link></Button>
-            <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"><Link href="https://wa.me/6281234567890" target="_blank">WhatsApp Tim Kami</Link></Button>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"><Link href="https://wa.me/6282133971373" target="_blank">WhatsApp Tim Kami</Link></Button>
           </div>
         </div>
       </section>

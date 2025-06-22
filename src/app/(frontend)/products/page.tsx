@@ -205,7 +205,7 @@ export default function ServicesPage() {
           <p className="max-w-2xl text-primary-foreground/80">Hubungi tim kami sekarang untuk konsultasi dan penawaran terbaik. Kami siap bantu kamu tampil maksimal!</p>
           <div className="mt-6 flex flex-col gap-4 min-[400px]:flex-row">
             <Button asChild size="lg" variant="secondary"><Link href="/contact-us">Konsultasi Gratis</Link></Button>
-            <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"><Link href="https://wa.me/6281234567890" target="_blank">Hubungi via WhatsApp</Link></Button>
+            <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"><Link href="https://wa.me/6282133971373" target="_blank">Hubungi via WhatsApp</Link></Button>
           </div>
         </div>
       </section>

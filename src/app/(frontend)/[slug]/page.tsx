@@ -296,7 +296,7 @@ export default async function DynamicPage({ params }: PageProps) {
                     </div>
                     <div>
                       <h4 className="font-semibold">Telepon</h4>
-                      <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                      <p className="text-muted-foreground">+62 821-3397-1373</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
