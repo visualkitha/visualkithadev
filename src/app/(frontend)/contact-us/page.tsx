@@ -42,7 +42,7 @@ export default function ContactUsPage() {
   return (
     <>
       {/* 1. Header Section */}
-      <section className="w-full py-20 md:py-28 bg-secondary border-b">
+      <section className="w-full py-16 md:py-24 bg-secondary border-b">
         <div className="container px-4 md:px-6 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Hubungi Visual Kitha
@@ -54,7 +54,7 @@ export default function ContactUsPage() {
       </section>
 
       {/* Main content section with form and info */}
-      <section className="py-12 md:py-20 lg:py-24">
+      <section className="py-16 md:py-24">
         <div className="container px-4 md:px-6">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             
