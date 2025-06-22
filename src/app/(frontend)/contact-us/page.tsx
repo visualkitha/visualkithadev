@@ -1,20 +1,44 @@
+'use client';
 
-import { Metadata } from 'next';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Clock, Mail, MapPin, Phone } from 'lucide-react';
+import { Clock, Mail, MapPin, Phone, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 
-export const metadata: Metadata = {
-  title: 'Hubungi Kami | Visual Kitha CMS',
-  description: 'Kami siap bantu wujudkan event kamu jadi lebih hidup dengan videotron berkualitas.',
-}
-
 export default function ContactUsPage() {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [eventType, setEventType] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const whatsAppNumber = '6282133971373';
+    
+    let text = `Halo Visual Kitha, saya ingin bertanya.\n\nBerikut detail saya:\n`;
+    text += `*Nama:* ${name}\n`;
+    text += `*No. HP/WA:* ${phone}\n`;
+    if (email) {
+      text += `*Email:* ${email}\n`;
+    }
+    if (eventType) {
+      text += `*Jenis Acara:* ${eventType}\n`;
+    }
+    text += `\n*Pesan:*\n${message}\n\nTerima kasih.`;
+
+    const encodedText = encodeURIComponent(text);
+    const url = `https://wa.me/${whatsAppNumber}?text=${encodedText}`;
+    
+    window.open(url, '_blank');
+  };
+
   return (
     <>
       {/* 1. Header Section */}
@@ -37,44 +61,73 @@ export default function ContactUsPage() {
             {/* 2. Form Kontak */}
             <Card>
               <CardHeader>
-                <CardTitle>Formulir Kontak</CardTitle>
+                <CardTitle>Formulir Kontak WhatsApp</CardTitle>
                 <CardDescription>
-                  Isi formulir di bawah ini dan tim kami akan segera menghubungi Anda.
+                  Isi formulir di bawah ini dan klik kirim untuk langsung memulai percakapan di WhatsApp.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit}>
                   <div className="space-y-2">
                     <Label htmlFor="name">Nama Lengkap</Label>
-                    <Input id="name" placeholder="John Doe" required />
+                    <Input 
+                      id="name" 
+                      placeholder="John Doe" 
+                      required 
+                      value={name} 
+                      onChange={(e) => setName(e.target.value)} 
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="phone">Nomor HP / WhatsApp</Label>
-                    <Input id="phone" type="tel" placeholder="081234567890" required />
+                    <Input 
+                      id="phone" 
+                      type="tel" 
+                      placeholder="081234567890" 
+                      required 
+                      value={phone} 
+                      onChange={(e) => setPhone(e.target.value)} 
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Alamat Email (Opsional)</Label>
-                    <Input id="email" type="email" placeholder="john@example.com" />
+                    <Input 
+                      id="email" 
+                      type="email" 
+                      placeholder="john@example.com" 
+                      value={email} 
+                      onChange={(e) => setEmail(e.target.value)} 
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="event-type">Jenis Acara (Opsional)</Label>
-                    <Select>
+                    <Select value={eventType} onValueChange={setEventType}>
                       <SelectTrigger id="event-type">
                         <SelectValue placeholder="Pilih jenis acara Anda" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="konser">Konser / Festival</SelectItem>
-                        <SelectItem value="wedding">Wedding / Pernikahan</SelectItem>
-                        <SelectItem value="corporate">Corporate / Launching</SelectItem>
-                        <SelectItem value="lainnya">Lainnya</SelectItem>
+                        <SelectItem value="Konser / Festival">Konser / Festival</SelectItem>
+                        <SelectItem value="Wedding / Pernikahan">Wedding / Pernikahan</SelectItem>
+                        <SelectItem value="Corporate / Launching">Corporate / Launching</SelectItem>
+                        <SelectItem value="Lainnya">Lainnya</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="message">Pesan / Detail Kebutuhan</Label>
-                    <Textarea id="message" placeholder="Jelaskan kebutuhan Anda di sini..." className="min-h-[120px]" required />
+                    <Textarea 
+                      id="message" 
+                      placeholder="Jelaskan kebutuhan Anda di sini..." 
+                      className="min-h-[120px]" 
+                      required 
+                      value={message} 
+                      onChange={(e) => setMessage(e.target.value)} 
+                    />
                   </div>
-                  <Button type="submit" className="w-full">Kirim Pesan</Button>
+                  <Button type="submit" className="w-full">
+                    <MessageSquare className="mr-2 h-4 w-4" />
+                    Kirim via WhatsApp
+                  </Button>
                 </form>
               </CardContent>
             </Card>
