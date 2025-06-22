@@ -1,11 +1,19 @@
-import Link from 'next/link';
-import { Tv2 } from 'lucide-react';
-import { fetchPages } from '@/lib/data';
+'use client';
 
-export async function Header() {
-  const pages = await fetchPages();
+import Link from 'next/link';
+import { Tv2, Menu } from 'lucide-react';
+import type { Page } from '@/lib/types';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useState } from 'react';
+
+export function Header({ pages }: { pages: Page[] }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Filter out pages that have hardcoded links to avoid duplicates
   const navPages = pages.filter(p => !['home', 'contact-us'].includes(p.slug));
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   return (
     <header className="bg-black text-white fixed top-0 left-0 right-0 z-40">
@@ -33,6 +41,34 @@ export async function Header() {
             Hubungi Kami
           </Link>
         </nav>
+        {/* Mobile Menu */}
+        <div className="md:hidden">
+          <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Buka menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left">
+              <Link href="/" className="flex items-center gap-2 mb-8" onClick={closeMobileMenu}>
+                <Tv2 className="h-6 w-6 text-primary" />
+                <span className="font-headline text-lg font-bold text-foreground">Visual Kitha</span>
+              </Link>
+              <nav className="grid gap-6 text-lg font-medium">
+                <Link href="/" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Beranda</Link>
+                <Link href="/products" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Layanan</Link>
+                <Link href="/news" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Berita</Link>
+                {navPages.map((page) => (
+                  <Link key={page.id} href={`/${page.slug}`} className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>
+                    {page.title}
+                  </Link>
+                ))}
+                <Link href="/contact-us" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Hubungi Kami</Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );
