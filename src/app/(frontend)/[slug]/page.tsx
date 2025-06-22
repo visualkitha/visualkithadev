@@ -287,7 +287,7 @@ export default async function DynamicPage({ params }: PageProps) {
                     </div>
                     <div>
                       <h4 className="font-semibold">Email</h4>
-                      <p className="text-muted-foreground">contact@visualkitha.com</p>
+                      <p className="text-muted-foreground">info@visualkitha.com</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -305,7 +305,7 @@ export default async function DynamicPage({ params }: PageProps) {
                     </div>
                     <div>
                       <h4 className="font-semibold">Alamat Kantor</h4>
-                      <p className="text-muted-foreground">123 Videotron Ave, Montreal, QC, Canada</p>
+                      <p className="text-muted-foreground">Jl. Teknologi Raya No. 42, Jakarta, Indonesia</p>
                     </div>
                   </div>
                 </div>
