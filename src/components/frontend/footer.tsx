@@ -23,7 +23,7 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
-const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//de0c7ccc-e5a4-4b01-8faa-0fad21eddfe0.jpg";
+const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/de0c7ccc-e5a4-4b01-8faa-0fad21eddfe0.jpg";
 
 export function Footer() {
   const { toast } = useToast();

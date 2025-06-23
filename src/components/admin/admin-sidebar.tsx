@@ -35,7 +35,7 @@ const menuItems = [
   { href: '/admin/site-images', label: 'Gambar Situs', icon: ImageIcon },
 ];
 
-const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
+const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
 
 export function AdminSidebar() {
   const pathname = usePathname();

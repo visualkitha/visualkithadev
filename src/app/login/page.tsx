@@ -20,7 +20,7 @@ import { Label } from '@/components/ui/label';
 import { LoaderCircle } from 'lucide-react';
 import Image from 'next/image';
 
-const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
+const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
 
 export default function LoginPage() {
   const router = useRouter();
