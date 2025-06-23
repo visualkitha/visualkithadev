@@ -38,17 +38,6 @@ export default function ServicesPage() {
             </h2>
           </div>
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-             <Card className="flex flex-col text-center transition-shadow hover:shadow-lg">
-              <CardHeader>
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
-                    <Tv className="h-8 w-8" />
-                </div>
-                <CardTitle className="font-headline pt-4">Led Screen / Videotron Visual Creator</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-sm text-muted-foreground">Menyediakan layar LED berkualitas tinggi untuk berbagai acara, memastikan visual yang tajam dan memukau.</p>
-              </CardContent>
-            </Card>
             <Card className="flex flex-col text-center transition-shadow hover:shadow-lg">
               <CardHeader>
                 <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 text-primary">
