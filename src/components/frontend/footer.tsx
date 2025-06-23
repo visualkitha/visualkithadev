@@ -112,13 +112,13 @@ export function Footer() {
             <div className="space-y-4 lg:text-center">
                 <h4 className="font-headline font-semibold">Ikuti Kami</h4>
                  <div className="flex gap-4 lg:justify-center">
-                    <Link href="/" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Link href="#" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
                         <Instagram className="h-6 w-6" />
                     </Link>
-                    <Link href="/" aria-label="TikTok" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Link href="#" aria-label="TikTok" className="text-muted-foreground hover:text-primary transition-colors">
                         <TikTokIcon className="h-6 w-6" />
                     </Link>
-                     <Link href="/" aria-label="YouTube" className="text-muted-foreground hover:text-primary transition-colors">
+                     <Link href="#" aria-label="YouTube" className="text-muted-foreground hover:text-primary transition-colors">
                         <Youtube className="h-6 w-6" />
                     </Link>
                     <Link href="https://wa.me/6282133971373" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-muted-foreground hover:text-primary transition-colors">

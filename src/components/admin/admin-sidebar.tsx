@@ -46,6 +46,15 @@ export function AdminSidebar() {
     router.push('/login');
   };
 
+  const isLinkActive = (itemPath: string) => {
+    if (itemPath === '/admin/blog') {
+      // Only active if it's the blog page or its children, but not the categories page.
+      return pathname.startsWith('/admin/blog') && !pathname.startsWith('/admin/blog/categories');
+    }
+    // Active if the current path starts with the item's path.
+    return pathname.startsWith(itemPath);
+  };
+
   return (
     <Sidebar collapsible="icon" className="border-r">
       <SidebarHeader className="flex items-center justify-between">
@@ -61,7 +70,7 @@ export function AdminSidebar() {
             <SidebarMenuItem key={item.href}>
               <SidebarMenuButton
                 asChild
-                isActive={pathname === item.href || (item.href !== '/admin/blog' && pathname.startsWith(item.href) && item.href !== '/admin/blog/categories') || (item.href === '/admin/blog' && pathname.startsWith('/admin/blog') && !pathname.includes('/categories'))}
+                isActive={isLinkActive(item.href)}
                 tooltip={{ children: item.label }}
               >
                 <Link href={item.href}>
