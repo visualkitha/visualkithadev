@@ -23,7 +23,6 @@ export function Header({ pages }: { pages: Page[] }) {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
           <Image src={logoUrl} alt="Visual Kitha Logo" width={40} height={40} className="rounded-full" />
-          <span className="font-headline text-lg font-bold">Visual Kitha</span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           <Link href="/" className="transition-colors hover:text-primary">
@@ -56,7 +55,6 @@ export function Header({ pages }: { pages: Page[] }) {
             <SheetContent side="left">
               <Link href="/" className="flex items-center gap-2 mb-8" onClick={closeMobileMenu}>
                 <Image src={logoUrl} alt="Visual Kitha Logo" width={40} height={40} className="rounded-full" />
-                <span className="font-headline text-lg font-bold text-foreground">Visual Kitha</span>
               </Link>
               <nav className="grid gap-6 text-lg font-medium">
                 <Link href="/" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Beranda</Link>

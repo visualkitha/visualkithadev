@@ -33,7 +33,6 @@ export function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <Image src={logoUrl} alt="Visual Kitha Logo" width={48} height={48} className="rounded-full" />
-              <span className="font-headline text-2xl font-bold">Visual Kitha</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Visual Kitha adalah penyedia jasa sewa videotron profesional untuk semua jenis event. Kualitas visual, layanan maksimal.
