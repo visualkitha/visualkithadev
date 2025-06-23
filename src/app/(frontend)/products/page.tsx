@@ -21,7 +21,7 @@ export default async function ServicesPage() {
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
             Visual Kitha menyediakan berbagai pilihan layanan videotron untuk semua jenis kebutuhan event — dari yang intimate sampai yang megah.
           </p>
-          <div className="mt-6 flex flex-col gap-4 min-[400px]:flex-row justify-center">
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row justify-center">
             <Button asChild size="lg">
               <Link href="/contact-us">Konsultasi Gratis</Link>
             </Button>
@@ -207,7 +207,7 @@ export default async function ServicesPage() {
         <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
           <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Yuk, Buat Acara Kamu Lebih Standout!</h2>
           <p className="max-w-2xl text-primary-foreground/80">Hubungi tim kami sekarang untuk konsultasi dan penawaran terbaik. Kami siap bantu kamu tampil maksimal!</p>
-          <div className="mt-6 flex flex-col gap-4 min-[400px]:flex-row">
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row">
             <Button asChild size="lg" variant="secondary"><Link href="/contact-us">Konsultasi Gratis</Link></Button>
             <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"><Link href="https://wa.me/6282133971373" target="_blank">Hubungi via WhatsApp</Link></Button>
           </div>

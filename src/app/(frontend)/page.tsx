@@ -156,7 +156,7 @@ export default async function HomePage() {
         <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
           <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Punya acara dalam waktu dekat?</h2>
           <p className="max-w-2xl text-primary-foreground/80">Butuh tampilan visual yang bikin semua mata tertuju ke panggung? Visual Kitha siap bantu kamu mewujudkannya.</p>
-          <div className="mt-6 flex flex-col gap-4 min-[400px]:flex-row">
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row">
             <Button asChild size="lg" variant="secondary"><Link href="/contact-us">Konsultasi Gratis Sekarang</Link></Button>
             <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"><Link href="/contact-us">Hubungi Tim Kami</Link></Button>
           </div>

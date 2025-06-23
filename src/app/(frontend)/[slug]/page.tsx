@@ -227,7 +227,7 @@ export default async function DynamicPage({ params }: PageProps) {
           <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Siap bikin acara kamu lebih standout?</h2>
             <p className="max-w-2xl text-primary-foreground/80">Hubungi Visual Kitha sekarang untuk konsultasi gratis dan penawaran terbaik!</p>
-            <div className="mt-6 flex flex-col gap-2 min-[400px]:flex-row">
+            <div className="mt-6 flex flex-col gap-4 sm:flex-row">
               <Button asChild size="lg" variant="secondary"><Link href="/contact-us">Hubungi Kami</Link></Button>
               <Button asChild size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"><Link href="/products">Lihat Layanan</Link></Button>
             </div>
