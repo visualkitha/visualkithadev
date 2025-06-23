@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { AuthNavLink } from './auth-nav-link';
 import Image from 'next/image';
 import { useToast } from '@/hooks/use-toast';
+import { useState, useEffect } from 'react';
 
 // Custom icon components for brands not in lucide-react
 const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -27,6 +28,12 @@ const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/publ
 
 export function Footer() {
   const { toast } = useToast();
+  const [year, setYear] = useState<number | string>('...'); // Placeholder for year
+
+  useEffect(() => {
+    // This runs only on the client, after the initial render (hydration).
+    setYear(new Date().getFullYear());
+  }, []);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,7 +140,7 @@ export function Footer() {
       </div>
       <div className="border-t bg-background/50">
         <div className="container mx-auto py-4 px-4 md:px-6 flex flex-wrap justify-between items-center gap-2 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} Visual Kitha. All rights reserved.</p>
+          <p>© {year} Visual Kitha. All rights reserved.</p>
           <p>Website oleh <Link href="/" className="font-semibold text-primary hover:underline">visualkitha.dev</Link></p>
         </div>
       </div>
