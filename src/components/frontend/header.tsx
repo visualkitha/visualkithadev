@@ -12,11 +12,11 @@ export function Header({ pages }: { pages: Page[] }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Filter out pages that have hardcoded links to avoid duplicates
-  const navPages = pages.filter(p => !['home', 'contact-us'].includes(p.slug));
+  const navPages = pages.filter(p => !['home', 'contact-us', 'portfolio'].includes(p.slug));
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
+  const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//de0c7ccc-e5a4-4b01-8faa-0fad21eddfe0.jpg";
 
   return (
     <header className="bg-black text-white fixed top-0 left-0 right-0 z-40">
