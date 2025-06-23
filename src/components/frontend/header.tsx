@@ -12,17 +12,17 @@ export function Header({ pages }: { pages: Page[] }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Filter out pages that have hardcoded links to avoid duplicates
-  const navPages = pages.filter(p => !['home', 'contact-us', 'portfolio'].includes(p.slug));
+  const navPages = pages.filter(p => !['home', 'contact-us', 'about-us'].includes(p.slug));
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//de0c7ccc-e5a4-4b01-8faa-0fad21eddfe0.jpg";
 
   return (
-    <header className="bg-black text-white fixed top-0 left-0 right-0 z-40">
+    <header className="bg-background text-foreground border-b fixed top-0 left-0 right-0 z-40">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Image src={logoUrl} alt="Visual Kitha Logo" width={40} height={40} className="rounded-full" />
+          <Image src={logoUrl} alt="Visual Kitha Logo" width={48} height={48} className="rounded-full" />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           <Link href="/" className="transition-colors hover:text-primary">
@@ -54,7 +54,7 @@ export function Header({ pages }: { pages: Page[] }) {
             </SheetTrigger>
             <SheetContent side="left">
               <Link href="/" className="flex items-center gap-2 mb-8" onClick={closeMobileMenu}>
-                <Image src={logoUrl} alt="Visual Kitha Logo" width={40} height={40} className="rounded-full" />
+                <Image src={logoUrl} alt="Visual Kitha Logo" width={48} height={48} className="rounded-full" />
               </Link>
               <nav className="grid gap-6 text-lg font-medium">
                 <Link href="/" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Beranda</Link>
