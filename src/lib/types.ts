@@ -34,3 +34,23 @@ export type BlogCategory = {
   id: string;
   name: string;
 };
+
+export type SiteImages = {
+  id: 'main';
+  // Homepage
+  homeHero: string;
+  homeWhyUs: string;
+  homeProject1: string;
+  homeProject2: string;
+  homeProject3: string;
+  homeProject4: string;
+  // About Us page
+  aboutHero: string;
+  aboutProfile: string;
+  aboutPortfolio1: string;
+  aboutPortfolio2: string;
+  aboutPortfolio3: string;
+  aboutPortfolio4: string;
+  // Services page
+  servicesWhyUs: string;
+};

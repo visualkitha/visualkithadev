@@ -1,7 +1,7 @@
 import 'server-only';
-import { collection, getDocs, query, orderBy, where, limit } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, where, limit, getDoc, doc } from 'firebase/firestore';
 import { db } from './firebase';
-import type { Equipment, BlogPost, Page, BlogCategory } from './types';
+import type { Equipment, BlogPost, Page, BlogCategory, SiteImages } from './types';
 
 export async function fetchEquipment(): Promise<Equipment[]> {
   if (!db) {
@@ -215,5 +215,46 @@ export async function fetchBlogCategories(): Promise<BlogCategory[]> {
   } catch (error) {
     console.error("Gagal mengambil kategori blog:", error);
     return [];
+  }
+}
+
+const defaultImages: SiteImages = {
+  id: 'main' as const,
+  homeHero: 'https://placehold.co/1920x1080.png',
+  homeWhyUs: 'https://placehold.co/550x400.png',
+  homeProject1: 'https://placehold.co/400x300.png',
+  homeProject2: 'https://placehold.co/400x300.png',
+  homeProject3: 'https://placehold.co/400x300.png',
+  homeProject4: 'https://placehold.co/400x300.png',
+  aboutHero: 'https://placehold.co/1920x1080.png',
+  aboutProfile: 'https://placehold.co/600x450.png',
+  aboutPortfolio1: 'https://placehold.co/400x300.png',
+  aboutPortfolio2: 'https://placehold.co/400x300.png',
+  aboutPortfolio3: 'https://placehold.co/400x300.png',
+  aboutPortfolio4: 'https://placehold.co/400x300.png',
+  servicesWhyUs: 'https://placehold.co/550x400.png',
+};
+
+export async function fetchSiteImages(): Promise<SiteImages> {
+  if (!db) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data gambar tiruan.");
+    }
+    return defaultImages;
+  }
+  try {
+    const docRef = doc(db, 'site_settings', 'images');
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      // Merge default images with stored data to ensure all keys are present
+      return { ...defaultImages, ...docSnap.data() };
+    } else {
+      console.log("Dokumen gambar situs tidak ditemukan. Mengembalikan nilai default.");
+      return defaultImages;
+    }
+  } catch (error) {
+    console.error("Gagal mengambil gambar situs:", error);
+    return defaultImages;
   }
 }

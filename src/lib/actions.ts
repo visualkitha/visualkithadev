@@ -2,7 +2,7 @@
 
 import { generateProductDescription } from '@/ai/flows/generate-product-description';
 import { db } from '@/lib/firebase';
-import type { Equipment, Page } from '@/lib/types';
+import type { Equipment, Page, SiteImages } from '@/lib/types';
 import { addDoc, collection, deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 
@@ -217,5 +217,24 @@ export async function deleteBlogCategory(id: string): Promise<{ success: boolean
     console.error('Gagal menghapus kategori blog:', error);
     const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
     return { success: false, error: `Gagal menghapus kategori blog: ${errorMessage}` };
+  }
+}
+
+export async function saveSiteImages(images: Partial<Omit<SiteImages, 'id'>>): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+
+  try {
+    await setDoc(doc(db, 'site_settings', 'images'), images, { merge: true });
+    
+    revalidatePath('/');
+    revalidatePath('/about-us');
+    revalidatePath('/products');
+    revalidatePath('/admin/site-images');
+
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menyimpan gambar situs:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menyimpan gambar situs: ${errorMessage}` };
   }
 }

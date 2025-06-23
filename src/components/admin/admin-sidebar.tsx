@@ -11,6 +11,7 @@ import {
   LogOut,
   FileText,
   Tags,
+  Image as ImageIcon,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -31,6 +32,7 @@ const menuItems = [
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
   { href: '/admin/blog/categories', label: 'Kategori Blog', icon: Tags },
   { href: '/admin/pages', label: 'Halaman', icon: FileText },
+  { href: '/admin/site-images', label: 'Gambar Situs', icon: ImageIcon },
 ];
 
 const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";

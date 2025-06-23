@@ -1,5 +1,5 @@
 
-import { fetchPages, fetchPageBySlug } from '@/lib/data';
+import { fetchPages, fetchPageBySlug, fetchSiteImages } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { User, Mail, Phone, MapPin, Gem, Users, Clock, BadgePercent, Layers, Quote } from 'lucide-react';
@@ -39,6 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function DynamicPage({ params }: PageProps) {
   const page = await fetchPageBySlug(params.slug);
+  const siteImages = await fetchSiteImages();
 
   if (!page) {
     notFound();
@@ -51,12 +52,13 @@ export default async function DynamicPage({ params }: PageProps) {
         {/* Hero Section */}
         <section className="relative w-full h-[60vh] flex items-center justify-center text-center text-white">
           <Image 
-            src="https://placehold.co/1920x1080.png" 
+            src={siteImages.aboutHero}
             alt="Tim Visual Kitha sedang bekerja" 
             layout="fill" 
             objectFit="cover" 
             className="brightness-50" 
             data-ai-hint="event crew" 
+            priority
           />
           <div className="relative z-10 p-4">
             <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">{page.title}</h1>
@@ -75,7 +77,7 @@ export default async function DynamicPage({ params }: PageProps) {
               </div>
               <div className="flex items-center justify-center">
                 <Image
-                  src="https://placehold.co/600x450.png"
+                  src={siteImages.aboutProfile}
                   alt="Videotron Outdoor dalam sebuah event"
                   width={600}
                   height={450}
@@ -157,10 +159,10 @@ export default async function DynamicPage({ params }: PageProps) {
                 </p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Contoh event konser" className="rounded-lg object-cover" data-ai-hint="concert stage"/>
-                <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Contoh event seminar" className="rounded-lg object-cover" data-ai-hint="corporate seminar"/>
-                <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Contoh event peluncuran produk" className="rounded-lg object-cover" data-ai-hint="product launch"/>
-                <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Contoh event pernikahan" className="rounded-lg object-cover" data-ai-hint="wedding reception"/>
+                <Image src={siteImages.aboutPortfolio1} width={400} height={300} alt="Contoh event konser" className="rounded-lg object-cover" data-ai-hint="concert stage"/>
+                <Image src={siteImages.aboutPortfolio2} width={400} height={300} alt="Contoh event seminar" className="rounded-lg object-cover" data-ai-hint="corporate seminar"/>
+                <Image src={siteImages.aboutPortfolio3} width={400} height={300} alt="Contoh event peluncuran produk" className="rounded-lg object-cover" data-ai-hint="product launch"/>
+                <Image src={siteImages.aboutPortfolio4} width={400} height={300} alt="Contoh event pernikahan" className="rounded-lg object-cover" data-ai-hint="wedding reception"/>
             </div>
           </div>
         </section>

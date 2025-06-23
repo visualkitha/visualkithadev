@@ -3,19 +3,23 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { CheckCircle, Phone, MessageSquare } from 'lucide-react';
 import Image from 'next/image';
+import { fetchSiteImages } from '@/lib/data';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const siteImages = await fetchSiteImages();
+
   return (
     <div className="flex flex-col">
       {/* 1. Hero Section */}
       <section className="relative w-full py-20 md:py-32 lg:py-40 flex items-center justify-center text-center text-white">
           <Image 
-            src="https://placehold.co/1920x1080.png" 
+            src={siteImages.homeHero}
             alt="Event meriah dengan videotron Visual Kitha" 
             layout="fill" 
             objectFit="cover" 
             className="brightness-50" 
             data-ai-hint="concert stage led" 
+            priority
           />
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
@@ -60,7 +64,7 @@ export default function HomePage() {
             </div>
             <div className="flex items-center justify-center">
               <Image 
-                  src="https://placehold.co/550x400.png" 
+                  src={siteImages.homeWhyUs} 
                   alt="Tim Visual Kitha sedang melakukan instalasi"
                   width={550}
                   height={400}
@@ -118,10 +122,10 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Konser musik independen" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="indie concert"/>
-            <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Pernikahan outdoor" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="outdoor wedding"/>
-            <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Company gathering" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="corporate gathering"/>
-            <Image src="https://placehold.co/400x300.png" width={400} height={300} alt="Kampanye politik" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="political campaign"/>
+            <Image src={siteImages.homeProject1} width={400} height={300} alt="Konser musik independen" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="indie concert"/>
+            <Image src={siteImages.homeProject2} width={400} height={300} alt="Pernikahan outdoor" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="outdoor wedding"/>
+            <Image src={siteImages.homeProject3} width={400} height={300} alt="Company gathering" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="corporate gathering"/>
+            <Image src={siteImages.homeProject4} width={400} height={300} alt="Kampanye politik" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="political campaign"/>
           </div>
            <p className="text-center text-sm text-muted-foreground mt-6">Dokumentasi lengkap tersedia atas permintaan.</p>
         </div>

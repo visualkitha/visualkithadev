@@ -5,8 +5,11 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Music, Heart, Building2, Landmark, Settings, Award, Users, Clock, ShieldCheck, Wrench, Camera, Tv } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { fetchSiteImages } from '@/lib/data';
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const siteImages = await fetchSiteImages();
+
   return (
     <>
       {/* 1. Hero Section */}
@@ -144,7 +147,7 @@ export default function ServicesPage() {
             </div>
             <div className="flex items-center justify-center">
                 <Image
-                    src="https://placehold.co/550x400.png"
+                    src={siteImages.servicesWhyUs}
                     alt="Tim Visual Kitha sedang melakukan instalasi"
                     width={550}
                     height={400}
