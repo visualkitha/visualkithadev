@@ -25,7 +25,8 @@ import { LoaderCircle, Upload } from 'lucide-react';
 import type { BlogPost, BlogCategory } from '@/lib/types';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { supabase } from '@/lib/supabase';
+import { storage } from '@/lib/firebase';
+import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Image from 'next/image';
 
@@ -83,37 +84,36 @@ export function BlogForm({ initialData, categories, onSubmit, onCancel, isSubmit
       return;
     }
     const file = e.target.files[0];
-    if (!supabase) {
+    if (!storage) {
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Klien Supabase tidak dikonfigurasi. Periksa variabel lingkungan Anda.',
+        description: 'Firebase Storage tidak dikonfigurasi. Periksa variabel lingkungan Anda.',
       });
       return;
     }
 
     setIsUploading(true);
     const filePath = `blog-covers/${Date.now()}-${file.name}`;
-    const { error: uploadError } = await supabase.storage
-      .from('img')
-      .upload(filePath, file);
+    const fileRef = storageRef(storage, filePath);
 
-    if (uploadError) {
-      console.error('Unggah gambar Supabase gagal:', uploadError.message);
+    try {
+      const snapshot = await uploadBytes(fileRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      form.setValue('imageUrl', downloadURL, { shouldValidate: true });
+      toast({ title: 'Berhasil', description: 'Gambar berhasil diunggah.' });
+    } catch (error) {
+      console.error('Unggah gambar Firebase gagal:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
       toast({
         variant: 'destructive',
-        title: 'Error',
-        description: `Gagal mengunggah gambar: ${uploadError.message}`,
+        title: 'Error Unggah',
+        description: `Gagal mengunggah gambar: ${errorMessage}`,
       });
+    } finally {
       setIsUploading(false);
-      return;
     }
-
-    const { data } = supabase.storage.from('img').getPublicUrl(filePath);
-
-    form.setValue('imageUrl', data.publicUrl, { shouldValidate: true });
-    toast({ title: 'Berhasil', description: 'Gambar berhasil diunggah.' });
-    setIsUploading(false);
   };
 
   return (
