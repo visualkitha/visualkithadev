@@ -99,7 +99,7 @@ export function BlogForm({ initialData, categories, onSubmit, onCancel, isSubmit
       .upload(filePath, file);
 
     if (uploadError) {
-      console.error('Unggah gambar Supabase gagal:', uploadError);
+      console.error('Unggah gambar Supabase gagal:', uploadError.message);
       toast({
         variant: 'destructive',
         title: 'Error',
