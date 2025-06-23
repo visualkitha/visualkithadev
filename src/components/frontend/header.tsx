@@ -31,9 +31,6 @@ export function Header({ pages }: { pages: Page[] }) {
           <Link href="/products" className="transition-colors hover:text-primary">
             Layanan
           </Link>
-          <Link href="/portfolio" className="transition-colors hover:text-primary">
-            Portofolio
-          </Link>
           <Link href="/news" className="transition-colors hover:text-primary">
             Berita
           </Link>
@@ -62,7 +59,6 @@ export function Header({ pages }: { pages: Page[] }) {
               <nav className="grid gap-6 text-lg font-medium">
                 <Link href="/" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Beranda</Link>
                 <Link href="/products" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Layanan</Link>
-                <Link href="/portfolio" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Portofolio</Link>
                 <Link href="/news" className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>Berita</Link>
                 {navPages.map((page) => (
                   <Link key={page.id} href={`/${page.slug}`} className="text-foreground transition-colors hover:text-primary" onClick={closeMobileMenu}>
