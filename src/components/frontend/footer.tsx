@@ -90,7 +90,7 @@ export function Footer() {
             <address className="space-y-3 text-sm not-italic">
                 <div className="flex items-start gap-3">
                     <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-muted-foreground" />
-                    <p className="text-muted-foreground">Jl. Teknologi Raya No. 42, Jakarta, Indonesia</p>
+                    <p className="text-muted-foreground">Jalan Tentara Pelajar 6 , Blora , jawa tengah, id</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <Phone className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
