@@ -109,7 +109,7 @@ export function BlogForm({ initialData, categories, onSubmit, onCancel, isSubmit
       toast({ title: 'Berhasil', description: 'Gambar berhasil diunggah.' });
     } catch (error) {
       console.error('Unggah gambar Supabase gagal:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+      const errorMessage = (error as any)?.message || 'Terjadi kesalahan yang tidak diketahui.';
       toast({
         variant: 'destructive',
         title: 'Error',
