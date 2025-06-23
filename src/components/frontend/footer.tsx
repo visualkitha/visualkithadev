@@ -134,7 +134,7 @@ export function Footer() {
       <div className="border-t bg-background/50">
         <div className="container mx-auto py-4 px-4 md:px-6 flex flex-wrap justify-between items-center gap-2 text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} Visual Kitha. All rights reserved.</p>
-          <p>Website oleh <Link href="/" className="font-semibold text-primary hover:underline">Dimas sujatmiko</Link></p>
+          <p>Website oleh <Link href="/" className="font-semibold text-primary hover:underline">visualkitha.dev</Link></p>
         </div>
       </div>
     </footer>
