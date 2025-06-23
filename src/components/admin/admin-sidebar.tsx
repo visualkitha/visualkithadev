@@ -8,11 +8,11 @@ import {
   LayoutDashboard,
   Package,
   Newspaper,
-  Tv2,
   LogOut,
   FileText,
   Tags,
 } from 'lucide-react';
+import Image from 'next/image';
 
 import {
   Sidebar,
@@ -33,6 +33,8 @@ const menuItems = [
   { href: '/admin/pages', label: 'Halaman', icon: FileText },
 ];
 
+const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
+
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -48,9 +50,7 @@ export function AdminSidebar() {
     <Sidebar collapsible="icon" className="border-r">
       <SidebarHeader className="flex items-center justify-between">
          <div className="flex items-center gap-2">
-            <div className="bg-primary text-primary-foreground p-1 rounded-md">
-                <Tv2 className="h-5 w-5" />
-            </div>
+            <Image src={logoUrl} alt="Visual Kitha Logo" width={32} height={32} className="rounded-full" />
             <span className="font-headline text-lg font-bold">VK CMS</span>
          </div>
         <SidebarTrigger />

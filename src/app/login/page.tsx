@@ -17,7 +17,10 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Tv2, LoaderCircle } from 'lucide-react';
+import { LoaderCircle } from 'lucide-react';
+import Image from 'next/image';
+
+const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -66,8 +69,8 @@ export default function LoginPage() {
         <form onSubmit={handleLogin}>
           <Card className="shadow-2xl">
             <CardHeader className="text-center">
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <Tv2 className="h-8 w-8" />
+              <div className="mx-auto mb-4">
+                <Image src={logoUrl} alt="Visual Kitha Logo" width={64} height={64} className="rounded-full" />
               </div>
               <CardTitle className="font-headline text-2xl">Visual Kitha CMS</CardTitle>
               <CardDescription>Masukkan kredensial Anda untuk mengakses panel admin.</CardDescription>

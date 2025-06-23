@@ -1,10 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { Tv2, Mail, MapPin, Phone, Clock, Instagram, Youtube } from 'lucide-react';
+import { Mail, MapPin, Phone, Clock, Instagram, Youtube } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { AuthNavLink } from './auth-nav-link';
+import Image from 'next/image';
 
 // Custom icon components for brands not in lucide-react
 const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -21,6 +22,7 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
 
 export function Footer() {
   return (
@@ -30,7 +32,7 @@ export function Footer() {
           
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
-              <Tv2 className="h-8 w-8 text-primary" />
+              <Image src={logoUrl} alt="Visual Kitha Logo" width={48} height={48} className="rounded-full" />
               <span className="font-headline text-2xl font-bold">Visual Kitha</span>
             </Link>
             <p className="text-sm text-muted-foreground">

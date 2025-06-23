@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { Tv2, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import type { Page } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
+import Image from 'next/image';
 
 export function Header({ pages }: { pages: Page[] }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -15,11 +16,13 @@ export function Header({ pages }: { pages: Page[] }) {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
+  const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
+
   return (
     <header className="bg-black text-white fixed top-0 left-0 right-0 z-40">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Tv2 className="h-6 w-6" />
+          <Image src={logoUrl} alt="Visual Kitha Logo" width={40} height={40} className="rounded-full" />
           <span className="font-headline text-lg font-bold">Visual Kitha</span>
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
@@ -52,7 +55,7 @@ export function Header({ pages }: { pages: Page[] }) {
             </SheetTrigger>
             <SheetContent side="left">
               <Link href="/" className="flex items-center gap-2 mb-8" onClick={closeMobileMenu}>
-                <Tv2 className="h-6 w-6 text-primary" />
+                <Image src={logoUrl} alt="Visual Kitha Logo" width={40} height={40} className="rounded-full" />
                 <span className="font-headline text-lg font-bold text-foreground">Visual Kitha</span>
               </Link>
               <nav className="grid gap-6 text-lg font-medium">
