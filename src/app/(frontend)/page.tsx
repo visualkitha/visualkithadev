@@ -139,12 +139,10 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
-            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 1" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
-            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 2" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
-            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 3" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
-            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 4" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
-            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 5" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
-            <Image src="https://placehold.co/150x60.png" alt="Logo Klien 6" width={150} height={60} className="grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="company logo" />
+            <Image src="https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//Seal_of_Jepara_Regency.svg" alt="Logo Pemkab Jepara" width={150} height={60} className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="government logo" />
+            <Image src="https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//Logo-KONI-Daerah-18.png" alt="Logo KONI" width={150} height={60} className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="organization logo" />
+            <Image src="https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//Logo-Bank-BRI.png" alt="Logo Bank BRI" width={150} height={60} className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="bank logo" />
+            <Image src="https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//Bank_Mandiri_logo_2016.svg.png" alt="Logo Bank Mandiri" width={150} height={60} className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="bank logo" />
           </div>
         </div>
       </section>
