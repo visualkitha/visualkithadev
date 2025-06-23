@@ -21,7 +21,7 @@ export function Header({ pages }: { pages: Page[] }) {
   return (
     <header className="bg-black text-primary-foreground fixed top-0 left-0 right-0 z-40">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2 p-1">
+        <Link href="/" className="flex items-center gap-2">
           <Image src={logoUrl} alt="Visual Kitha Logo" width={40} height={40} className="rounded-full" />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
@@ -53,7 +53,7 @@ export function Header({ pages }: { pages: Page[] }) {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="bg-black text-primary-foreground border-r border-r-gray-800">
-              <Link href="/" className="flex items-center gap-2 mb-8 p-1" onClick={closeMobileMenu}>
+              <Link href="/" className="flex items-center gap-2 mb-8" onClick={closeMobileMenu}>
                 <Image src={logoUrl} alt="Visual Kitha Logo" width={40} height={40} className="rounded-full" />
               </Link>
               <nav className="grid gap-6 text-lg font-medium">
