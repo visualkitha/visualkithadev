@@ -25,8 +25,7 @@ import { LoaderCircle, Upload } from 'lucide-react';
 import type { BlogPost, BlogCategory } from '@/lib/types';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { storage } from '@/lib/firebase';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { supabase } from '@/lib/supabase';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Image from 'next/image';
 
@@ -84,25 +83,40 @@ export function BlogForm({ initialData, categories, onSubmit, onCancel, isSubmit
       return;
     }
     const file = e.target.files[0];
-    if (!storage) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Firebase Storage tidak dikonfigurasi.' });
-        return;
+    if (!supabase) {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Klien Supabase tidak dikonfigurasi. Periksa variabel lingkungan Anda.',
+      });
+      return;
     }
-    
+
     setIsUploading(true);
     try {
-        const storageRef = ref(storage, `blog-covers/${Date.now()}-${file.name}`);
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
+      const filePath = `blog-covers/${Date.now()}-${file.name}`;
+      const { error: uploadError } = await supabase.storage
+        .from('img') // Make sure 'img' is your public bucket name in Supabase
+        .upload(filePath, file);
 
-        form.setValue('imageUrl', downloadURL, { shouldValidate: true });
-        toast({ title: 'Berhasil', description: 'Gambar berhasil diunggah.' });
+      if (uploadError) {
+        throw uploadError;
+      }
 
+      const { data } = supabase.storage.from('img').getPublicUrl(filePath);
+
+      form.setValue('imageUrl', data.publicUrl, { shouldValidate: true });
+      toast({ title: 'Berhasil', description: 'Gambar berhasil diunggah.' });
     } catch (error) {
-        console.error("Upload gambar gagal:", error);
-        toast({ variant: 'destructive', title: 'Error', description: 'Gagal mengunggah gambar.' });
+      console.error('Unggah gambar Supabase gagal:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: `Gagal mengunggah gambar: ${errorMessage}`,
+      });
     } finally {
-        setIsUploading(false);
+      setIsUploading(false);
     }
   };
 
