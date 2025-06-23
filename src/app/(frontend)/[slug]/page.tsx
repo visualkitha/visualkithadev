@@ -1,5 +1,5 @@
 
-import { fetchPageBySlug } from '@/lib/data';
+import { fetchPages, fetchPageBySlug } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { User, Mail, Phone, MapPin, Gem, Users, Clock, BadgePercent, Layers, Quote } from 'lucide-react';
@@ -17,6 +17,13 @@ type PageProps = {
     slug: string;
   };
 };
+
+export async function generateStaticParams() {
+  const pages = await fetchPages();
+  return pages.map((page) => ({
+    slug: page.slug,
+  }));
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const page = await fetchPageBySlug(params.slug);

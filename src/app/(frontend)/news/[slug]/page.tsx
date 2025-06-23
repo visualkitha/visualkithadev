@@ -15,6 +15,13 @@ type PageProps = {
   };
 };
 
+export async function generateStaticParams() {
+  const posts = await fetchBlogPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = await fetchBlogPostBySlug(params.slug);
   if (!post) {
