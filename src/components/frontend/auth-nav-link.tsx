@@ -4,11 +4,17 @@ import Link from 'next/link';
 import { useAuth } from '@/hooks/use-auth';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
+import { useState, useEffect } from 'react';
 
 export function AuthNavLink({ className }: { className?: string }) {
   const { user, loading } = useAuth();
+  const [isClient, setIsClient] = useState(false);
 
-  if (loading) {
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient || loading) {
     return <Skeleton className="h-6 w-24" />;
   }
 
