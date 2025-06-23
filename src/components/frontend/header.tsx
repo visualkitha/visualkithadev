@@ -12,7 +12,7 @@ export function Header({ pages }: { pages: Page[] }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Filter out pages that have hardcoded links to avoid duplicates
-  const navPages = pages.filter(p => !['home', 'contact-us', 'about-us', 'portfolio'].includes(p.slug));
+  const navPages = pages.filter(p => !['home', 'contact-us', 'about-us', 'news'].includes(p.slug));
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -27,6 +27,9 @@ export function Header({ pages }: { pages: Page[] }) {
         <nav className="hidden items-center gap-6 text-sm font-medium md:flex">
           <Link href="/" className="transition-colors hover:text-gray-300">
             Beranda
+          </Link>
+           <Link href="/about-us" className="transition-colors hover:text-gray-300">
+            Tentang Kami
           </Link>
           <Link href="/products" className="transition-colors hover:text-gray-300">
             Layanan
@@ -58,6 +61,7 @@ export function Header({ pages }: { pages: Page[] }) {
               </Link>
               <nav className="grid gap-6 text-lg font-medium">
                 <Link href="/" className="transition-colors hover:text-gray-300" onClick={closeMobileMenu}>Beranda</Link>
+                <Link href="/about-us" className="transition-colors hover:text-gray-300" onClick={closeMobileMenu}>Tentang Kami</Link>
                 <Link href="/products" className="transition-colors hover:text-gray-300" onClick={closeMobileMenu}>Layanan</Link>
                 <Link href="/news" className="transition-colors hover:text-gray-300" onClick={closeMobileMenu}>Berita</Link>
                 {navPages.map((page) => (
