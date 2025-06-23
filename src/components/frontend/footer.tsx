@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { AuthNavLink } from './auth-nav-link';
 import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast';
 
 // Custom icon components for brands not in lucide-react
 const TikTokIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -25,6 +26,21 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img//WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
 
 export function Footer() {
+  const { toast } = useToast();
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
+    if(emailInput.value) {
+      toast({
+        title: 'Terima kasih!',
+        description: 'Anda telah berlangganan newsletter kami.',
+      });
+      form.reset();
+    }
+  };
+
   return (
     <footer className="border-t bg-secondary/50 font-body">
       <div className="container mx-auto px-4 md:px-6 py-12">
@@ -45,7 +61,7 @@ export function Footer() {
               <li><Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Beranda</Link></li>
               <li><Link href="/about-us" className="text-muted-foreground hover:text-primary transition-colors">Tentang Kami</Link></li>
               <li><Link href="/products" className="text-muted-foreground hover:text-primary transition-colors">Layanan</Link></li>
-              <li><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Portofolio</Link></li>
+              <li><Link href="/portfolio" className="text-muted-foreground hover:text-primary transition-colors">Portofolio</Link></li>
               <li><Link href="/news" className="text-muted-foreground hover:text-primary transition-colors">News / Artikel</Link></li>
               <li><Link href="/contact-us" className="text-muted-foreground hover:text-primary transition-colors">Kontak</Link></li>
               <li><AuthNavLink className="text-muted-foreground" /></li>
@@ -81,8 +97,8 @@ export function Footer() {
             <div className="space-y-2 lg:col-span-1">
                 <h4 className="font-headline font-semibold">Dapatkan Info Promo & Event</h4>
                 <p className="text-sm text-muted-foreground">Mau dapet info promo & event seru? Masukin email kamu ya!</p>
-                <form className="flex space-x-2 mt-2">
-                    <Input type="email" placeholder="Email Anda" className="max-w-lg flex-1 bg-background" />
+                <form className="flex space-x-2 mt-2" onSubmit={handleNewsletterSubmit}>
+                    <Input name="email" type="email" placeholder="Email Anda" className="max-w-lg flex-1 bg-background" required />
                     <Button type="submit">Langganan</Button>
                 </form>
             </div>
@@ -90,13 +106,13 @@ export function Footer() {
             <div className="space-y-4 lg:text-center">
                 <h4 className="font-headline font-semibold">Ikuti Kami</h4>
                  <div className="flex gap-4 lg:justify-center">
-                    <Link href="#" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Link href="/" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
                         <Instagram className="h-6 w-6" />
                     </Link>
-                    <Link href="#" aria-label="TikTok" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Link href="/" aria-label="TikTok" className="text-muted-foreground hover:text-primary transition-colors">
                         <TikTokIcon className="h-6 w-6" />
                     </Link>
-                     <Link href="#" aria-label="YouTube" className="text-muted-foreground hover:text-primary transition-colors">
+                     <Link href="/" aria-label="YouTube" className="text-muted-foreground hover:text-primary transition-colors">
                         <Youtube className="h-6 w-6" />
                     </Link>
                     <Link href="https://wa.me/6282133971373" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-muted-foreground hover:text-primary transition-colors">
@@ -108,8 +124,8 @@ export function Footer() {
             <div className="space-y-4 lg:text-right">
                  <h4 className="font-headline font-semibold">Legal</h4>
                 <div className="text-sm space-y-1">
-                     <p><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Syarat & Ketentuan</Link></p>
-                     <p><Link href="#" className="text-muted-foreground hover:text-primary transition-colors">Kebijakan Privasi</Link></p>
+                     <p><Link href="/terms-of-service" className="text-muted-foreground hover:text-primary transition-colors">Syarat & Ketentuan</Link></p>
+                     <p><Link href="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">Kebijakan Privasi</Link></p>
                  </div>
             </div>
         </div>
@@ -118,7 +134,7 @@ export function Footer() {
       <div className="border-t bg-background/50">
         <div className="container mx-auto py-4 px-4 md:px-6 flex flex-wrap justify-between items-center gap-2 text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} Visual Kitha. All rights reserved.</p>
-          <p>Website oleh <Link href="#" className="font-semibold text-primary hover:underline">Dimas sujatmiko</Link></p>
+          <p>Website oleh <Link href="/" className="font-semibold text-primary hover:underline">Dimas sujatmiko</Link></p>
         </div>
       </div>
     </footer>
