@@ -20,14 +20,14 @@ export function AuthNavLink({ className }: { className?: string }) {
 
   if (user) {
     return (
-      <Link href="/admin" className={cn("transition-colors hover:text-primary", className)}>
+      <Link href="/admin" className={cn("transition-colors", className)}>
         masuk
       </Link>
     );
   }
 
   return (
-    <Link href="/login" className={cn("transition-colors hover:text-primary", className)}>
+    <Link href="/login" className={cn("transition-colors", className)}>
       login
     </Link>
   );
