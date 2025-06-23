@@ -73,14 +73,6 @@ export function Footer() {
                     <Phone className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
                     <p className="text-muted-foreground">+62 821-3397-1373</p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <Mail className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
-                    <p className="text-muted-foreground">info@visualkitha.com</p>
-                </div>
-                 <div className="flex items-center gap-3">
-                    <Clock className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
-                    <p className="text-muted-foreground">Senin–Sabtu, 09.00–18.00</p>
-                </div>
             </address>
           </div>
         </div>
