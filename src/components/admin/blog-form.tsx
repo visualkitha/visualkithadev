@@ -93,31 +93,27 @@ export function BlogForm({ initialData, categories, onSubmit, onCancel, isSubmit
     }
 
     setIsUploading(true);
-    try {
-      const filePath = `blog-covers/${Date.now()}-${file.name}`;
-      const { error: uploadError } = await supabase.storage
-        .from('img') // Make sure 'img' is your public bucket name in Supabase
-        .upload(filePath, file);
+    const filePath = `blog-covers/${Date.now()}-${file.name}`;
+    const { error: uploadError } = await supabase.storage
+      .from('img')
+      .upload(filePath, file);
 
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      const { data } = supabase.storage.from('img').getPublicUrl(filePath);
-
-      form.setValue('imageUrl', data.publicUrl, { shouldValidate: true });
-      toast({ title: 'Berhasil', description: 'Gambar berhasil diunggah.' });
-    } catch (error) {
-      console.error('Unggah gambar Supabase gagal:', error);
-      const errorMessage = (error as any)?.message || 'Terjadi kesalahan yang tidak diketahui.';
+    if (uploadError) {
+      console.error('Unggah gambar Supabase gagal:', uploadError);
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: `Gagal mengunggah gambar: ${errorMessage}`,
+        description: `Gagal mengunggah gambar: ${uploadError.message}`,
       });
-    } finally {
       setIsUploading(false);
+      return;
     }
+
+    const { data } = supabase.storage.from('img').getPublicUrl(filePath);
+
+    form.setValue('imageUrl', data.publicUrl, { shouldValidate: true });
+    toast({ title: 'Berhasil', description: 'Gambar berhasil diunggah.' });
+    setIsUploading(false);
   };
 
   return (
