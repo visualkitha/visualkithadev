@@ -15,20 +15,44 @@ import {
   ChevronLeft,
   ChevronRight,
   CalendarCheck,
+  Settings,
 } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 
-const menuItems = [
+
+const navItems = [
   { href: '/admin/dashboard', label: 'Dasbor', icon: LayoutDashboard },
   { href: '/admin/bookings', label: 'Manajemen Booking', icon: CalendarCheck },
   { href: '/admin/equipment', label: 'Peralatan', icon: Package },
-  { href: '/admin/blog', label: 'Blog', icon: Newspaper },
-  { href: '/admin/blog/categories', label: 'Kategori Blog', icon: Tags },
-  { href: '/admin/pages', label: 'Halaman', icon: FileText },
-  { href: '/admin/site-images', label: 'Gambar Situs', icon: ImageIcon },
+  { 
+    label: 'Manajemen Situs', 
+    icon: Settings,
+    subItems: [
+      { href: '/admin/blog', label: 'Blog', icon: Newspaper },
+      { href: '/admin/blog/categories', label: 'Kategori Blog', icon: Tags },
+      { href: '/admin/pages', label: 'Halaman', icon: FileText },
+      { href: '/admin/site-images', label: 'Gambar Situs', icon: ImageIcon },
+    ]
+  },
 ];
 
 const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
@@ -48,13 +72,20 @@ export function AdminNav({ isCollapsed }: AdminNavProps) {
     router.push('/login');
   };
 
-  const isLinkActive = (itemPath: string) => {
-    if (itemPath === '/admin/blog') {
+  const isLinkActive = (href: string) => {
+    // Special handling for blog pages to avoid conflict with categories
+    if (href === '/admin/blog') {
       return pathname.startsWith('/admin/blog') && !pathname.startsWith('/admin/blog/categories');
     }
-    return pathname.startsWith(itemPath);
+    return pathname.startsWith(href);
   };
   
+  const isGroupActive = (subItems: any[]) => {
+      return subItems.some(item => isLinkActive(item.href));
+  }
+  
+  const activeGroupValue = navItems.find(item => item.subItems && isGroupActive(item.subItems))?.label;
+
   return (
     <TooltipProvider delayDuration={0}>
         <div className="flex h-full max-h-screen flex-col gap-2">
@@ -65,39 +96,105 @@ export function AdminNav({ isCollapsed }: AdminNavProps) {
             </Link>
           </div>
           <div className="flex-1 overflow-auto py-2">
-            <nav className={cn("grid items-start text-sm font-medium", isCollapsed ? "justify-center px-2" : "px-4")}>
-              {menuItems.map((item) => 
-                isCollapsed ? (
-                    <Tooltip key={item.href}>
-                        <TooltipTrigger asChild>
-                            <Link
-                              href={item.href}
-                              className={cn(
-                                'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary md:h-8 md:w-8',
-                                isLinkActive(item.href) && 'bg-muted text-primary'
-                              )}
-                            >
-                              <item.icon className="h-5 w-5" />
-                              <span className="sr-only">{item.label}</span>
-                            </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">{item.label}</TooltipContent>
-                    </Tooltip>
-                ) : (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={cn(
-                        'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
-                        isLinkActive(item.href) && 'bg-muted text-primary'
-                      )}
-                    >
-                      <item.icon className="h-4 w-4" />
-                      {item.label}
-                    </Link>
-                )
-              )}
-            </nav>
+            <Accordion type="multiple" defaultValue={activeGroupValue ? [activeGroupValue] : []} asChild>
+                <nav className={cn("grid items-start text-sm font-medium", isCollapsed ? "justify-center px-2 gap-1" : "px-4")}>
+                {navItems.map((item) => 
+                    item.subItems ? (
+                        <div key={item.label}>
+                            {isCollapsed ? (
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button
+                                                    variant={isGroupActive(item.subItems) ? 'muted' : 'ghost'}
+                                                    size="icon"
+                                                    className="h-9 w-9 md:h-8 md:w-8"
+                                                >
+                                                    <item.icon className="h-5 w-5" />
+                                                    <span className="sr-only">{item.label}</span>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent side="right">{item.label}</TooltipContent>
+                                        </Tooltip>
+                                    </PopoverTrigger>
+                                    <PopoverContent side="right" align="start" className="flex flex-col gap-1 p-1 w-48 bg-background">
+                                        <p className='p-2 text-sm font-semibold'>{item.label}</p>
+                                        {item.subItems.map(subItem => (
+                                            <Link
+                                                key={subItem.href}
+                                                href={subItem.href}
+                                                className={cn(
+                                                    'flex items-center gap-3 rounded-md px-3 py-2 text-muted-foreground transition-all hover:bg-muted hover:text-primary',
+                                                    isLinkActive(subItem.href) && 'bg-muted font-semibold text-primary'
+                                                )}
+                                            >
+                                                <subItem.icon className="h-4 w-4" />
+                                                {subItem.label}
+                                            </Link>
+                                        ))}
+                                    </PopoverContent>
+                                </Popover>
+                            ) : (
+                                <AccordionItem value={item.label} className="border-b-0">
+                                    <AccordionTrigger className={cn(
+                                        "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all justify-start hover:text-primary hover:no-underline [&[data-state=open]>svg.lucide-chevron-down]:rotate-180",
+                                        isGroupActive(item.subItems) && 'text-primary bg-muted'
+                                    )}>
+                                        <item.icon className="h-4 w-4" />
+                                        <span className='flex-1 text-left'>{item.label}</span>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pl-8 pt-1 pb-0 mt-1 space-y-1">
+                                        {item.subItems.map(subItem => (
+                                            <Link
+                                                key={subItem.href}
+                                                href={subItem.href}
+                                                className={cn(
+                                                    'flex items-center rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
+                                                    isLinkActive(subItem.href) && 'bg-muted text-primary'
+                                                )}
+                                            >
+                                                {subItem.label}
+                                            </Link>
+                                        ))}
+                                    </AccordionContent>
+                                </AccordionItem>
+                            )}
+                        </div>
+                    ) : (
+                        isCollapsed ? (
+                            <Tooltip key={item.href}>
+                                <TooltipTrigger asChild>
+                                    <Link
+                                    href={item.href!}
+                                    className={cn(
+                                        'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary md:h-8 md:w-8',
+                                        isLinkActive(item.href!) && 'bg-muted text-primary'
+                                    )}
+                                    >
+                                    <item.icon className="h-5 w-5" />
+                                    <span className="sr-only">{item.label}</span>
+                                    </Link>
+                                </TooltipTrigger>
+                                <TooltipContent side="right">{item.label}</TooltipContent>
+                            </Tooltip>
+                        ) : (
+                             <Link
+                                key={item.href}
+                                href={item.href!}
+                                className={cn(
+                                    'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
+                                    isLinkActive(item.href!) && 'bg-muted text-primary'
+                                )}
+                                >
+                                <item.icon className="h-4 w-4" />
+                                {item.label}
+                             </Link>
+                        )
+                    )
+                )}
+                </nav>
+            </Accordion>
           </div>
           <div className="mt-auto p-4 border-t">
             {isCollapsed ? (
@@ -121,7 +218,6 @@ export function AdminNav({ isCollapsed }: AdminNavProps) {
     </TooltipProvider>
   );
 }
-
 
 export function AdminSidebar({ isCollapsed, toggleSidebar }: { isCollapsed: boolean, toggleSidebar: () => void }) {
   return (
