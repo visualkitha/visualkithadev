@@ -1,10 +1,12 @@
+
 import Image from 'next/image';
-import type { Equipment } from '@/lib/types';
+import type { InventoryItem } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface ProductCardProps {
-  product: Equipment;
+  product: InventoryItem;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
@@ -25,7 +27,9 @@ export function ProductCard({ product }: ProductCardProps) {
       </CardHeader>
       <CardContent className="flex flex-1 flex-col">
         <CardDescription className="flex-grow">{product.description}</CardDescription>
-        <Button variant="secondary" className="mt-4 w-full">Lihat Detail</Button>
+        <Button asChild variant="secondary" className="mt-4 w-full">
+            <Link href="/contact-us">Hubungi untuk Sewa</Link>
+        </Button>
       </CardContent>
     </Card>
   );

@@ -5,10 +5,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Music, Heart, Building2, Landmark, Settings, Award, Users, Clock, ShieldCheck, Wrench, Camera, Tv } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { fetchSiteImages } from '@/lib/data';
+import { fetchSiteImages, fetchInventory } from '@/lib/data';
+import { ProductCard } from '@/components/frontend/product-card';
 
-export default async function ServicesPage() {
+export default async function ProductsPage() {
   const siteImages = await fetchSiteImages();
+  const products = await fetchInventory();
 
   return (
     <>
@@ -16,10 +18,10 @@ export default async function ServicesPage() {
       <section className="w-full py-24 md:py-28 bg-secondary border-b">
         <div className="container px-4 md:px-6 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
-            Layanan Sewa Videotron Profesional
+            Layanan & Peralatan Kami
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl mt-4">
-            Visual Kitha menyediakan berbagai pilihan layanan videotron untuk semua jenis kebutuhan event — dari yang intimate sampai yang megah.
+            Visual Kitha menyediakan berbagai pilihan layanan dan peralatan videotron untuk semua jenis kebutuhan event — dari yang intimate sampai yang megah.
           </p>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row justify-center">
             <Button asChild size="lg">
@@ -37,7 +39,7 @@ export default async function ServicesPage() {
         <div className="container px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
-              Kami Menyediakan Layanan Videotron untuk:
+              Solusi untuk Setiap Jenis Acara
             </h2>
           </div>
           <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -111,8 +113,33 @@ export default async function ServicesPage() {
         </div>
       </section>
 
+      {/* Section: Product Catalog */}
+      <section className="w-full py-24 md:py-28 lg:py-32 bg-secondary">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
+              Katalog Peralatan Kami
+            </h2>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              Lihat beberapa peralatan andalan yang kami sediakan untuk menunjang acara Anda.
+            </p>
+          </div>
+          {products.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-muted-foreground py-16">
+              <p>Katalog peralatan akan segera tersedia. Silakan periksa kembali nanti.</p>
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* 3. Section: Keunggulan Layanan Visual Kitha */}
-       <section className="w-full py-24 md:py-28 lg:py-32 bg-secondary">
+       <section className="w-full py-24 md:py-28 lg:py-32 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-4">
@@ -160,7 +187,7 @@ export default async function ServicesPage() {
       </section>
 
       {/* 4. Section: FAQ */}
-      <section className="w-full py-24 md:py-28 lg:py-32">
+      <section className="w-full py-24 md:py-28 lg:py-32 bg-secondary">
         <div className="container mx-auto max-w-4xl px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">

@@ -1,9 +1,11 @@
-export type Equipment = {
+
+export type InventoryItem = {
   id: string;
   name: string;
   specifications: string;
   description: string;
   imageUrl: string;
+  status: 'Tersedia' | 'Dipinjam' | 'Maintenance';
 };
 
 export type Page = {

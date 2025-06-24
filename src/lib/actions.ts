@@ -3,7 +3,7 @@
 
 import { generateProductDescription } from '@/ai/flows/generate-product-description';
 import { db } from '@/lib/firebase';
-import type { Booking, Client, CrewMember, Equipment, Page, SiteImages, TechnicalNeed } from '@/lib/types';
+import type { Booking, Client, CrewMember, InventoryItem, Page, SiteImages, TechnicalNeed } from '@/lib/types';
 import { addDoc, collection, deleteDoc, doc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 
@@ -25,42 +25,42 @@ export async function generateDescriptionAction(productName: string, keySpecific
 }
 
 
-export async function saveEquipment(equipment: Omit<Equipment, 'id'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
+export async function saveInventoryItem(item: Omit<InventoryItem, 'id'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
   if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
-  const dataToSave = { ...equipment };
+  const dataToSave = { ...item };
   delete dataToSave.id;
 
   try {
-    if (equipment.id) {
-      await setDoc(doc(db, 'equipment', equipment.id), dataToSave, { merge: true });
+    if (item.id) {
+      await setDoc(doc(db, 'inventory', item.id), dataToSave, { merge: true });
     } else {
-      await addDoc(collection(db, 'equipment'), dataToSave);
+      await addDoc(collection(db, 'inventory'), dataToSave);
     }
-    revalidatePath('/admin/equipment');
+    revalidatePath('/admin/inventory');
     revalidatePath('/products');
     revalidatePath('/');
     return { success: true };
   } catch (error) {
-    console.error('Gagal menyimpan peralatan:', error);
+    console.error('Gagal menyimpan item inventaris:', error);
     const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
-    return { success: false, error: `Gagal menyimpan peralatan: ${errorMessage}` };
+    return { success: false, error: `Gagal menyimpan item inventaris: ${errorMessage}` };
   }
 }
 
-export async function deleteEquipment(id: string): Promise<{ success: boolean; error?: string }> {
+export async function deleteInventoryItem(id: string): Promise<{ success: boolean; error?: string }> {
   if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
   try {
-    await deleteDoc(doc(db, 'equipment', id));
-    revalidatePath('/admin/equipment');
+    await deleteDoc(doc(db, 'inventory', id));
+    revalidatePath('/admin/inventory');
     revalidatePath('/products');
     revalidatePath('/');
     return { success: true };
   } catch (error) {
-    console.error('Gagal menghapus peralatan:', error);
+    console.error('Gagal menghapus item inventaris:', error);
     const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
-    return { success: false, error: `Gagal menghapus peralatan: ${errorMessage}` };
+    return { success: false, error: `Gagal menghapus item inventaris: ${errorMessage}` };
   }
 }
 

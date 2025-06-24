@@ -49,7 +49,7 @@ const navItems = [
   { href: '/admin/bookings', label: 'Manajemen Booking', icon: CalendarCheck },
   { href: '/admin/clients', label: 'Manajemen Klien', icon: Users },
   { href: '/admin/crew', label: 'Manajemen Tim', icon: HardHat },
-  { href: '/admin/equipment', label: 'Peralatan', icon: Package },
+  { href: '/admin/inventory', label: 'Inventaris', icon: Package },
   { 
     label: 'Manajemen Situs', 
     icon: Settings,

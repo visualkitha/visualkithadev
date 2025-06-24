@@ -1,39 +1,40 @@
+
 import 'server-only';
 import { collection, getDocs, query, orderBy, where, limit, getDoc, doc } from 'firebase/firestore';
 import { db } from './firebase';
-import type { Equipment, BlogPost, Page, BlogCategory, SiteImages, ClientLogo, Booking, Client, CrewMember } from './types';
+import type { InventoryItem, BlogPost, Page, BlogCategory, SiteImages, ClientLogo, Booking, Client, CrewMember } from './types';
 
-export async function fetchEquipment(): Promise<Equipment[]> {
+export async function fetchInventory(): Promise<InventoryItem[]> {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
-      console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk peralatan.");
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk inventaris.");
     }
     // Fallback to mock data if Firestore is not available
     return [
-        { id: '1', name: 'Gateway Helix Fi 2', specifications: 'Wi-Fi 6, 4x4 MU-MIMO', description: 'Rasakan masa depan konektivitas dengan gateway Helix Fi 2. Nikmati kecepatan lebih tinggi, jangkauan lebih luas, dan koneksi yang lebih andal untuk semua perangkat Anda.', imageUrl: 'https://placehold.co/400x225.png' },
-        { id: '2', name: 'Terminal TV Helix', specifications: '4K Ultra HD, Remote Suara', description: 'Ubah hiburan Anda dengan terminal TV Helix. Akses saluran, aplikasi, dan layanan streaming favorit Anda dalam resolusi 4K Ultra HD yang menakjubkan.', imageUrl: 'https://placehold.co/400x225.png' },
-        { id: '3', name: 'Remote Suara', specifications: 'Bluetooth, Tombol dengan lampu latar', description: 'Kontrol hiburan Anda dengan suara Anda. Remote suara Helix memudahkan untuk menemukan apa yang ingin Anda tonton, lebih cepat.', imageUrl: 'https://placehold.co/400x225.png' },
+        { id: '1', name: 'Videotron P3 Indoor', specifications: 'Pixel Pitch 3mm, Brightness 1200nits', description: 'Videotron indoor P3 dengan kualitas gambar tajam, cocok untuk backdrop panggung, seminar, dan pameran di dalam ruangan.', imageUrl: 'https://placehold.co/400x225.png', status: 'Tersedia' },
+        { id: '2', name: 'Videotron P5 Outdoor', specifications: 'Pixel Pitch 5mm, Brightness 5500nits', description: 'Videotron outdoor P5 yang tahan cuaca dan sangat terang, ideal untuk konser, festival, dan acara luar ruangan lainnya.', imageUrl: 'https://placehold.co/400x225.png', status: 'Dipinjam' },
+        { id: '3', name: 'Kabel Power 50m', specifications: '3x2.5mm, heavy duty', description: 'Kabel power panjang 50 meter untuk kebutuhan daya di lokasi acara yang luas.', imageUrl: 'https://placehold.co/400x225.png', status: 'Maintenance' },
     ];
   }
 
   try {
-    const equipmentCollection = collection(db, 'equipment');
-    const q = query(equipmentCollection, orderBy('name'));
+    const inventoryCollection = collection(db, 'inventory');
+    const q = query(inventoryCollection, orderBy('name'));
     const querySnapshot = await getDocs(q);
 
     if (querySnapshot.empty) {
-      console.log('Tidak ada peralatan yang ditemukan di Firestore. Mengembalikan array kosong.');
+      console.log('Tidak ada item inventaris yang ditemukan di Firestore. Mengembalikan array kosong.');
       return [];
     }
 
-    const equipmentList = querySnapshot.docs.map(doc => ({
+    const inventoryList = querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
-    })) as Equipment[];
+    })) as InventoryItem[];
 
-    return equipmentList;
+    return inventoryList;
   } catch (error) {
-    console.error("Gagal mengambil data peralatan:", error);
+    console.error("Gagal mengambil data inventaris:", error);
     // In case of error, return an empty array to prevent crashing the page.
     return [];
   }

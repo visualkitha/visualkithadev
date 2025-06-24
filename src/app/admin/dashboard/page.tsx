@@ -7,7 +7,7 @@ import {
   CardDescription
 } from '@/components/ui/card';
 import { Package, Newspaper, CalendarCheck, Users, HardHat } from 'lucide-react';
-import { fetchEquipment, fetchPages, fetchBlogPosts, fetchBookings, fetchClients, fetchCrewMembers } from '@/lib/data';
+import { fetchInventory, fetchPages, fetchBlogPosts, fetchBookings, fetchClients, fetchCrewMembers } from '@/lib/data';
 import {
   Table,
   TableBody,
@@ -21,8 +21,8 @@ import Link from 'next/link';
 
 export default async function AdminDashboard() {
   // Ambil data secara paralel
-  const [equipment, pages, blogPosts, bookings, clients, crew] = await Promise.all([
-    fetchEquipment(),
+  const [inventory, pages, blogPosts, bookings, clients, crew] = await Promise.all([
+    fetchInventory(),
     fetchPages({ includeDrafts: true }),
     fetchBlogPosts({ includeDrafts: true }),
     fetchBookings(),
@@ -34,7 +34,7 @@ export default async function AdminDashboard() {
     { title: 'Total Klien', value: clients.length, icon: Users, description: 'Total klien yang dikelola', href: '/admin/clients' },
     { title: 'Total Booking', value: bookings.length, icon: CalendarCheck, description: 'Total booking yang dikelola', href: '/admin/bookings' },
     { title: 'Anggota Tim', value: crew.length, icon: HardHat, description: 'Total anggota tim teknis', href: '/admin/crew' },
-    { title: 'Peralatan', value: equipment.length, icon: Package, description: 'Total produk yang dikelola', href: '/admin/equipment' },
+    { title: 'Total Inventaris', value: inventory.length, icon: Package, description: 'Total item yang dikelola', href: '/admin/inventory' },
     { title: 'Postingan Blog', value: blogPosts.length, icon: Newspaper, description: 'Total artikel (draf & terbit)', href: '/admin/blog' },
   ];
 
