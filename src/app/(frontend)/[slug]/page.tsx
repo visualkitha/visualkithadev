@@ -176,7 +176,7 @@ export default async function DynamicPage({ params }: PageProps) {
                     </h2>
                 </div>
                 <div className="grid gap-8 lg:grid-cols-3">
-                    <Card>
+                    <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                         <CardHeader>
                           <Quote className="h-8 w-8 text-primary" />
                         </CardHeader>
@@ -190,7 +190,7 @@ export default async function DynamicPage({ params }: PageProps) {
                             </div>
                         </CardFooter>
                     </Card>
-                    <Card>
+                    <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                         <CardHeader>
                           <Quote className="h-8 w-8 text-primary" />
                         </CardHeader>
@@ -204,7 +204,7 @@ export default async function DynamicPage({ params }: PageProps) {
                             </div>
                         </CardFooter>
                     </Card>
-                     <Card>
+                     <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                         <CardHeader>
                           <Quote className="h-8 w-8 text-primary" />
                         </CardHeader>
