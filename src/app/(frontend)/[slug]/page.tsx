@@ -69,7 +69,7 @@ export default async function DynamicPage({ params }: PageProps) {
         {/* Company Profile Section */}
         <section className="py-12 md:py-20 lg:py-24">
           <div className="container px-4 md:px-6">
-            <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center">
               <div className="space-y-4">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Profil Perusahaan</div>
                  <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">Siapa Itu Visual Kitha?</h2>
@@ -122,7 +122,7 @@ export default async function DynamicPage({ params }: PageProps) {
                 Kenapa Harus Memilih Kami?
               </h2>
             </div>
-            <div className="mx-auto grid max-w-6xl items-start gap-6 sm:grid-cols-2 lg:grid-cols-5">
+            <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-5">
               <div className="grid gap-2 text-center p-6 rounded-lg border hover:shadow-lg transition-shadow">
                 <Gem className="h-10 w-10 mx-auto text-primary" />
                 <h3 className="font-headline text-lg font-bold mt-2">Kualitas LED Terbaik</h3>
@@ -175,7 +175,7 @@ export default async function DynamicPage({ params }: PageProps) {
                         Kata Mereka Tentang Kami
                     </h2>
                 </div>
-                <div className="grid gap-8 lg:grid-cols-3">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                     <Card className="transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
                         <CardHeader>
                           <Quote className="h-8 w-8 text-primary" />
