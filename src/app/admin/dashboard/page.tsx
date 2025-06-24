@@ -1,3 +1,4 @@
+
 import {
   Card,
   CardContent,
@@ -6,13 +7,33 @@ import {
   CardDescription
 } from '@/components/ui/card';
 import { Package, FileText, Newspaper } from 'lucide-react';
+import { fetchEquipment, fetchPages, fetchBlogPosts } from '@/lib/data';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  // Ambil data secara paralel
+  const [equipment, pages, blogPosts] = await Promise.all([
+    fetchEquipment(),
+    fetchPages({ includeDrafts: true }),
+    fetchBlogPosts({ includeDrafts: true }),
+  ]);
+
   const stats = [
-    { title: 'Peralatan', value: '6', icon: Package, description: 'Total produk yang dikelola' },
-    { title: 'Halaman', value: '4', icon: FileText, description: 'Total halaman statis' },
-    { title: 'Postingan Blog', value: '12', icon: Newspaper, description: 'Artikel yang dipublikasikan' },
+    { title: 'Peralatan', value: equipment.length, icon: Package, description: 'Total produk yang dikelola' },
+    { title: 'Halaman', value: pages.length, icon: FileText, description: 'Total halaman statis' },
+    { title: 'Postingan Blog', value: blogPosts.length, icon: Newspaper, description: 'Total artikel (draf & terbit)' },
   ];
+
+  const recentBlogPosts = blogPosts.slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -23,7 +44,7 @@ export default function AdminDashboard() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {stats.map((stat) => (
           <Card key={stat.title} className="hover:shadow-md transition-shadow">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -40,11 +61,48 @@ export default function AdminDashboard() {
 
        <Card>
           <CardHeader>
-            <CardTitle className="font-headline">Aktivitas Terbaru</CardTitle>
-            <CardDescription>Catatan perubahan terbaru di seluruh sistem.</CardDescription>
+            <CardTitle className="font-headline">Aktivitas Blog Terbaru</CardTitle>
+            <CardDescription>5 postingan blog yang baru saja dibuat atau diperbarui.</CardDescription>
           </CardHeader>
-          <CardContent>
-             <p className="text-sm text-muted-foreground">Tidak ada aktivitas terbaru untuk ditampilkan.</p>
+          <CardContent className="p-0">
+             {recentBlogPosts.length > 0 ? (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Judul</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead className="hidden md:table-cell text-right">Tanggal</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {recentBlogPosts.map((post) => (
+                       <TableRow key={post.id}>
+                         <TableCell className="font-medium">
+                           <Link href={`/admin/blog`} className="hover:underline">
+                            {post.title}
+                           </Link>
+                         </TableCell>
+                         <TableCell>
+                           <Badge variant={post.status === 'Published' ? 'default' : 'secondary'}>
+                              {post.status === 'Published' ? 'Diterbitkan' : 'Draf'}
+                           </Badge>
+                         </TableCell>
+                         <TableCell className="hidden md:table-cell text-right">
+                           {new Date(post.createdAt).toLocaleDateString('id-ID', {
+                              day: 'numeric',
+                              month: 'long',
+                              year: 'numeric',
+                           })}
+                         </TableCell>
+                       </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+             ) : (
+                <div className="p-6">
+                  <p className="text-sm text-muted-foreground">Tidak ada aktivitas terbaru untuk ditampilkan.</p>
+                </div>
+             )}
           </CardContent>
         </Card>
     </div>
