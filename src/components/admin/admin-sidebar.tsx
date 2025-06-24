@@ -17,6 +17,7 @@ import {
   CalendarCheck,
   Settings,
   Users,
+  CalendarDays,
 } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -42,6 +43,7 @@ import {
 
 const navItems = [
   { href: '/admin/dashboard', label: 'Dasbor', icon: LayoutDashboard },
+  { href: '/admin/schedule', label: 'Kalender Jadwal', icon: CalendarDays },
   { href: '/admin/bookings', label: 'Manajemen Booking', icon: CalendarCheck },
   { href: '/admin/clients', label: 'Manajemen Klien', icon: Users },
   { href: '/admin/equipment', label: 'Peralatan', icon: Package },
