@@ -14,17 +14,8 @@ import {
   Image as ImageIcon,
 } from 'lucide-react';
 import Image from 'next/image';
-
-import {
-  Sidebar,
-  SidebarHeader,
-  SidebarContent,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarFooter,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const menuItems = [
   { href: '/admin/dashboard', label: 'Dasbor', icon: LayoutDashboard },
@@ -37,7 +28,8 @@ const menuItems = [
 
 const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
 
-export function AdminSidebar() {
+
+export function AdminNav() {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -50,50 +42,51 @@ export function AdminSidebar() {
 
   const isLinkActive = (itemPath: string) => {
     if (itemPath === '/admin/blog') {
-      // Only active if it's the blog page or its children, but not the categories page.
       return pathname.startsWith('/admin/blog') && !pathname.startsWith('/admin/blog/categories');
     }
-    // Active if the current path starts with the item's path.
     return pathname.startsWith(itemPath);
   };
 
   return (
-    <Sidebar collapsible="icon" className="border-r">
-      <SidebarHeader className="flex items-center justify-between">
-         <div className="flex items-center gap-2">
-            <Image src={logoUrl} alt="Visual Kitha Logo" width={32} height={32} className="rounded-full" />
-            <span className="font-headline text-lg font-bold">VK CMS</span>
-         </div>
-        <SidebarTrigger />
-      </SidebarHeader>
-      <SidebarContent>
-        <SidebarMenu>
+    <div className="flex h-full max-h-screen flex-col gap-2">
+      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+        <Link href="/admin/dashboard" className="flex items-center gap-2 font-semibold">
+          <Image src={logoUrl} alt="Visual Kitha Logo" width={32} height={32} className="rounded-full" />
+          <span className="">VK CMS</span>
+        </Link>
+      </div>
+      <div className="flex-1 overflow-auto py-2">
+        <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           {menuItems.map((item) => (
-            <SidebarMenuItem key={item.href}>
-              <SidebarMenuButton
-                asChild
-                isActive={isLinkActive(item.href)}
-                tooltip={{ children: item.label }}
-              >
-                <Link href={item.href}>
-                  <item.icon />
-                  <span>{item.label}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary',
+                isLinkActive(item.href) && 'bg-muted text-primary'
+              )}
+            >
+              <item.icon className="h-4 w-4" />
+              {item.label}
+            </Link>
           ))}
-        </SidebarMenu>
-      </SidebarContent>
-      <SidebarFooter>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={handleLogout} tooltip={{children: "Keluar"}}>
-              <LogOut />
-              <span>Keluar</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
-    </Sidebar>
+        </nav>
+      </div>
+      <div className="mt-auto p-4 border-t">
+        <Button variant="ghost" className="w-full justify-start" onClick={handleLogout}>
+          <LogOut className="mr-2 h-4 w-4" />
+          Keluar
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+
+export function AdminSidebar() {
+  return (
+    <aside className="hidden border-r bg-background md:block">
+      <AdminNav />
+    </aside>
   );
 }
