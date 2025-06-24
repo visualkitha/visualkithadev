@@ -27,7 +27,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
 import { LoaderCircle, CalendarIcon, Trash2, PlusCircle } from 'lucide-react';
-import type { Booking, Client, CrewMember } from '@/lib/types';
+import type { Booking, Client, CrewMember, InventoryItem } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -56,6 +56,7 @@ const formSchema = z.object({
     })
   ).optional(),
   assignedCrew: z.array(z.string()).optional(),
+  assignedInventory: z.array(z.string()).optional(),
 });
 
 export type BookingFormValues = z.infer<typeof formSchema>;
@@ -64,12 +65,13 @@ interface BookingFormProps {
   initialData?: Booking | null;
   clients: Client[];
   crewMembers: CrewMember[];
+  inventory: InventoryItem[];
   onSubmit: (data: BookingFormValues) => void;
   onCancel: () => void;
   isSubmitting: boolean;
 }
 
-export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCancel, isSubmitting }: BookingFormProps) {
+export function BookingForm({ initialData, clients, crewMembers, inventory, onSubmit, onCancel, isSubmitting }: BookingFormProps) {
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
@@ -81,6 +83,7 @@ export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCan
           technicalNeeds: initialData.technicalNeeds || [],
           crewTasks: initialData.crewTasks || [],
           assignedCrew: initialData.assignedCrew || [],
+          assignedInventory: initialData.assignedInventory || [],
         }
       : {
           clientId: '',
@@ -94,6 +97,7 @@ export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCan
           technicalNeeds: [],
           crewTasks: [],
           assignedCrew: [],
+          assignedInventory: [],
         },
   });
 
@@ -280,59 +284,118 @@ export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCan
             />
         </div>
 
-        <Card>
-            <CardHeader>
-                <CardTitle>Penugasan Tim Teknis</CardTitle>
-            </CardHeader>
-            <CardContent>
-                 <FormField
-                    control={form.control}
-                    name="assignedCrew"
-                    render={() => (
-                        <FormItem>
-                            <ScrollArea className="h-40 rounded-md border p-4">
-                               <div className="space-y-2">
-                                {crewMembers.map((member) => (
-                                    <FormField
-                                    key={member.id}
-                                    control={form.control}
-                                    name="assignedCrew"
-                                    render={({ field }) => {
-                                        return (
-                                        <FormItem
-                                            key={member.id}
-                                            className="flex flex-row items-start space-x-3 space-y-0"
-                                        >
-                                            <FormControl>
-                                            <Checkbox
-                                                checked={field.value?.includes(member.id)}
-                                                onCheckedChange={(checked) => {
-                                                return checked
-                                                    ? field.onChange([...(field.value || []), member.id])
-                                                    : field.onChange(
-                                                        field.value?.filter(
-                                                        (value) => value !== member.id
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Penugasan Tim Teknis</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <FormField
+                        control={form.control}
+                        name="assignedCrew"
+                        render={() => (
+                            <FormItem>
+                                <ScrollArea className="h-40 rounded-md border p-4">
+                                <div className="space-y-2">
+                                    {crewMembers.map((member) => (
+                                        <FormField
+                                        key={member.id}
+                                        control={form.control}
+                                        name="assignedCrew"
+                                        render={({ field }) => {
+                                            return (
+                                            <FormItem
+                                                key={member.id}
+                                                className="flex flex-row items-start space-x-3 space-y-0"
+                                            >
+                                                <FormControl>
+                                                <Checkbox
+                                                    checked={field.value?.includes(member.id)}
+                                                    onCheckedChange={(checked) => {
+                                                    return checked
+                                                        ? field.onChange([...(field.value || []), member.id])
+                                                        : field.onChange(
+                                                            field.value?.filter(
+                                                            (value) => value !== member.id
+                                                            )
                                                         )
-                                                    )
-                                                }}
-                                            />
-                                            </FormControl>
-                                            <FormLabel className="font-normal">
-                                               {member.name} <span className="text-muted-foreground">({member.role})</span>
-                                            </FormLabel>
-                                        </FormItem>
-                                        )
-                                    }}
-                                    />
-                                ))}
-                                </div>
-                            </ScrollArea>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                    />
-            </CardContent>
-        </Card>
+                                                    }}
+                                                />
+                                                </FormControl>
+                                                <FormLabel className="font-normal">
+                                                {member.name} <span className="text-muted-foreground">({member.role})</span>
+                                                </FormLabel>
+                                            </FormItem>
+                                            )
+                                        }}
+                                        />
+                                    ))}
+                                    </div>
+                                </ScrollArea>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                </CardContent>
+            </Card>
+
+             <Card>
+                <CardHeader>
+                    <CardTitle>Penugasan Inventaris</CardTitle>
+                </CardHeader>
+                <CardContent>
+                     <FormField
+                        control={form.control}
+                        name="assignedInventory"
+                        render={() => (
+                            <FormItem>
+                                <ScrollArea className="h-40 rounded-md border p-4">
+                                <div className="space-y-2">
+                                    {inventory.map((item) => (
+                                        <FormField
+                                        key={item.id}
+                                        control={form.control}
+                                        name="assignedInventory"
+                                        render={({ field }) => {
+                                            const isChecked = field.value?.includes(item.id);
+                                            const isDisabled = !isChecked && item.status !== 'Tersedia';
+                                            return (
+                                            <FormItem
+                                                key={item.id}
+                                                className="flex flex-row items-start space-x-3 space-y-0"
+                                            >
+                                                <FormControl>
+                                                <Checkbox
+                                                    checked={isChecked}
+                                                    disabled={isDisabled}
+                                                    onCheckedChange={(checked) => {
+                                                        return checked
+                                                            ? field.onChange([...(field.value || []), item.id])
+                                                            : field.onChange(
+                                                                field.value?.filter(
+                                                                (value) => value !== item.id
+                                                                )
+                                                            )
+                                                    }}
+                                                />
+                                                </FormControl>
+                                                <FormLabel className={cn("font-normal", isDisabled && "text-muted-foreground/50")}>
+                                                    {item.name} <span className="text-muted-foreground">({item.status})</span>
+                                                </FormLabel>
+                                            </FormItem>
+                                            )
+                                        }}
+                                        />
+                                    ))}
+                                    </div>
+                                </ScrollArea>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                        />
+                </CardContent>
+            </Card>
+        </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>

@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Booking, Client, CrewMember } from '@/lib/types';
+import type { Booking, Client, CrewMember, InventoryItem } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -52,6 +52,7 @@ interface BookingsClientPageProps {
   initialBookings: Booking[];
   initialClients: Client[];
   initialCrewMembers: CrewMember[];
+  initialInventory: InventoryItem[];
 }
 
 const statusColorClassMap: { [key in Booking['status']]: string } = {
@@ -69,7 +70,7 @@ const paymentStatusColorMap: { [key in Booking['paymentStatus']]: string } = {
   Refunded: 'bg-gray-500',
 };
 
-export function BookingsClientPage({ initialBookings, initialClients, initialCrewMembers }: BookingsClientPageProps) {
+export function BookingsClientPage({ initialBookings, initialClients, initialCrewMembers, initialInventory }: BookingsClientPageProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -248,6 +249,7 @@ export function BookingsClientPage({ initialBookings, initialClients, initialCre
                 initialData={selectedBooking}
                 clients={initialClients}
                 crewMembers={initialCrewMembers}
+                inventory={initialInventory}
                 onSubmit={handleFormSubmit}
                 onCancel={handleCloseDialog}
                 isSubmitting={isSubmitting}

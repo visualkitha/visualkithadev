@@ -100,5 +100,6 @@ export type Booking = {
   technicalNeeds: TechnicalNeed[];
   crewTasks: TechnicalNeed[];
   assignedCrew: string[]; // Array of CrewMember IDs
+  assignedInventory: string[]; // Array of InventoryItem IDs
   createdAt: string;
 };

@@ -273,8 +273,8 @@ export async function fetchBookings(): Promise<Booking[]> {
     }
     // Fallback to mock data
     return [
-      { id: '1', clientId: '1', clientName: 'PT Jaya Abadi', location: 'Hotel Grand Hyatt', eventType: 'Corporate Gathering', eventDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Confirmed', paymentStatus: 'Paid', totalAmount: 5000000, amountPaid: 5000000, technicalNeeds: [{description: 'LED Screen 4x3m', completed: true}, {description: 'Sound System 5000 watt', completed: false}], crewTasks: [], assignedCrew: [], createdAt: new Date().toISOString() },
-      { id: '2', clientId: '2', clientName: 'Andi & Siska', location: 'Gedung Serbaguna', eventType: 'Pernikahan', eventDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), status: 'Draft', paymentStatus: 'Down Payment', totalAmount: 10000000, amountPaid: 2500000, technicalNeeds: [{description: 'Backdrop LED', completed: false}], crewTasks: [], assignedCrew: [], createdAt: new Date().toISOString() },
+      { id: '1', clientId: '1', clientName: 'PT Jaya Abadi', location: 'Hotel Grand Hyatt', eventType: 'Corporate Gathering', eventDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Confirmed', paymentStatus: 'Paid', totalAmount: 5000000, amountPaid: 5000000, technicalNeeds: [{description: 'LED Screen 4x3m', completed: true}, {description: 'Sound System 5000 watt', completed: false}], crewTasks: [], assignedCrew: [], assignedInventory: [], createdAt: new Date().toISOString() },
+      { id: '2', clientId: '2', clientName: 'Andi & Siska', location: 'Gedung Serbaguna', eventType: 'Pernikahan', eventDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), status: 'Draft', paymentStatus: 'Down Payment', totalAmount: 10000000, amountPaid: 2500000, technicalNeeds: [{description: 'Backdrop LED', completed: false}], crewTasks: [], assignedCrew: [], assignedInventory: [], createdAt: new Date().toISOString() },
     ];
   }
   try {

@@ -40,6 +40,7 @@ export async function saveInventoryItem(item: Omit<InventoryItem, 'id'> & { id?:
     revalidatePath('/admin/inventory');
     revalidatePath('/products');
     revalidatePath('/');
+    revalidatePath('/admin/bookings'); // Revalidate bookings page to get updated inventory list
     return { success: true };
   } catch (error) {
     console.error('Gagal menyimpan item inventaris:', error);
@@ -56,6 +57,7 @@ export async function deleteInventoryItem(id: string): Promise<{ success: boolea
     revalidatePath('/admin/inventory');
     revalidatePath('/products');
     revalidatePath('/');
+    revalidatePath('/admin/bookings');
     return { success: true };
   } catch (error) {
     console.error('Gagal menghapus item inventaris:', error);
@@ -254,6 +256,7 @@ export async function saveBooking(data: {
     technicalNeeds: TechnicalNeed[];
     crewTasks: TechnicalNeed[];
     assignedCrew: string[];
+    assignedInventory: string[];
 }): Promise<{ success: boolean; error?: string }> {
   if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
@@ -270,6 +273,7 @@ export async function saveBooking(data: {
     technicalNeeds: data.technicalNeeds || [],
     crewTasks: data.crewTasks || [],
     assignedCrew: data.assignedCrew || [],
+    assignedInventory: data.assignedInventory || [],
   };
 
   try {
