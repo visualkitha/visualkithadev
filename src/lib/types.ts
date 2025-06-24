@@ -60,3 +60,19 @@ export type SiteImages = {
   // Services page
   servicesWhyUs: string;
 };
+
+export type TechnicalNeed = {
+  description: string;
+  completed: boolean;
+};
+
+export type Booking = {
+  id: string;
+  clientName: string;
+  location: string;
+  eventDate: string; // ISO string
+  eventType: string;
+  status: 'Draft' | 'Confirmed' | 'Ongoing' | 'Completed' | 'Cancelled';
+  technicalNeeds: TechnicalNeed[];
+  createdAt: string;
+};

@@ -2,8 +2,8 @@
 
 import { generateProductDescription } from '@/ai/flows/generate-product-description';
 import { db } from '@/lib/firebase';
-import type { Equipment, Page, SiteImages } from '@/lib/types';
-import { addDoc, collection, deleteDoc, doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import type { Booking, Equipment, Page, SiteImages, TechnicalNeed } from '@/lib/types';
+import { addDoc, collection, deleteDoc, doc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 
 export async function generateDescriptionAction(productName: string, keySpecifications: string): Promise<{ description?: string; error?: string }> {
@@ -236,5 +236,57 @@ export async function saveSiteImages(images: Partial<Omit<SiteImages, 'id'>>): P
     console.error('Gagal menyimpan gambar situs:', error);
     const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
     return { success: false, error: `Gagal menyimpan gambar situs: ${errorMessage}` };
+  }
+}
+
+export async function saveBooking(data: {
+    id?: string;
+    clientName: string;
+    location: string;
+    eventDate: Date;
+    eventType: string;
+    status: 'Draft' | 'Confirmed' | 'Ongoing' | 'Completed' | 'Cancelled';
+    technicalNeeds: TechnicalNeed[];
+}): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+
+  const bookingData = {
+    clientName: data.clientName,
+    location: data.location,
+    eventDate: data.eventDate.toISOString(),
+    eventType: data.eventType,
+    status: data.status,
+    technicalNeeds: data.technicalNeeds,
+  };
+
+  try {
+    if (data.id) {
+      const bookingRef = doc(db, 'bookings', data.id);
+      await setDoc(bookingRef, bookingData, { merge: true });
+    } else {
+      const dataWithTimestamp = { ...bookingData, createdAt: serverTimestamp() };
+      await addDoc(collection(db, 'bookings'), dataWithTimestamp);
+    }
+    revalidatePath('/admin/bookings');
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menyimpan data booking:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menyimpan data booking: ${errorMessage}` };
+  }
+}
+
+export async function deleteBooking(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+  try {
+    await deleteDoc(doc(db, 'bookings', id));
+    revalidatePath('/admin/bookings');
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menghapus data booking:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menghapus data booking: ${errorMessage}` };
   }
 }

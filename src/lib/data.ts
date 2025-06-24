@@ -1,7 +1,7 @@
 import 'server-only';
 import { collection, getDocs, query, orderBy, where, limit, getDoc, doc } from 'firebase/firestore';
 import { db } from './firebase';
-import type { Equipment, BlogPost, Page, BlogCategory, SiteImages, ClientLogo } from './types';
+import type { Equipment, BlogPost, Page, BlogCategory, SiteImages, ClientLogo, Booking } from './types';
 
 export async function fetchEquipment(): Promise<Equipment[]> {
   if (!db) {
@@ -262,5 +262,40 @@ export async function fetchSiteImages(): Promise<SiteImages> {
   } catch (error) {
     console.error("Gagal mengambil gambar situs:", error);
     return defaultImages;
+  }
+}
+
+export async function fetchBookings(): Promise<Booking[]> {
+  if (!db) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data booking tiruan.");
+    }
+    // Fallback to mock data
+    return [
+      { id: '1', clientName: 'PT Jaya Abadi', location: 'Hotel Grand Hyatt', eventType: 'Corporate Gathering', eventDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Confirmed', technicalNeeds: [{description: 'LED Screen 4x3m', completed: true}, {description: 'Sound System 5000 watt', completed: false}], createdAt: new Date().toISOString() },
+      { id: '2', clientName: 'Andi & Siska', location: 'Gedung Serbaguna', eventType: 'Pernikahan', eventDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), status: 'Draft', technicalNeeds: [{description: 'Backdrop LED', completed: false}], createdAt: new Date().toISOString() },
+    ];
+  }
+  try {
+    const bookingsCollection = collection(db, 'bookings');
+    const q = query(bookingsCollection, orderBy('eventDate', 'desc'));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return [];
+    }
+
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        eventDate: data.eventDate, // Already stored as ISO string from server action
+        createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
+      } as Booking;
+    });
+  } catch (error) {
+    console.error("Gagal mengambil data booking:", error);
+    return [];
   }
 }

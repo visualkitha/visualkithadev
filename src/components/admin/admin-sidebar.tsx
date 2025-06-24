@@ -11,9 +11,10 @@ import {
   LogOut,
   FileText,
   Tags,
-  Image as ImageIcon,
+  ImageIcon,
   ChevronLeft,
   ChevronRight,
+  CalendarCheck,
 } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -22,6 +23,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 const menuItems = [
   { href: '/admin/dashboard', label: 'Dasbor', icon: LayoutDashboard },
+  { href: '/admin/bookings', label: 'Manajemen Booking', icon: CalendarCheck },
   { href: '/admin/equipment', label: 'Peralatan', icon: Package },
   { href: '/admin/blog', label: 'Blog', icon: Newspaper },
   { href: '/admin/blog/categories', label: 'Kategori Blog', icon: Tags },

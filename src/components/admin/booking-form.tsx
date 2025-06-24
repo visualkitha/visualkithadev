@@ -1,0 +1,272 @@
+'use client';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { format } from "date-fns";
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Checkbox } from '@/components/ui/checkbox';
+import { LoaderCircle, CalendarIcon, Trash2, PlusCircle } from 'lucide-react';
+import type { Booking } from '@/lib/types';
+import { cn } from '@/lib/utils';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+const formSchema = z.object({
+  clientName: z.string().min(2, 'Nama klien harus minimal 2 karakter.'),
+  location: z.string().min(3, 'Lokasi harus minimal 3 karakter.'),
+  eventDate: z.date({
+    required_error: "Tanggal acara wajib diisi.",
+  }),
+  eventType: z.string().min(2, 'Jenis acara harus minimal 2 karakter.'),
+  status: z.enum(['Draft', 'Confirmed', 'Ongoing', 'Completed', 'Cancelled']),
+  technicalNeeds: z.array(
+    z.object({
+      description: z.string().min(1, 'Deskripsi tidak boleh kosong.'),
+      completed: z.boolean(),
+    })
+  ).optional(),
+});
+
+export type BookingFormValues = z.infer<typeof formSchema>;
+
+interface BookingFormProps {
+  initialData?: Booking | null;
+  onSubmit: (data: BookingFormValues) => void;
+  onCancel: () => void;
+  isSubmitting: boolean;
+}
+
+export function BookingForm({ initialData, onSubmit, onCancel, isSubmitting }: BookingFormProps) {
+  const form = useForm<BookingFormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          eventDate: new Date(initialData.eventDate),
+          technicalNeeds: initialData.technicalNeeds || [],
+        }
+      : {
+          clientName: '',
+          location: '',
+          eventDate: undefined,
+          eventType: '',
+          status: 'Draft',
+          technicalNeeds: [{ description: '', completed: false }],
+        },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'technicalNeeds',
+  });
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <FormField
+            control={form.control}
+            name="clientName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Nama Klien</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nama Klien atau Perusahaan" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="eventType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Jenis Acara</FormLabel>
+                <FormControl>
+                  <Input placeholder="cth., Pernikahan, Konser, Seminar" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+                <FormItem>
+                <FormLabel>Lokasi Acara</FormLabel>
+                <FormControl>
+                    <Input placeholder="cth., Hotel Grand Hyatt, Jakarta" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+                </FormItem>
+            )}
+            />
+            <div className="grid grid-cols-2 gap-4">
+                <FormField
+                    control={form.control}
+                    name="eventDate"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                        <FormLabel>Tanggal Acara</FormLabel>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                            <FormControl>
+                                <Button
+                                variant={"outline"}
+                                className={cn(
+                                    "w-full pl-3 text-left font-normal",
+                                    !field.value && "text-muted-foreground"
+                                )}
+                                disabled={isSubmitting}
+                                >
+                                {field.value ? (
+                                    format(field.value, "PPP")
+                                ) : (
+                                    <span>Pilih tanggal</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                </Button>
+                            </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                                mode="single"
+                                selected={field.value}
+                                onSelect={field.onChange}
+                                disabled={(date) => date < new Date("1990-01-01") }
+                                initialFocus
+                            />
+                            </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="status"
+                    render={({ field }) => (
+                    <FormItem className="flex flex-col">
+                        <FormLabel>Status</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                        <FormControl>
+                            <SelectTrigger>
+                            <SelectValue placeholder="Pilih status" />
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                            <SelectItem value="Draft">Draf</SelectItem>
+                            <SelectItem value="Confirmed">Dikonfirmasi</SelectItem>
+                            <SelectItem value="Ongoing">Berjalan</SelectItem>
+                            <SelectItem value="Completed">Selesai</SelectItem>
+                            <SelectItem value="Cancelled">Batal</SelectItem>
+                        </SelectContent>
+                        </Select>
+                        <FormMessage />
+                    </FormItem>
+                    )}
+                />
+            </div>
+        </div>
+
+        <Card>
+            <CardHeader>
+                <CardTitle>Checklist Kebutuhan Teknis</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <div className="space-y-4">
+                {fields.map((field, index) => (
+                    <div key={field.id} className="flex items-center gap-2">
+                    <FormField
+                        control={form.control}
+                        name={`technicalNeeds.${index}.completed`}
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormControl>
+                            <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                disabled={isSubmitting}
+                            />
+                            </FormControl>
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name={`technicalNeeds.${index}.description`}
+                        render={({ field }) => (
+                        <FormItem className="flex-grow">
+                            <FormControl>
+                            <Input
+                                placeholder="cth., LED Screen 4x3m"
+                                {...field}
+                                disabled={isSubmitting}
+                            />
+                            </FormControl>
+                        </FormItem>
+                        )}
+                    />
+                    <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => remove(index)}
+                        disabled={isSubmitting}
+                    >
+                        <Trash2 className="h-4 w-4" />
+                    </Button>
+                    </div>
+                ))}
+                </div>
+                 <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="mt-4"
+                    onClick={() => append({ description: '', completed: false })}
+                    disabled={isSubmitting}
+                    >
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Tambah Kebutuhan
+                </Button>
+            </CardContent>
+        </Card>
+
+        <div className="flex justify-end gap-2 pt-4">
+          <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>
+            Batal
+          </Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
+            {initialData ? 'Simpan Perubahan' : 'Buat Booking'}
+          </Button>
+        </div>
+      </form>
+    </Form>
+  );
+}
