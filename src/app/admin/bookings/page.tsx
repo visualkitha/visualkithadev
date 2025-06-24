@@ -1,7 +1,11 @@
 import { BookingsClientPage } from '@/components/admin/bookings-client-page';
-import { fetchBookings } from '@/lib/data';
+import { fetchBookings, fetchClients } from '@/lib/data';
 
 export default async function BookingsAdminPage() {
-  const bookings = await fetchBookings();
-  return <BookingsClientPage initialBookings={bookings} />;
+  const [bookings, clients] = await Promise.all([
+    fetchBookings(),
+    fetchClients()
+  ]);
+
+  return <BookingsClientPage initialBookings={bookings} initialClients={clients} />;
 }

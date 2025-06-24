@@ -26,18 +26,19 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
 import { LoaderCircle, CalendarIcon, Trash2, PlusCircle } from 'lucide-react';
-import type { Booking } from '@/lib/types';
+import type { Booking, Client } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 const formSchema = z.object({
-  clientName: z.string().min(2, 'Nama klien harus minimal 2 karakter.'),
+  clientId: z.string().min(1, 'Klien harus dipilih.'),
   location: z.string().min(3, 'Lokasi harus minimal 3 karakter.'),
   eventDate: z.date({
     required_error: "Tanggal acara wajib diisi.",
   }),
   eventType: z.string().min(2, 'Jenis acara harus minimal 2 karakter.'),
   status: z.enum(['Draft', 'Confirmed', 'Ongoing', 'Completed', 'Cancelled']),
+  paymentStatus: z.enum(['Unpaid', 'Down Payment', 'Paid', 'Refunded']),
   technicalNeeds: z.array(
     z.object({
       description: z.string().min(1, 'Deskripsi tidak boleh kosong.'),
@@ -50,12 +51,13 @@ export type BookingFormValues = z.infer<typeof formSchema>;
 
 interface BookingFormProps {
   initialData?: Booking | null;
+  clients: Client[];
   onSubmit: (data: BookingFormValues) => void;
   onCancel: () => void;
   isSubmitting: boolean;
 }
 
-export function BookingForm({ initialData, onSubmit, onCancel, isSubmitting }: BookingFormProps) {
+export function BookingForm({ initialData, clients, onSubmit, onCancel, isSubmitting }: BookingFormProps) {
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
@@ -65,11 +67,12 @@ export function BookingForm({ initialData, onSubmit, onCancel, isSubmitting }: B
           technicalNeeds: initialData.technicalNeeds || [],
         }
       : {
-          clientName: '',
+          clientId: '',
           location: '',
           eventDate: undefined,
           eventType: '',
           status: 'Draft',
+          paymentStatus: 'Unpaid',
           technicalNeeds: [{ description: '', completed: false }],
         },
   });
@@ -85,13 +88,22 @@ export function BookingForm({ initialData, onSubmit, onCancel, isSubmitting }: B
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormField
             control={form.control}
-            name="clientName"
+            name="clientId"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nama Klien</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nama Klien atau Perusahaan" {...field} disabled={isSubmitting} />
-                </FormControl>
+                <FormLabel>Klien</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih klien" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {clients.map((client) => (
+                      <SelectItem key={client.id} value={client.id}>{client.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -125,72 +137,96 @@ export function BookingForm({ initialData, onSubmit, onCancel, isSubmitting }: B
                 </FormItem>
             )}
             />
-            <div className="grid grid-cols-2 gap-4">
-                <FormField
-                    control={form.control}
-                    name="eventDate"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-col">
-                        <FormLabel>Tanggal Acara</FormLabel>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                            <FormControl>
-                                <Button
-                                variant={"outline"}
-                                className={cn(
-                                    "w-full pl-3 text-left font-normal",
-                                    !field.value && "text-muted-foreground"
-                                )}
-                                disabled={isSubmitting}
-                                >
-                                {field.value ? (
-                                    format(field.value, "PPP")
-                                ) : (
-                                    <span>Pilih tanggal</span>
-                                )}
-                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                            </FormControl>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                            <Calendar
-                                mode="single"
-                                selected={field.value}
-                                onSelect={field.onChange}
-                                disabled={(date) => date < new Date("1990-01-01") }
-                                initialFocus
-                            />
-                            </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="status"
-                    render={({ field }) => (
+            <FormField
+                control={form.control}
+                name="eventDate"
+                render={({ field }) => (
                     <FormItem className="flex flex-col">
-                        <FormLabel>Status</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                    <FormLabel>Tanggal Acara</FormLabel>
+                    <Popover>
+                        <PopoverTrigger asChild>
                         <FormControl>
-                            <SelectTrigger>
-                            <SelectValue placeholder="Pilih status" />
-                            </SelectTrigger>
+                            <Button
+                            variant={"outline"}
+                            className={cn(
+                                "w-full pl-3 text-left font-normal",
+                                !field.value && "text-muted-foreground"
+                            )}
+                            disabled={isSubmitting}
+                            >
+                            {field.value ? (
+                                format(field.value, "PPP")
+                            ) : (
+                                <span>Pilih tanggal</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
                         </FormControl>
-                        <SelectContent>
-                            <SelectItem value="Draft">Draf</SelectItem>
-                            <SelectItem value="Confirmed">Dikonfirmasi</SelectItem>
-                            <SelectItem value="Ongoing">Berjalan</SelectItem>
-                            <SelectItem value="Completed">Selesai</SelectItem>
-                            <SelectItem value="Cancelled">Batal</SelectItem>
-                        </SelectContent>
-                        </Select>
-                        <FormMessage />
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            disabled={(date) => date < new Date("1990-01-01") }
+                            initialFocus
+                        />
+                        </PopoverContent>
+                    </Popover>
+                    <FormMessage />
                     </FormItem>
-                    )}
-                />
-            </div>
+                )}
+            />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Status Booking</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                    <FormControl>
+                        <SelectTrigger>
+                        <SelectValue placeholder="Pilih status booking" />
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                        <SelectItem value="Draft">Draf</SelectItem>
+                        <SelectItem value="Confirmed">Dikonfirmasi</SelectItem>
+                        <SelectItem value="Ongoing">Berjalan</SelectItem>
+                        <SelectItem value="Completed">Selesai</SelectItem>
+                        <SelectItem value="Cancelled">Batal</SelectItem>
+                    </SelectContent>
+                    </Select>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
+             <FormField
+                control={form.control}
+                name="paymentStatus"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Status Pembayaran</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={isSubmitting}>
+                    <FormControl>
+                        <SelectTrigger>
+                        <SelectValue placeholder="Pilih status pembayaran" />
+                        </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                        <SelectItem value="Unpaid">Belum Lunas</SelectItem>
+                        <SelectItem value="Down Payment">DP</SelectItem>
+                        <SelectItem value="Paid">Lunas</SelectItem>
+                        <SelectItem value="Refunded">Dikembalikan</SelectItem>
+                    </SelectContent>
+                    </Select>
+                    <FormMessage />
+                </FormItem>
+                )}
+            />
         </div>
 
         <Card>

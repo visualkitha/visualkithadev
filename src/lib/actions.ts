@@ -2,7 +2,7 @@
 
 import { generateProductDescription } from '@/ai/flows/generate-product-description';
 import { db } from '@/lib/firebase';
-import type { Booking, Equipment, Page, SiteImages, TechnicalNeed } from '@/lib/types';
+import type { Booking, Client, Equipment, Page, SiteImages, TechnicalNeed } from '@/lib/types';
 import { addDoc, collection, deleteDoc, doc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 
@@ -241,21 +241,25 @@ export async function saveSiteImages(images: Partial<Omit<SiteImages, 'id'>>): P
 
 export async function saveBooking(data: {
     id?: string;
+    clientId: string;
     clientName: string;
     location: string;
     eventDate: Date;
     eventType: string;
-    status: 'Draft' | 'Confirmed' | 'Ongoing' | 'Completed' | 'Cancelled';
+    status: Booking['status'];
+    paymentStatus: Booking['paymentStatus'];
     technicalNeeds: TechnicalNeed[];
 }): Promise<{ success: boolean; error?: string }> {
   if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
   const bookingData = {
+    clientId: data.clientId,
     clientName: data.clientName,
     location: data.location,
     eventDate: data.eventDate.toISOString(),
     eventType: data.eventType,
     status: data.status,
+    paymentStatus: data.paymentStatus,
     technicalNeeds: data.technicalNeeds,
   };
 
@@ -288,5 +292,52 @@ export async function deleteBooking(id: string): Promise<{ success: boolean; err
     console.error('Gagal menghapus data booking:', error);
     const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
     return { success: false, error: `Gagal menghapus data booking: ${errorMessage}` };
+  }
+}
+
+
+export async function saveClient(client: Omit<Client, 'id' | 'createdAt'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+  
+  const dataToSave = {
+    name: client.name,
+    company: client.company || '',
+    contactEmail: client.contactEmail || '',
+    contactPhone: client.contactPhone || '',
+    notes: client.notes || '',
+  };
+
+  try {
+    if (client.id) {
+      await setDoc(doc(db, 'clients', client.id), dataToSave, { merge: true });
+    } else {
+      const dataWithTimestamp = { ...dataToSave, createdAt: serverTimestamp() };
+      await addDoc(collection(db, 'clients'), dataWithTimestamp);
+    }
+    revalidatePath('/admin/clients');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/admin/bookings'); // Revalidate bookings in case client names are updated
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menyimpan klien:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menyimpan klien: ${errorMessage}` };
+  }
+}
+
+export async function deleteClient(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+  
+  try {
+    // Note: This does not handle orphaned bookings. In a real-world scenario,
+    // you might want to prevent deletion if a client has bookings, or handle it differently.
+    await deleteDoc(doc(db, 'clients', id));
+    revalidatePath('/admin/clients');
+    revalidatePath('/admin/dashboard');
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menghapus klien:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menghapus klien: ${errorMessage}` };
   }
 }

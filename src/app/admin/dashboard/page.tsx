@@ -6,8 +6,8 @@ import {
   CardTitle,
   CardDescription
 } from '@/components/ui/card';
-import { Package, FileText, Newspaper, CalendarCheck } from 'lucide-react';
-import { fetchEquipment, fetchPages, fetchBlogPosts, fetchBookings } from '@/lib/data';
+import { Package, FileText, Newspaper, CalendarCheck, Users } from 'lucide-react';
+import { fetchEquipment, fetchPages, fetchBlogPosts, fetchBookings, fetchClients } from '@/lib/data';
 import {
   Table,
   TableBody,
@@ -21,21 +21,23 @@ import Link from 'next/link';
 
 export default async function AdminDashboard() {
   // Ambil data secara paralel
-  const [equipment, pages, blogPosts, bookings] = await Promise.all([
+  const [equipment, pages, blogPosts, bookings, clients] = await Promise.all([
     fetchEquipment(),
     fetchPages({ includeDrafts: true }),
     fetchBlogPosts({ includeDrafts: true }),
     fetchBookings(),
+    fetchClients(),
   ]);
 
   const stats = [
+    { title: 'Total Klien', value: clients.length, icon: Users, description: 'Total klien yang dikelola', href: '/admin/clients' },
     { title: 'Total Booking', value: bookings.length, icon: CalendarCheck, description: 'Total booking yang dikelola', href: '/admin/bookings' },
     { title: 'Peralatan', value: equipment.length, icon: Package, description: 'Total produk yang dikelola', href: '/admin/equipment' },
-    { title: 'Halaman', value: pages.length, icon: FileText, description: 'Total halaman statis', href: '/admin/pages' },
     { title: 'Postingan Blog', value: blogPosts.length, icon: Newspaper, description: 'Total artikel (draf & terbit)', href: '/admin/blog' },
   ];
 
   const recentBookings = bookings.slice(0, 5);
+  const recentClients = clients.slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -62,55 +64,91 @@ export default async function AdminDashboard() {
           </Link>
         ))}
       </div>
+      
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card>
+            <CardHeader>
+              <CardTitle className="font-headline">Booking Terbaru</CardTitle>
+              <CardDescription>5 booking yang baru saja dibuat atau diperbarui.</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              {recentBookings.length > 0 ? (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Nama Klien</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Tanggal Acara</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {recentBookings.map((booking) => (
+                        <TableRow key={booking.id}>
+                          <TableCell className="font-medium">
+                            <Link href={`/admin/bookings`} className="hover:underline">
+                              {booking.clientName}
+                            </Link>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant={booking.status === 'Confirmed' ? 'default' : 'secondary'}>
+                                {booking.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            {new Date(booking.eventDate).toLocaleDateString('id-ID', {
+                                day: 'numeric',
+                                month: 'long',
+                                year: 'numeric',
+                            })}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+              ) : (
+                  <div className="p-6">
+                    <p className="text-sm text-muted-foreground">Tidak ada booking terbaru untuk ditampilkan.</p>
+                  </div>
+              )}
+            </CardContent>
+          </Card>
 
-       <Card>
-          <CardHeader>
-            <CardTitle className="font-headline">Booking Terbaru</CardTitle>
-            <CardDescription>5 booking yang baru saja dibuat atau diperbarui.</CardDescription>
-          </CardHeader>
-          <CardContent className="p-0">
-             {recentBookings.length > 0 ? (
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Nama Klien</TableHead>
-                      <TableHead>Jenis Acara</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="hidden md:table-cell text-right">Tanggal Acara</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {recentBookings.map((booking) => (
-                       <TableRow key={booking.id}>
-                         <TableCell className="font-medium">
-                           <Link href={`/admin/bookings`} className="hover:underline">
-                            {booking.clientName}
-                           </Link>
-                         </TableCell>
-                         <TableCell>{booking.eventType}</TableCell>
-                         <TableCell>
-                           <Badge variant={booking.status === 'Confirmed' ? 'default' : 'secondary'}>
-                              {booking.status}
-                           </Badge>
-                         </TableCell>
-                         <TableCell className="hidden md:table-cell text-right">
-                           {new Date(booking.eventDate).toLocaleDateString('id-ID', {
-                              day: 'numeric',
-                              month: 'long',
-                              year: 'numeric',
-                           })}
-                         </TableCell>
-                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-             ) : (
-                <div className="p-6">
-                  <p className="text-sm text-muted-foreground">Tidak ada booking terbaru untuk ditampilkan.</p>
-                </div>
-             )}
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="font-headline">Klien Terbaru</CardTitle>
+              <CardDescription>5 klien yang baru saja ditambahkan.</CardDescription>
+            </CardHeader>
+            <CardContent className="p-0">
+              {recentClients.length > 0 ? (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Nama Klien</TableHead>
+                        <TableHead>Kontak</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {recentClients.map((client) => (
+                        <TableRow key={client.id}>
+                          <TableCell className="font-medium">
+                            <Link href={`/admin/clients`} className="hover:underline">
+                              {client.name}
+                            </Link>
+                          </TableCell>
+                          <TableCell className="text-sm text-muted-foreground">{client.contactEmail || client.contactPhone}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+              ) : (
+                  <div className="p-6">
+                    <p className="text-sm text-muted-foreground">Tidak ada klien terbaru untuk ditampilkan.</p>
+                  </div>
+              )}
+            </CardContent>
+          </Card>
+      </div>
+
     </div>
   );
 }

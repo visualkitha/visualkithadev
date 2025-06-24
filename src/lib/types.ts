@@ -66,13 +66,25 @@ export type TechnicalNeed = {
   completed: boolean;
 };
 
+export type Client = {
+  id: string;
+  name: string;
+  company?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  notes?: string;
+  createdAt: string;
+};
+
 export type Booking = {
   id: string;
-  clientName: string;
+  clientId: string; // Added to link to a client
+  clientName: string; // Denormalized for easy display
   location: string;
   eventDate: string; // ISO string
   eventType: string;
   status: 'Draft' | 'Confirmed' | 'Ongoing' | 'Completed' | 'Cancelled';
+  paymentStatus: 'Unpaid' | 'Down Payment' | 'Paid' | 'Refunded'; // Added
   technicalNeeds: TechnicalNeed[];
   createdAt: string;
 };

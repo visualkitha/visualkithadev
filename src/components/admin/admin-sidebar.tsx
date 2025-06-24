@@ -16,6 +16,7 @@ import {
   ChevronRight,
   CalendarCheck,
   Settings,
+  Users,
 } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -42,6 +43,7 @@ import {
 const navItems = [
   { href: '/admin/dashboard', label: 'Dasbor', icon: LayoutDashboard },
   { href: '/admin/bookings', label: 'Manajemen Booking', icon: CalendarCheck },
+  { href: '/admin/clients', label: 'Manajemen Klien', icon: Users },
   { href: '/admin/equipment', label: 'Peralatan', icon: Package },
   { 
     label: 'Manajemen Situs', 
@@ -154,7 +156,6 @@ export function AdminNav({ isCollapsed }: AdminNavProps) {
                                                     isLinkActive(subItem.href) && 'bg-muted text-primary'
                                                 )}
                                             >
-                                                {/* ICON WAS MISSING HERE */}
                                                 <subItem.icon className="h-4 w-4" /> 
                                                 {subItem.label}
                                             </Link>
