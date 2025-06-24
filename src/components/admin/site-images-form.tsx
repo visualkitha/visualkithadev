@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, type Control } from 'react-hook-form';
+import { useForm, type Control, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import Image from 'next/image';
 
@@ -14,7 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { LoaderCircle } from 'lucide-react';
+import { LoaderCircle, Trash2, PlusCircle } from 'lucide-react';
 import type { SiteImages } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -35,6 +35,12 @@ const formSchema = z.object({
   homeProject2: urlOrEmpty,
   homeProject3: urlOrEmpty,
   homeProject4: urlOrEmpty,
+  trustedByLogos: z.array(
+    z.object({
+      name: z.string().min(1, { message: "Nama logo diperlukan." }),
+      logoUrl: z.string().url({ message: "URL tidak valid." }),
+    })
+  ).optional(),
   aboutHero: urlOrEmpty,
   aboutProfile: urlOrEmpty,
   aboutPortfolio1: urlOrEmpty,
@@ -71,7 +77,7 @@ const ImageUrlField = ({
       render={({ field }) => (
         <FormItem className="space-y-3 rounded-lg border p-4 bg-background">
           <FormLabel className="text-base font-semibold">{label}</FormLabel>
-          {field.value && (
+          {field.value && typeof field.value === 'string' && (
             <div className="w-full aspect-video relative rounded-md overflow-hidden border">
               <Image
                 src={field.value}
@@ -104,7 +110,15 @@ export function SiteImagesForm({
 }: SiteImagesFormProps) {
   const form = useForm<SiteImagesFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: {
+      ...initialData,
+      trustedByLogos: initialData.trustedByLogos || [],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "trustedByLogos",
   });
 
   return (
@@ -127,6 +141,51 @@ export function SiteImagesForm({
                   <ImageUrlField control={form.control} name="homeProject2" label="Gambar Proyek 2" disabled={isSubmitting} />
                   <ImageUrlField control={form.control} name="homeProject3" label="Gambar Proyek 3" disabled={isSubmitting} />
                   <ImageUrlField control={form.control} name="homeProject4" label="Gambar Proyek 4" disabled={isSubmitting} />
+                  
+                  <div className="md:col-span-2 space-y-4 rounded-lg border p-4 bg-background">
+                    <h3 className="text-base font-semibold">Logo "Telah Dipercaya oleh"</h3>
+                    <div className="space-y-4">
+                      {fields.map((field, index) => (
+                        <div key={field.id} className="flex items-end gap-2 p-2 border rounded-md bg-muted/50">
+                          <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-2">
+                             <FormField
+                              control={form.control}
+                              name={`trustedByLogos.${index}.name`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>Nama Klien</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="Nama Klien" {...field} disabled={isSubmitting} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                            <FormField
+                              control={form.control}
+                              name={`trustedByLogos.${index}.logoUrl`}
+                              render={({ field }) => (
+                                <FormItem>
+                                  <FormLabel>URL Logo</FormLabel>
+                                  <FormControl>
+                                    <Input placeholder="https://..." {...field} disabled={isSubmitting} />
+                                  </FormControl>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          <Button type="button" variant="destructive" size="icon" onClick={() => remove(index)} disabled={isSubmitting}>
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                    <Button type="button" variant="outline" size="sm" onClick={() => append({ name: "", logoUrl: "" })} disabled={isSubmitting}>
+                      <PlusCircle className="mr-2 h-4 w-4" />
+                      Tambah Logo
+                    </Button>
+                  </div>
                 </AccordionContent>
               </AccordionItem>
 

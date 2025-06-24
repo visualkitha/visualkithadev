@@ -35,6 +35,11 @@ export type BlogCategory = {
   name: string;
 };
 
+export type ClientLogo = {
+  name: string;
+  logoUrl: string;
+};
+
 export type SiteImages = {
   id: 'main';
   // Homepage
@@ -44,6 +49,7 @@ export type SiteImages = {
   homeProject2: string;
   homeProject3: string;
   homeProject4: string;
+  trustedByLogos: ClientLogo[];
   // About Us page
   aboutHero: string;
   aboutProfile: string;

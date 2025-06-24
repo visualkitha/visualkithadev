@@ -143,10 +143,21 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-16 gap-y-8">
-            <Image src="https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/Seal_of_Jepara_Regency.svg" alt="Logo Pemkab Jepara" width={150} height={60} className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="government logo" />
-            <Image src="https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/Logo-KONI-Daerah-18.png" alt="Logo KONI" width={150} height={60} className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="organization logo" />
-            <Image src="https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/Logo-Bank-BRI.png" alt="Logo Bank BRI" width={150} height={60} className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="bank logo" />
-            <Image src="https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/Bank_Mandiri_logo_2016.svg.png" alt="Logo Bank Mandiri" width={150} height={60} className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all" data-ai-hint="bank logo" />
+            {siteImages.trustedByLogos && siteImages.trustedByLogos.length > 0 ? (
+              siteImages.trustedByLogos.map((logo, index) => (
+                <Image 
+                  key={index}
+                  src={logo.logoUrl} 
+                  alt={logo.name} 
+                  width={150} 
+                  height={60} 
+                  className="h-[60px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all"
+                  data-ai-hint="client logo"
+                />
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">Logo klien akan segera ditampilkan di sini.</p>
+            )}
           </div>
         </div>
       </section>

@@ -1,7 +1,7 @@
 import 'server-only';
 import { collection, getDocs, query, orderBy, where, limit, getDoc, doc } from 'firebase/firestore';
 import { db } from './firebase';
-import type { Equipment, BlogPost, Page, BlogCategory, SiteImages } from './types';
+import type { Equipment, BlogPost, Page, BlogCategory, SiteImages, ClientLogo } from './types';
 
 export async function fetchEquipment(): Promise<Equipment[]> {
   if (!db) {
@@ -226,6 +226,12 @@ const defaultImages: SiteImages = {
   homeProject2: 'https://placehold.co/400x300.png',
   homeProject3: 'https://placehold.co/400x300.png',
   homeProject4: 'https://placehold.co/400x300.png',
+  trustedByLogos: [
+    { name: 'Logo Pemkab Jepara', logoUrl: 'https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/Seal_of_Jepara_Regency.svg' },
+    { name: 'Logo KONI', logoUrl: 'https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/Logo-KONI-Daerah-18.png' },
+    { name: 'Logo Bank BRI', logoUrl: 'https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/Logo-Bank-BRI.png' },
+    { name: 'Logo Bank Mandiri', logoUrl: 'https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/Bank_Mandiri_logo_2016.svg.png' },
+  ],
   aboutHero: 'https://placehold.co/1920x1080.png',
   aboutProfile: 'https://placehold.co/600x450.png',
   aboutPortfolio1: 'https://placehold.co/400x300.png',
