@@ -273,8 +273,8 @@ export async function fetchBookings(): Promise<Booking[]> {
     }
     // Fallback to mock data
     return [
-      { id: '1', clientId: '1', clientName: 'PT Jaya Abadi', location: 'Hotel Grand Hyatt', eventType: 'Corporate Gathering', eventDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Confirmed', paymentStatus: 'Paid', technicalNeeds: [{description: 'LED Screen 4x3m', completed: true}, {description: 'Sound System 5000 watt', completed: false}], crewTasks: [], assignedCrew: [], createdAt: new Date().toISOString() },
-      { id: '2', clientId: '2', clientName: 'Andi & Siska', location: 'Gedung Serbaguna', eventType: 'Pernikahan', eventDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), status: 'Draft', paymentStatus: 'Down Payment', technicalNeeds: [{description: 'Backdrop LED', completed: false}], crewTasks: [], assignedCrew: [], createdAt: new Date().toISOString() },
+      { id: '1', clientId: '1', clientName: 'PT Jaya Abadi', location: 'Hotel Grand Hyatt', eventType: 'Corporate Gathering', eventDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Confirmed', paymentStatus: 'Paid', totalAmount: 5000000, amountPaid: 5000000, technicalNeeds: [{description: 'LED Screen 4x3m', completed: true}, {description: 'Sound System 5000 watt', completed: false}], crewTasks: [], assignedCrew: [], createdAt: new Date().toISOString() },
+      { id: '2', clientId: '2', clientName: 'Andi & Siska', location: 'Gedung Serbaguna', eventType: 'Pernikahan', eventDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), status: 'Draft', paymentStatus: 'Down Payment', totalAmount: 10000000, amountPaid: 2500000, technicalNeeds: [{description: 'Backdrop LED', completed: false}], crewTasks: [], assignedCrew: [], createdAt: new Date().toISOString() },
     ];
   }
   try {
@@ -298,6 +298,26 @@ export async function fetchBookings(): Promise<Booking[]> {
   } catch (error) {
     console.error("Gagal mengambil data booking:", error);
     return [];
+  }
+}
+
+export async function fetchBookingById(id: string): Promise<Booking | null> {
+  if (!db) return null;
+  try {
+    const docRef = doc(db, 'bookings', id);
+    const docSnap = await getDoc(docRef);
+    if (!docSnap.exists()) return null;
+    
+    const data = docSnap.data();
+    return {
+      id: docSnap.id,
+      ...data,
+      eventDate: data.eventDate,
+      createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
+    } as Booking;
+  } catch (error) {
+    console.error("Gagal mengambil booking berdasarkan ID:", error);
+    return null;
   }
 }
 
@@ -334,6 +354,26 @@ export async function fetchClients(): Promise<Client[]> {
     return [];
   }
 }
+
+export async function fetchClientById(id: string): Promise<Client | null> {
+    if (!db) return null;
+    try {
+        const docRef = doc(db, 'clients', id);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) return null;
+        
+        const data = docSnap.data();
+        return {
+            id: docSnap.id,
+            ...data,
+            createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
+        } as Client;
+    } catch (error) {
+        console.error("Gagal mengambil klien berdasarkan ID:", error);
+        return null;
+    }
+}
+
 
 export async function fetchCrewMembers(): Promise<CrewMember[]> {
   if (!db) {

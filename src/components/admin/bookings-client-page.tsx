@@ -15,12 +15,13 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { PlusCircle, MoreHorizontal, Pencil, Trash2, FileText } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator
 } from '@/components/ui/dropdown-menu';
 import {
   Dialog,
@@ -45,6 +46,7 @@ import { deleteBooking, saveBooking } from '@/lib/actions';
 import { BookingForm, BookingFormValues } from './booking-form';
 import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface BookingsClientPageProps {
   initialBookings: Booking[];
@@ -194,6 +196,12 @@ export function BookingsClientPage({ initialBookings, initialClients, initialCre
                             <DropdownMenuItem onClick={() => handleOpenDialog(booking)}>
                               <Pencil className="mr-2 h-4 w-4" /> Edit
                             </DropdownMenuItem>
+                             <DropdownMenuItem asChild>
+                                <Link href={`/admin/invoices/${booking.id}`}>
+                                <FileText className="mr-2 h-4 w-4" /> Lihat Faktur
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
                             <AlertDialogTrigger asChild>
                               <DropdownMenuItem className="text-destructive focus:text-destructive focus:bg-destructive/10">
                                 <Trash2 className="mr-2 h-4 w-4" /> Hapus

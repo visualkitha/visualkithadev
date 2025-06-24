@@ -41,6 +41,8 @@ const formSchema = z.object({
   eventType: z.string().min(2, 'Jenis acara harus minimal 2 karakter.'),
   status: z.enum(['Draft', 'Confirmed', 'Ongoing', 'Completed', 'Cancelled']),
   paymentStatus: z.enum(['Unpaid', 'Down Payment', 'Paid', 'Refunded']),
+  totalAmount: z.coerce.number().optional(),
+  amountPaid: z.coerce.number().optional(),
   technicalNeeds: z.array(
     z.object({
       description: z.string().min(1, 'Deskripsi tidak boleh kosong.'),
@@ -74,6 +76,8 @@ export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCan
       ? {
           ...initialData,
           eventDate: new Date(initialData.eventDate),
+          totalAmount: initialData.totalAmount || 0,
+          amountPaid: initialData.amountPaid || 0,
           technicalNeeds: initialData.technicalNeeds || [],
           crewTasks: initialData.crewTasks || [],
           assignedCrew: initialData.assignedCrew || [],
@@ -85,6 +89,8 @@ export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCan
           eventType: '',
           status: 'Draft',
           paymentStatus: 'Unpaid',
+          totalAmount: 0,
+          amountPaid: 0,
           technicalNeeds: [],
           crewTasks: [],
           assignedCrew: [],
@@ -198,7 +204,7 @@ export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCan
             />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
            <FormField
                 control={form.control}
                 name="status"
@@ -236,7 +242,7 @@ export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCan
                         </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                        <SelectItem value="Unpaid">Belum Lunas</SelectItem>
+                        <SelectItem value="Unpaid">Belum Bayar</SelectItem>
                         <SelectItem value="Down Payment">DP</SelectItem>
                         <SelectItem value="Paid">Lunas</SelectItem>
                         <SelectItem value="Refunded">Dikembalikan</SelectItem>
@@ -244,6 +250,32 @@ export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCan
                     </Select>
                     <FormMessage />
                 </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="totalAmount"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Total Tagihan (Rp)</FormLabel>
+                    <FormControl>
+                        <Input type="number" placeholder="5000000" {...field} disabled={isSubmitting} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="amountPaid"
+                render={({ field }) => (
+                    <FormItem>
+                    <FormLabel>Sudah Dibayar (Rp)</FormLabel>
+                    <FormControl>
+                        <Input type="number" placeholder="1000000" {...field} disabled={isSubmitting} />
+                    </FormControl>
+                    <FormMessage />
+                    </FormItem>
                 )}
             />
         </div>

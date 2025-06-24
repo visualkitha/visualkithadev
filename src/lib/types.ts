@@ -95,6 +95,8 @@ export type Booking = {
   eventType: string;
   status: 'Draft' | 'Confirmed' | 'Ongoing' | 'Completed' | 'Cancelled';
   paymentStatus: 'Unpaid' | 'Down Payment' | 'Paid' | 'Refunded';
+  totalAmount?: number;
+  amountPaid?: number;
   technicalNeeds: TechnicalNeed[];
   crewTasks: TechnicalNeed[];
   assignedCrew: string[]; // Array of CrewMember IDs

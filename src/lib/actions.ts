@@ -249,6 +249,8 @@ export async function saveBooking(data: {
     eventType: string;
     status: Booking['status'];
     paymentStatus: Booking['paymentStatus'];
+    totalAmount?: number;
+    amountPaid?: number;
     technicalNeeds: TechnicalNeed[];
     crewTasks: TechnicalNeed[];
     assignedCrew: string[];
@@ -263,6 +265,8 @@ export async function saveBooking(data: {
     eventType: data.eventType,
     status: data.status,
     paymentStatus: data.paymentStatus,
+    totalAmount: data.totalAmount || 0,
+    amountPaid: data.amountPaid || 0,
     technicalNeeds: data.technicalNeeds || [],
     crewTasks: data.crewTasks || [],
     assignedCrew: data.assignedCrew || [],
@@ -279,6 +283,9 @@ export async function saveBooking(data: {
     revalidatePath('/admin/bookings');
     revalidatePath('/admin/schedule');
     revalidatePath('/admin/dashboard');
+    if (data.id) {
+      revalidatePath(`/admin/invoices/${data.id}`);
+    }
     return { success: true };
   } catch (error) {
     console.error('Gagal menyimpan data booking:', error);
