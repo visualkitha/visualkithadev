@@ -21,7 +21,7 @@ export function AuthNavLink({ className }: { className?: string }) {
   if (user) {
     return (
       <Link href="/admin" className={cn("transition-colors", className)}>
-        masuk
+        Dasbor
       </Link>
     );
   }
