@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -18,6 +19,7 @@ import {
   Settings,
   Users,
   CalendarDays,
+  HardHat,
 } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -46,6 +48,7 @@ const navItems = [
   { href: '/admin/schedule', label: 'Kalender Jadwal', icon: CalendarDays },
   { href: '/admin/bookings', label: 'Manajemen Booking', icon: CalendarCheck },
   { href: '/admin/clients', label: 'Manajemen Klien', icon: Users },
+  { href: '/admin/crew', label: 'Manajemen Tim', icon: HardHat },
   { href: '/admin/equipment', label: 'Peralatan', icon: Package },
   { 
     label: 'Manajemen Situs', 

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,9 +13,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
@@ -26,9 +27,10 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
 import { LoaderCircle, CalendarIcon, Trash2, PlusCircle } from 'lucide-react';
-import type { Booking, Client } from '@/lib/types';
+import type { Booking, Client, CrewMember } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const formSchema = z.object({
   clientId: z.string().min(1, 'Klien harus dipilih.'),
@@ -45,6 +47,13 @@ const formSchema = z.object({
       completed: z.boolean(),
     })
   ).optional(),
+  crewTasks: z.array(
+    z.object({
+      description: z.string().min(1, 'Deskripsi tidak boleh kosong.'),
+      completed: z.boolean(),
+    })
+  ).optional(),
+  assignedCrew: z.array(z.string()).optional(),
 });
 
 export type BookingFormValues = z.infer<typeof formSchema>;
@@ -52,12 +61,13 @@ export type BookingFormValues = z.infer<typeof formSchema>;
 interface BookingFormProps {
   initialData?: Booking | null;
   clients: Client[];
+  crewMembers: CrewMember[];
   onSubmit: (data: BookingFormValues) => void;
   onCancel: () => void;
   isSubmitting: boolean;
 }
 
-export function BookingForm({ initialData, clients, onSubmit, onCancel, isSubmitting }: BookingFormProps) {
+export function BookingForm({ initialData, clients, crewMembers, onSubmit, onCancel, isSubmitting }: BookingFormProps) {
   const form = useForm<BookingFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
@@ -65,6 +75,8 @@ export function BookingForm({ initialData, clients, onSubmit, onCancel, isSubmit
           ...initialData,
           eventDate: new Date(initialData.eventDate),
           technicalNeeds: initialData.technicalNeeds || [],
+          crewTasks: initialData.crewTasks || [],
+          assignedCrew: initialData.assignedCrew || [],
         }
       : {
           clientId: '',
@@ -73,13 +85,20 @@ export function BookingForm({ initialData, clients, onSubmit, onCancel, isSubmit
           eventType: '',
           status: 'Draft',
           paymentStatus: 'Unpaid',
-          technicalNeeds: [{ description: '', completed: false }],
+          technicalNeeds: [],
+          crewTasks: [],
+          assignedCrew: [],
         },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields: techNeedsFields, append: appendTechNeed, remove: removeTechNeed } = useFieldArray({
     control: form.control,
     name: 'technicalNeeds',
+  });
+  
+  const { fields: crewTaskFields, append: appendCrewTask, remove: removeCrewTask } = useFieldArray({
+    control: form.control,
+    name: 'crewTasks',
   });
 
   return (
@@ -231,67 +250,146 @@ export function BookingForm({ initialData, clients, onSubmit, onCancel, isSubmit
 
         <Card>
             <CardHeader>
-                <CardTitle>Checklist Kebutuhan Teknis</CardTitle>
+                <CardTitle>Penugasan Tim Teknis</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="space-y-4">
-                {fields.map((field, index) => (
-                    <div key={field.id} className="flex items-center gap-2">
-                    <FormField
-                        control={form.control}
-                        name={`technicalNeeds.${index}.completed`}
-                        render={({ field }) => (
+                 <FormField
+                    control={form.control}
+                    name="assignedCrew"
+                    render={() => (
                         <FormItem>
-                            <FormControl>
-                            <Checkbox
-                                checked={field.value}
-                                onCheckedChange={field.onChange}
-                                disabled={isSubmitting}
-                            />
-                            </FormControl>
+                            <ScrollArea className="h-40 rounded-md border p-4">
+                               <div className="space-y-2">
+                                {crewMembers.map((member) => (
+                                    <FormField
+                                    key={member.id}
+                                    control={form.control}
+                                    name="assignedCrew"
+                                    render={({ field }) => {
+                                        return (
+                                        <FormItem
+                                            key={member.id}
+                                            className="flex flex-row items-start space-x-3 space-y-0"
+                                        >
+                                            <FormControl>
+                                            <Checkbox
+                                                checked={field.value?.includes(member.id)}
+                                                onCheckedChange={(checked) => {
+                                                return checked
+                                                    ? field.onChange([...(field.value || []), member.id])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                        (value) => value !== member.id
+                                                        )
+                                                    )
+                                                }}
+                                            />
+                                            </FormControl>
+                                            <FormLabel className="font-normal">
+                                               {member.name} <span className="text-muted-foreground">({member.role})</span>
+                                            </FormLabel>
+                                        </FormItem>
+                                        )
+                                    }}
+                                    />
+                                ))}
+                                </div>
+                            </ScrollArea>
+                            <FormMessage />
                         </FormItem>
-                        )}
+                    )}
                     />
-                    <FormField
-                        control={form.control}
-                        name={`technicalNeeds.${index}.description`}
-                        render={({ field }) => (
-                        <FormItem className="flex-grow">
-                            <FormControl>
-                            <Input
-                                placeholder="cth., LED Screen 4x3m"
-                                {...field}
-                                disabled={isSubmitting}
-                            />
-                            </FormControl>
-                        </FormItem>
-                        )}
-                    />
-                    <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        onClick={() => remove(index)}
-                        disabled={isSubmitting}
-                    >
-                        <Trash2 className="h-4 w-4" />
-                    </Button>
-                    </div>
-                ))}
-                </div>
-                 <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    className="mt-4"
-                    onClick={() => append({ description: '', completed: false })}
-                    disabled={isSubmitting}
-                    >
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Tambah Kebutuhan
-                </Button>
             </CardContent>
         </Card>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Checklist Kebutuhan Peralatan</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-4">
+                    {techNeedsFields.map((field, index) => (
+                        <div key={field.id} className="flex items-center gap-2">
+                            <Checkbox
+                                {...form.register(`technicalNeeds.${index}.completed`)}
+                                disabled={isSubmitting}
+                            />
+                            <Input
+                                placeholder="cth., LED Screen 4x3m"
+                                {...form.register(`technicalNeeds.${index}.description`)}
+                                disabled={isSubmitting}
+                            />
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => removeTechNeed(index)}
+                                disabled={isSubmitting}
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    ))}
+                    </div>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="mt-4"
+                        onClick={() => appendTechNeed({ description: '', completed: false })}
+                        disabled={isSubmitting}
+                        >
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Tambah Kebutuhan
+                    </Button>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Checklist Tugas Tim</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="space-y-4">
+                    {crewTaskFields.map((field, index) => (
+                        <div key={field.id} className="flex items-center gap-2">
+                            <Checkbox
+                                {...form.register(`crewTasks.${index}.completed`)}
+                                disabled={isSubmitting}
+                            />
+                            <Input
+                                placeholder="cth., Instalasi Panggung"
+                                {...form.register(`crewTasks.${index}.description`)}
+                                disabled={isSubmitting}
+                            />
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                size="icon"
+                                onClick={() => removeCrewTask(index)}
+                                disabled={isSubmitting}
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
+                        </div>
+                    ))}
+                    </div>
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        className="mt-4"
+                        onClick={() => appendCrewTask({ description: '', completed: false })}
+                        disabled={isSubmitting}
+                        >
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Tambah Tugas
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
+
 
         <div className="flex justify-end gap-2 pt-4">
           <Button type="button" variant="ghost" onClick={onCancel} disabled={isSubmitting}>

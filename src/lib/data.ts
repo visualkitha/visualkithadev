@@ -1,7 +1,7 @@
 import 'server-only';
 import { collection, getDocs, query, orderBy, where, limit, getDoc, doc } from 'firebase/firestore';
 import { db } from './firebase';
-import type { Equipment, BlogPost, Page, BlogCategory, SiteImages, ClientLogo, Booking, Client } from './types';
+import type { Equipment, BlogPost, Page, BlogCategory, SiteImages, ClientLogo, Booking, Client, CrewMember } from './types';
 
 export async function fetchEquipment(): Promise<Equipment[]> {
   if (!db) {
@@ -272,8 +272,8 @@ export async function fetchBookings(): Promise<Booking[]> {
     }
     // Fallback to mock data
     return [
-      { id: '1', clientId: '1', clientName: 'PT Jaya Abadi', location: 'Hotel Grand Hyatt', eventType: 'Corporate Gathering', eventDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Confirmed', paymentStatus: 'Paid', technicalNeeds: [{description: 'LED Screen 4x3m', completed: true}, {description: 'Sound System 5000 watt', completed: false}], createdAt: new Date().toISOString() },
-      { id: '2', clientId: '2', clientName: 'Andi & Siska', location: 'Gedung Serbaguna', eventType: 'Pernikahan', eventDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), status: 'Draft', paymentStatus: 'Down Payment', technicalNeeds: [{description: 'Backdrop LED', completed: false}], createdAt: new Date().toISOString() },
+      { id: '1', clientId: '1', clientName: 'PT Jaya Abadi', location: 'Hotel Grand Hyatt', eventType: 'Corporate Gathering', eventDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), status: 'Confirmed', paymentStatus: 'Paid', technicalNeeds: [{description: 'LED Screen 4x3m', completed: true}, {description: 'Sound System 5000 watt', completed: false}], crewTasks: [], assignedCrew: [], createdAt: new Date().toISOString() },
+      { id: '2', clientId: '2', clientName: 'Andi & Siska', location: 'Gedung Serbaguna', eventType: 'Pernikahan', eventDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(), status: 'Draft', paymentStatus: 'Down Payment', technicalNeeds: [{description: 'Backdrop LED', completed: false}], crewTasks: [], assignedCrew: [], createdAt: new Date().toISOString() },
     ];
   }
   try {
@@ -330,6 +330,40 @@ export async function fetchClients(): Promise<Client[]> {
     });
   } catch (error) {
     console.error("Gagal mengambil data klien:", error);
+    return [];
+  }
+}
+
+export async function fetchCrewMembers(): Promise<CrewMember[]> {
+  if (!db) {
+    if (process.env.NODE_ENV !== 'production') {
+      console.log("Firestore tidak diinisialisasi. Mengembalikan data kru tiruan.");
+    }
+    // Fallback to mock data
+    return [
+      { id: '1', name: 'Budi Teknisi', role: 'Teknisi Utama', status: 'Available', createdAt: new Date().toISOString() },
+      { id: '2', name: 'Anton Operator', role: 'Operator VJ', status: 'On Duty', createdAt: new Date().toISOString() },
+    ];
+  }
+  try {
+    const crewCollection = collection(db, 'crewMembers');
+    const q = query(crewCollection, orderBy('name', 'asc'));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return [];
+    }
+
+    return querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toDate ? data.createdAt.toDate().toISOString() : new Date().toISOString(),
+      } as CrewMember;
+    });
+  } catch (error) {
+    console.error("Gagal mengambil data kru:", error);
     return [];
   }
 }

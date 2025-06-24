@@ -76,15 +76,25 @@ export type Client = {
   createdAt: string;
 };
 
+export type CrewMember = {
+  id: string;
+  name: string;
+  role: string;
+  status: 'Available' | 'On Duty' | 'On Leave';
+  createdAt: string;
+};
+
 export type Booking = {
   id: string;
-  clientId: string; // Added to link to a client
-  clientName: string; // Denormalized for easy display
+  clientId: string;
+  clientName: string;
   location: string;
   eventDate: string; // ISO string
   eventType: string;
   status: 'Draft' | 'Confirmed' | 'Ongoing' | 'Completed' | 'Cancelled';
-  paymentStatus: 'Unpaid' | 'Down Payment' | 'Paid' | 'Refunded'; // Added
+  paymentStatus: 'Unpaid' | 'Down Payment' | 'Paid' | 'Refunded';
   technicalNeeds: TechnicalNeed[];
+  crewTasks: TechnicalNeed[];
+  assignedCrew: string[]; // Array of CrewMember IDs
   createdAt: string;
 };

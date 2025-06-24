@@ -6,8 +6,8 @@ import {
   CardTitle,
   CardDescription
 } from '@/components/ui/card';
-import { Package, FileText, Newspaper, CalendarCheck, Users } from 'lucide-react';
-import { fetchEquipment, fetchPages, fetchBlogPosts, fetchBookings, fetchClients } from '@/lib/data';
+import { Package, Newspaper, CalendarCheck, Users, HardHat } from 'lucide-react';
+import { fetchEquipment, fetchPages, fetchBlogPosts, fetchBookings, fetchClients, fetchCrewMembers } from '@/lib/data';
 import {
   Table,
   TableBody,
@@ -21,17 +21,19 @@ import Link from 'next/link';
 
 export default async function AdminDashboard() {
   // Ambil data secara paralel
-  const [equipment, pages, blogPosts, bookings, clients] = await Promise.all([
+  const [equipment, pages, blogPosts, bookings, clients, crew] = await Promise.all([
     fetchEquipment(),
     fetchPages({ includeDrafts: true }),
     fetchBlogPosts({ includeDrafts: true }),
     fetchBookings(),
     fetchClients(),
+    fetchCrewMembers(),
   ]);
 
   const stats = [
     { title: 'Total Klien', value: clients.length, icon: Users, description: 'Total klien yang dikelola', href: '/admin/clients' },
     { title: 'Total Booking', value: bookings.length, icon: CalendarCheck, description: 'Total booking yang dikelola', href: '/admin/bookings' },
+    { title: 'Anggota Tim', value: crew.length, icon: HardHat, description: 'Total anggota tim teknis', href: '/admin/crew' },
     { title: 'Peralatan', value: equipment.length, icon: Package, description: 'Total produk yang dikelola', href: '/admin/equipment' },
     { title: 'Postingan Blog', value: blogPosts.length, icon: Newspaper, description: 'Total artikel (draf & terbit)', href: '/admin/blog' },
   ];
@@ -48,7 +50,7 @@ export default async function AdminDashboard() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
         {stats.map((stat) => (
           <Link href={stat.href} key={stat.title}>
             <Card className="hover:shadow-md transition-shadow h-full">

@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import type { Booking, Client, CrewMember } from '@/lib/types';
+import type { CrewMember } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -41,71 +41,47 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
-import { deleteBooking, saveBooking } from '@/lib/actions';
-import { BookingForm, BookingFormValues } from './booking-form';
-import { ScrollArea } from '../ui/scroll-area';
+import { deleteCrewMember, saveCrewMember } from '@/lib/actions';
+import { CrewForm, CrewFormValues } from './crew-form';
 import { cn } from '@/lib/utils';
 
-interface BookingsClientPageProps {
-  initialBookings: Booking[];
-  initialClients: Client[];
+interface CrewClientPageProps {
   initialCrewMembers: CrewMember[];
 }
 
-const statusColorClassMap: { [key in Booking['status']]: string } = {
-  Draft: 'bg-gray-500',
-  Confirmed: 'bg-blue-500',
-  Ongoing: 'bg-yellow-500',
-  Completed: 'bg-green-500',
-  Cancelled: 'bg-red-500',
+const statusColorMap: Record<CrewMember['status'], string> = {
+  Available: 'bg-green-500',
+  'On Duty': 'bg-yellow-500',
+  'On Leave': 'bg-gray-500',
 };
 
-const paymentStatusColorMap: { [key in Booking['paymentStatus']]: string } = {
-  Unpaid: 'bg-red-500',
-  'Down Payment': 'bg-yellow-500',
-  Paid: 'bg-green-500',
-  Refunded: 'bg-gray-500',
-};
-
-export function BookingsClientPage({ initialBookings, initialClients, initialCrewMembers }: BookingsClientPageProps) {
+export function CrewClientPage({ initialCrewMembers }: CrewClientPageProps) {
   const router = useRouter();
   const { toast } = useToast();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
+  const [selectedCrewMember, setSelectedCrewMember] = useState<CrewMember | null>(null);
 
-  const handleOpenDialog = (booking: Booking | null = null) => {
-    setSelectedBooking(booking);
+  const handleOpenDialog = (member: CrewMember | null = null) => {
+    setSelectedCrewMember(member);
     setIsDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
     if (isSubmitting) return;
-    setSelectedBooking(null);
+    setSelectedCrewMember(null);
     setIsDialogOpen(false);
   };
 
-  const handleFormSubmit = async (data: BookingFormValues) => {
+  const handleFormSubmit = async (data: CrewFormValues) => {
     setIsSubmitting(true);
-
-    const selectedClient = initialClients.find(c => c.id === data.clientId);
-    if (!selectedClient) {
-        toast({ variant: 'destructive', title: 'Error', description: 'Klien yang dipilih tidak valid.' });
-        setIsSubmitting(false);
-        return;
-    }
-    
-    const result = await saveBooking({
-        ...data,
-        id: selectedBooking?.id,
-        clientName: selectedClient.name, // Ensure client name is passed
-    });
+    const result = await saveCrewMember({ ...data, id: selectedCrewMember?.id });
     setIsSubmitting(false);
 
     if (result.success) {
       toast({
         title: 'Berhasil!',
-        description: `Booking telah ${selectedBooking ? 'diperbarui' : 'dibuat'}.`,
+        description: `Anggota tim telah ${selectedCrewMember ? 'diperbarui' : 'ditambahkan'}.`,
       });
       router.refresh();
       handleCloseDialog();
@@ -119,11 +95,11 @@ export function BookingsClientPage({ initialBookings, initialClients, initialCre
   };
 
   const handleDelete = async (id: string) => {
-    const result = await deleteBooking(id);
+    const result = await deleteCrewMember(id);
     if (result.success) {
       toast({
         title: 'Berhasil!',
-        description: 'Booking telah dihapus.',
+        description: 'Anggota tim telah dihapus.',
       });
       router.refresh();
     } else {
@@ -140,12 +116,12 @@ export function BookingsClientPage({ initialBookings, initialClients, initialCre
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <h1 className="font-headline text-3xl font-bold tracking-tight">Manajemen Booking</h1>
-            <p className="text-muted-foreground">Buat dan kelola booking event Anda.</p>
+            <h1 className="font-headline text-3xl font-bold tracking-tight">Manajemen Tim</h1>
+            <p className="text-muted-foreground">Kelola anggota tim teknis Anda.</p>
           </div>
           <Button onClick={() => handleOpenDialog()}>
             <PlusCircle className="mr-2 h-4 w-4" />
-            Booking Baru
+            Tambah Anggota Tim
           </Button>
         </div>
 
@@ -154,33 +130,25 @@ export function BookingsClientPage({ initialBookings, initialClients, initialCre
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Nama Klien</TableHead>
-                  <TableHead>Tanggal Acara</TableHead>
-                  <TableHead>Status Booking</TableHead>
-                  <TableHead>Status Bayar</TableHead>
+                  <TableHead>Nama</TableHead>
+                  <TableHead>Peran</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden md:table-cell">Bergabung Sejak</TableHead>
                   <TableHead className="text-right">Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {initialBookings.map((booking) => (
-                  <TableRow key={booking.id}>
-                    <TableCell className="font-medium">{booking.clientName}</TableCell>
+                {initialCrewMembers.map((member) => (
+                  <TableRow key={member.id}>
+                    <TableCell className="font-medium">{member.name}</TableCell>
+                    <TableCell>{member.role}</TableCell>
                     <TableCell>
-                      {new Date(booking.eventDate).toLocaleDateString('id-ID', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
+                      <Badge className={cn(statusColorMap[member.status])}>{member.status}</Badge>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {new Date(member.createdAt).toLocaleDateString('id-ID', {
+                        year: 'numeric', month: 'long', day: 'numeric',
                       })}
-                    </TableCell>
-                    <TableCell>
-                       <Badge className={cn(statusColorClassMap[booking.status])}>
-                         {booking.status}
-                       </Badge>
-                    </TableCell>
-                    <TableCell>
-                       <Badge className={cn(paymentStatusColorMap[booking.paymentStatus])}>
-                         {booking.paymentStatus}
-                       </Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>
@@ -191,7 +159,7 @@ export function BookingsClientPage({ initialBookings, initialClients, initialCre
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => handleOpenDialog(booking)}>
+                            <DropdownMenuItem onClick={() => handleOpenDialog(member)}>
                               <Pencil className="mr-2 h-4 w-4" /> Edit
                             </DropdownMenuItem>
                             <AlertDialogTrigger asChild>
@@ -205,12 +173,12 @@ export function BookingsClientPage({ initialBookings, initialClients, initialCre
                           <AlertDialogHeader>
                             <AlertDialogTitle>Apakah Anda benar-benar yakin?</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Tindakan ini tidak dapat dibatalkan. Ini akan menghapus data booking ini secara permanen.
+                              Tindakan ini tidak dapat dibatalkan. Ini akan menghapus anggota tim ini secara permanen.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Batal</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => handleDelete(booking.id)} className="bg-destructive hover:bg-destructive/90">
+                            <AlertDialogAction onClick={() => handleDelete(member.id)} className="bg-destructive hover:bg-destructive/90">
                               Hapus
                             </AlertDialogAction>
                           </AlertDialogFooter>
@@ -226,26 +194,22 @@ export function BookingsClientPage({ initialBookings, initialClients, initialCre
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={handleCloseDialog}>
-        <DialogContent className="sm:max-w-4xl">
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle className="font-headline">{selectedBooking ? 'Edit Booking' : 'Buat Booking Baru'}</DialogTitle>
+            <DialogTitle className="font-headline">{selectedCrewMember ? 'Edit Anggota Tim' : 'Tambah Anggota Tim Baru'}</DialogTitle>
             <DialogDescription>
-              {selectedBooking ? 'Perbarui detail untuk booking ini.' : 'Isi detail untuk booking baru.'}
+              {selectedCrewMember ? 'Perbarui detail untuk anggota tim ini.' : 'Isi detail untuk anggota tim baru.'}
             </DialogDescription>
           </DialogHeader>
-           <ScrollArea className="h-[70vh] -mx-6 px-6">
-            <div className="py-4 pr-1">
-              <BookingForm
-                key={selectedBooking?.id || 'new'}
-                initialData={selectedBooking}
-                clients={initialClients}
-                crewMembers={initialCrewMembers}
-                onSubmit={handleFormSubmit}
-                onCancel={handleCloseDialog}
-                isSubmitting={isSubmitting}
-              />
-            </div>
-          </ScrollArea>
+          <div className="py-4">
+            <CrewForm
+              key={selectedCrewMember?.id || 'new'}
+              initialData={selectedCrewMember}
+              onSubmit={handleFormSubmit}
+              onCancel={handleCloseDialog}
+              isSubmitting={isSubmitting}
+            />
+          </div>
         </DialogContent>
       </Dialog>
     </>

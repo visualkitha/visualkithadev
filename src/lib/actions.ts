@@ -1,8 +1,9 @@
+
 'use server';
 
 import { generateProductDescription } from '@/ai/flows/generate-product-description';
 import { db } from '@/lib/firebase';
-import type { Booking, Client, Equipment, Page, SiteImages, TechnicalNeed } from '@/lib/types';
+import type { Booking, Client, CrewMember, Equipment, Page, SiteImages, TechnicalNeed } from '@/lib/types';
 import { addDoc, collection, deleteDoc, doc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 
@@ -249,6 +250,8 @@ export async function saveBooking(data: {
     status: Booking['status'];
     paymentStatus: Booking['paymentStatus'];
     technicalNeeds: TechnicalNeed[];
+    crewTasks: TechnicalNeed[];
+    assignedCrew: string[];
 }): Promise<{ success: boolean; error?: string }> {
   if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
 
@@ -260,7 +263,9 @@ export async function saveBooking(data: {
     eventType: data.eventType,
     status: data.status,
     paymentStatus: data.paymentStatus,
-    technicalNeeds: data.technicalNeeds,
+    technicalNeeds: data.technicalNeeds || [],
+    crewTasks: data.crewTasks || [],
+    assignedCrew: data.assignedCrew || [],
   };
 
   try {
@@ -272,6 +277,7 @@ export async function saveBooking(data: {
       await addDoc(collection(db, 'bookings'), dataWithTimestamp);
     }
     revalidatePath('/admin/bookings');
+    revalidatePath('/admin/schedule');
     revalidatePath('/admin/dashboard');
     return { success: true };
   } catch (error) {
@@ -286,6 +292,7 @@ export async function deleteBooking(id: string): Promise<{ success: boolean; err
   try {
     await deleteDoc(doc(db, 'bookings', id));
     revalidatePath('/admin/bookings');
+    revalidatePath('/admin/schedule');
     revalidatePath('/admin/dashboard');
     return { success: true };
   } catch (error) {
@@ -339,5 +346,48 @@ export async function deleteClient(id: string): Promise<{ success: boolean; erro
     console.error('Gagal menghapus klien:', error);
     const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
     return { success: false, error: `Gagal menghapus klien: ${errorMessage}` };
+  }
+}
+
+export async function saveCrewMember(crewMember: Omit<CrewMember, 'id' | 'createdAt'> & { id?: string }): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+  
+  const dataToSave = {
+    name: crewMember.name,
+    role: crewMember.role,
+    status: crewMember.status,
+  };
+
+  try {
+    if (crewMember.id) {
+      await setDoc(doc(db, 'crewMembers', crewMember.id), dataToSave, { merge: true });
+    } else {
+      const dataWithTimestamp = { ...dataToSave, createdAt: serverTimestamp() };
+      await addDoc(collection(db, 'crewMembers'), dataWithTimestamp);
+    }
+    revalidatePath('/admin/crew');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/admin/bookings'); // Revalidate bookings to have the latest crew list
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menyimpan anggota kru:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menyimpan anggota kru: ${errorMessage}` };
+  }
+}
+
+export async function deleteCrewMember(id: string): Promise<{ success: boolean; error?: string }> {
+  if (!db) return { success: false, error: 'Firestore tidak diinisialisasi.' };
+  
+  try {
+    await deleteDoc(doc(db, 'crewMembers', id));
+    revalidatePath('/admin/crew');
+    revalidatePath('/admin/dashboard');
+    revalidatePath('/admin/bookings');
+    return { success: true };
+  } catch (error) {
+    console.error('Gagal menghapus anggota kru:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui.';
+    return { success: false, error: `Gagal menghapus anggota kru: ${errorMessage}` };
   }
 }
