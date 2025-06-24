@@ -54,8 +54,8 @@ export default async function DynamicPage({ params }: PageProps) {
           <Image 
             src={siteImages.aboutHero}
             alt="Tim Visual Kitha sedang bekerja" 
-            layout="fill" 
-            objectFit="cover" 
+            fill
+            style={{objectFit: "cover"}}
             className="brightness-50" 
             data-ai-hint="event crew" 
             priority

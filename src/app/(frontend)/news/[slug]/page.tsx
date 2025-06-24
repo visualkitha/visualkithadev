@@ -1,3 +1,4 @@
+
 import { fetchBlogPostBySlug, fetchBlogPosts } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -74,8 +75,8 @@ export default async function BlogPostPage({ params }: PageProps) {
               <Image
                 src={post.imageUrl}
                 alt={post.title}
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{objectFit: "cover"}}
                 className="w-full h-full"
                 data-ai-hint="blog post header"
               />

@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -15,8 +16,8 @@ export default async function HomePage() {
           <Image 
             src={siteImages.homeHero}
             alt="Event meriah dengan videotron Visual Kitha" 
-            layout="fill" 
-            objectFit="cover" 
+            fill
+            style={{objectFit: "cover"}}
             className="brightness-50" 
             data-ai-hint="concert stage led" 
             priority

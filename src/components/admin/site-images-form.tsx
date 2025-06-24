@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -82,8 +83,8 @@ const ImageUrlField = ({
               <Image
                 src={field.value}
                 alt={`Pratinjau untuk ${label}`}
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{objectFit: "cover"}}
               />
             </div>
           )}
