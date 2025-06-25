@@ -10,7 +10,7 @@ import { ProductCard } from '@/components/frontend/product-card';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Layanan & Peralatan | Visual Kitha CMS',
+  title: 'Layanan & Peralatan | Visual Kitha',
   description: 'Visual Kitha menyediakan berbagai pilihan layanan dan peralatan videotron untuk semua jenis kebutuhan event — dari yang intimate sampai yang megah.',
 };
 
@@ -19,10 +19,10 @@ export default async function ProductsPage() {
   const products = await fetchInventory();
 
   return (
-    <>
+    <div className="w-full">
       {/* 1. Hero Section */}
       <section className="w-full py-24 md:py-28 bg-secondary border-b">
-        <div className="px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Layanan & Peralatan Kami
           </h1>
@@ -42,7 +42,7 @@ export default async function ProductsPage() {
 
       {/* 2. Section: Ringkasan Jenis Layanan */}
       <section className="w-full py-24 md:py-28 lg:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
               Solusi untuk Setiap Jenis Acara
@@ -121,7 +121,7 @@ export default async function ProductsPage() {
 
       {/* Section: Product Catalog */}
       <section className="w-full py-24 md:py-28 lg:py-32 bg-secondary">
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
               Katalog Peralatan Kami
@@ -146,7 +146,7 @@ export default async function ProductsPage() {
 
       {/* 3. Section: Keunggulan Layanan Visual Kitha */}
        <section className="w-full py-24 md:py-28 lg:py-32 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-4">
               <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">
@@ -194,7 +194,7 @@ export default async function ProductsPage() {
 
       {/* 4. Section: FAQ */}
       <section className="w-full py-24 md:py-28 lg:py-32 bg-secondary">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
               Pertanyaan yang Sering Ditanyakan
@@ -246,6 +246,6 @@ export default async function ProductsPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

@@ -1,7 +1,7 @@
 
-# Buku Panduan Pengguna - Visual Kitha CMS
+# Buku Panduan Pengguna - Visual Kitha
 
-Selamat datang di buku panduan untuk **Visual Kitha Content Management System (CMS)**. Dokumen ini dirancang untuk membantu Anda, sebagai administrator, dalam mengelola seluruh aspek situs web dan operasional bisnis penyewaan peralatan event Anda.
+Selamat datang di buku panduan untuk **Visual Kitha**. Dokumen ini dirancang untuk membantu Anda, sebagai administrator, dalam mengelola seluruh aspek situs web dan operasional bisnis penyewaan peralatan event Anda.
 
 ## Daftar Isi
 1. [Login ke Panel Admin](#1-login-ke-panel-admin)
@@ -130,4 +130,3 @@ Perbarui konten yang tampil di situs web publik Anda. Menu ini ada di sidebar ki
 Untuk keluar dari sesi admin Anda:
 - Klik tombol **"Keluar"** di bagian bawah sidebar kiri.
 - Anda akan diarahkan kembali ke halaman login.
-

@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
   return {
-    title: `${page.title} | Visual Kitha CMS`,
+    title: `${page.title} | Visual Kitha`,
   }
 }
 
@@ -48,7 +48,7 @@ export default async function DynamicPage({ params }: PageProps) {
   // Template khusus untuk halaman "Tentang Kami"
   if (page.slug === 'about-us') {
     return (
-      <>
+      <div className="w-full">
         {/* Hero Section */}
         <section className="relative w-full h-[60vh] flex items-center justify-center text-center text-white">
           <Image 
@@ -68,7 +68,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
         {/* Company Profile Section */}
         <section className="py-12 md:py-20 lg:py-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center">
               <div className="space-y-4">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Profil Perusahaan</div>
@@ -113,7 +113,7 @@ export default async function DynamicPage({ params }: PageProps) {
         
         {/* Why Choose Us Section */}
         <section className="w-full py-12 md:py-20 lg:py-24">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">
                 Keunggulan Kami
@@ -149,7 +149,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
         {/* Portfolio Section */}
         <section className="w-full py-12 md:py-20 lg:py-24 bg-secondary">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                 <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
                     Pengalaman Kami
@@ -169,7 +169,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
         {/* Testimonials Section */}
         <section className="w-full py-12 md:py-20 lg:py-24">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                      <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
                         Kata Mereka Tentang Kami
@@ -233,21 +233,23 @@ export default async function DynamicPage({ params }: PageProps) {
             </div>
           </div>
         </section>
-      </>
+      </div>
     );
   }
 
   // Perender halaman generik untuk halaman lainnya
   return (
-    <div className="max-w-4xl mx-auto py-20 px-4 sm:px-6 lg:px-8">
-      <Card>
-        <CardHeader>
-          <CardTitle className="font-headline text-4xl">{page.title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="prose prose-lg max-w-none text-muted-foreground" dangerouslySetInnerHTML={{ __html: page.content.replace(/\n/g, '<br />') }} />
-        </CardContent>
-      </Card>
+    <div className="w-full mx-auto py-20 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <Card>
+          <CardHeader>
+            <CardTitle className="font-headline text-4xl">{page.title}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="prose prose-lg max-w-none text-muted-foreground" dangerouslySetInnerHTML={{ __html: page.content.replace(/\n/g, '<br />') }} />
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

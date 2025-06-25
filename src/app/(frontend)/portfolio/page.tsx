@@ -6,7 +6,7 @@ import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Portofolio | Visual Kitha CMS',
+  title: 'Portofolio | Visual Kitha',
   description: 'Lihat proyek-proyek videotron yang telah kami kerjakan untuk berbagai event.',
 };
 
@@ -57,10 +57,10 @@ const projects = [
 
 export default function PortfolioPage() {
   return (
-    <>
+    <div className="w-full">
       {/* Hero Section */}
       <section className="w-full py-24 md:py-28 bg-secondary border-b">
-        <div className="px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Portofolio Proyek Kami
           </h1>
@@ -72,7 +72,7 @@ export default function PortfolioPage() {
 
       {/* Projects Gallery */}
       <section className="w-full py-20 md:py-24 lg:py-28">
-        <div className="px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
               <Card key={index} className="flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
@@ -114,6 +114,6 @@ export default function PortfolioPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

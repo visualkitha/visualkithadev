@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 
 export const metadata: Metadata = {
-  title: 'Blog & Update Terbaru | Visual Kitha CMS',
+  title: 'Blog & Update Terbaru | Visual Kitha',
   description: 'Dari cerita di balik layar, tips event, sampai update proyek — semua kami tuangkan di sini.',
 };
 
@@ -22,10 +22,10 @@ export default async function NewsPage() {
   const otherPosts = allPosts.length > 1 ? allPosts.slice(1) : [];
 
   return (
-    <>
+    <div className="w-full">
       {/* 1. Hero Section */}
       <section className="w-full py-20 md:py-24 bg-secondary border-b">
-        <div className="px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Blog & Update Terbaru
           </h1>
@@ -126,6 +126,6 @@ export default async function NewsPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

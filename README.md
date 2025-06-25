@@ -1,7 +1,7 @@
 
-# Visual Kitha CMS - Sistem Manajemen Konten & Booking
+# Visual Kitha - Sistem Manajemen Konten & Booking
 
-Selamat datang di Visual Kitha CMS! Ini adalah aplikasi web lengkap yang dibuat dengan Next.js, Firebase, dan Tailwind CSS, yang dirancang untuk mengelola bisnis penyewaan peralatan event, khususnya videotron. Aplikasi ini terdiri dari dua bagian utama: situs web publik (frontend) untuk menampilkan layanan, dan panel admin (backend) yang kuat untuk mengelola semua aspek bisnis.
+Selamat datang di Visual Kitha! Ini adalah aplikasi web lengkap yang dibuat dengan Next.js, Firebase, dan Tailwind CSS, yang dirancang untuk mengelola bisnis penyewaan peralatan event, khususnya videotron. Aplikasi ini terdiri dari dua bagian utama: situs web publik (frontend) untuk menampilkan layanan, dan panel admin (backend) yang kuat untuk mengelola semua aspek bisnis.
 
 ## Fitur Utama
 
