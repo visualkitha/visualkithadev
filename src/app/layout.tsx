@@ -7,7 +7,7 @@ const logoUrl = "https://itoizdelnicxhqadarbo.supabase.co/storage/v1/object/sign
 
 export const metadata: Metadata = {
   title: 'Visual Kitha',
-  description: 'A modern CMS for Videotron equipment and content management.',
+  description: 'Event Biasa Jadi Luar Biasa',
   icons: {
     icon: logoUrl,
     apple: logoUrl,
