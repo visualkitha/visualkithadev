@@ -223,7 +223,7 @@ const defaultImages: SiteImages = {
   id: 'main' as const,
   homeHero: 'https://placehold.co/1920x1080.png',
   homeWhyUs: 'https://placehold.co/550x400.png',
-  homeProject1: 'https://placehold.co/400x300.png',
+  homeProject1: 'https://images.unsplash.com/photo-1516450137517-162bfbeb8dba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtdXNpYyUyMGZlc3R8ZW58MHx8fHwxNzUwODYwNzc0fDA&ixlib=rb-4.1.0&q=80&w=1080',
   homeProject2: 'https://placehold.co/400x300.png',
   homeProject3: 'https://placehold.co/400x300.png',
   homeProject4: 'https://placehold.co/400x300.png',
@@ -408,3 +408,5 @@ export async function fetchCrewMembers(): Promise<CrewMember[]> {
     return [];
   }
 }
+
+    
