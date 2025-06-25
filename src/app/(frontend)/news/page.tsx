@@ -35,7 +35,7 @@ export default async function NewsPage() {
         </div>
       </section>
 
-      <div className="container px-4 md:px-6 py-12 md:py-16 lg:py-20">
+      <div className="w-full px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
         {/* Featured Post Section */}
         {featuredPost && (
           <section className="mb-12 md:mb-16 lg:mb-20">
