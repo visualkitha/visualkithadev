@@ -1,10 +1,11 @@
 
 import 'server-only';
+import { cache } from 'react';
 import { collection, getDocs, query, orderBy, where, limit, getDoc, doc } from 'firebase/firestore';
 import { db } from './firebase';
 import type { InventoryItem, BlogPost, Page, BlogCategory, SiteImages, ClientLogo, Booking, Client, CrewMember } from './types';
 
-export async function fetchInventory(): Promise<InventoryItem[]> {
+export const fetchInventory = cache(async (): Promise<InventoryItem[]> => {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
       console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk inventaris.");
@@ -38,9 +39,9 @@ export async function fetchInventory(): Promise<InventoryItem[]> {
     // In case of error, return an empty array to prevent crashing the page.
     return [];
   }
-}
+});
 
-export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}): Promise<BlogPost[]> {
+export const fetchBlogPosts = cache(async (options: { includeDrafts?: boolean } = {}): Promise<BlogPost[]> => {
   const { includeDrafts = false } = options;
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
@@ -82,9 +83,9 @@ export async function fetchBlogPosts(options: { includeDrafts?: boolean } = {}):
     console.error("Gagal mengambil postingan blog:", error);
     return [];
   }
-}
+});
 
-export async function fetchBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+export const fetchBlogPostBySlug = cache(async (slug: string): Promise<BlogPost | null> => {
   // For now, we use the mock data approach. A real implementation would query Firestore.
   const posts = await fetchBlogPosts({ includeDrafts: true });
   const post = posts.find((p) => p.slug === slug);
@@ -96,10 +97,10 @@ export async function fetchBlogPostBySlug(slug: string): Promise<BlogPost | null
   }
   
   return null;
-}
+});
 
 
-export async function fetchPages(options: { includeDrafts?: boolean } = {}): Promise<Page[]> {
+export const fetchPages = cache(async (options: { includeDrafts?: boolean } = {}): Promise<Page[]> => {
   const { includeDrafts = false } = options;
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
@@ -141,9 +142,9 @@ export async function fetchPages(options: { includeDrafts?: boolean } = {}): Pro
     console.error("Gagal mengambil data halaman:", error);
     return [];
   }
-}
+});
 
-export async function fetchPageBySlug(slug: string): Promise<Page | null> {
+export const fetchPageBySlug = cache(async (slug: string): Promise<Page | null> => {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
       console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk satu halaman.");
@@ -183,9 +184,9 @@ export async function fetchPageBySlug(slug: string): Promise<Page | null> {
     console.error("Gagal mengambil halaman berdasarkan slug:", error);
     return null;
   }
-}
+});
 
-export async function fetchBlogCategories(): Promise<BlogCategory[]> {
+export const fetchBlogCategories = cache(async (): Promise<BlogCategory[]> => {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
       console.log("Firestore tidak diinisialisasi. Mengembalikan data tiruan untuk kategori blog.");
@@ -217,7 +218,7 @@ export async function fetchBlogCategories(): Promise<BlogCategory[]> {
     console.error("Gagal mengambil kategori blog:", error);
     return [];
   }
-}
+});
 
 const defaultImages: SiteImages = {
   id: 'main' as const,
@@ -242,7 +243,7 @@ const defaultImages: SiteImages = {
   servicesWhyUs: 'https://placehold.co/550x400.png',
 };
 
-export async function fetchSiteImages(): Promise<SiteImages> {
+export const fetchSiteImages = cache(async (): Promise<SiteImages> => {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
       console.log("Firestore tidak diinisialisasi. Mengembalikan data gambar tiruan.");
@@ -264,9 +265,9 @@ export async function fetchSiteImages(): Promise<SiteImages> {
     console.error("Gagal mengambil gambar situs:", error);
     return defaultImages;
   }
-}
+});
 
-export async function fetchBookings(): Promise<Booking[]> {
+export const fetchBookings = cache(async (): Promise<Booking[]> => {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
       console.log("Firestore tidak diinisialisasi. Mengembalikan data booking tiruan.");
@@ -299,9 +300,9 @@ export async function fetchBookings(): Promise<Booking[]> {
     console.error("Gagal mengambil data booking:", error);
     return [];
   }
-}
+});
 
-export async function fetchBookingById(id: string): Promise<Booking | null> {
+export const fetchBookingById = cache(async (id: string): Promise<Booking | null> => {
   if (!db) return null;
   try {
     const docRef = doc(db, 'bookings', id);
@@ -319,9 +320,9 @@ export async function fetchBookingById(id: string): Promise<Booking | null> {
     console.error("Gagal mengambil booking berdasarkan ID:", error);
     return null;
   }
-}
+});
 
-export async function fetchClients(): Promise<Client[]> {
+export const fetchClients = cache(async (): Promise<Client[]> => {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
       console.log("Firestore tidak diinisialisasi. Mengembalikan data klien tiruan.");
@@ -353,9 +354,9 @@ export async function fetchClients(): Promise<Client[]> {
     console.error("Gagal mengambil data klien:", error);
     return [];
   }
-}
+});
 
-export async function fetchClientById(id: string): Promise<Client | null> {
+export const fetchClientById = cache(async (id: string): Promise<Client | null> => {
     if (!db) return null;
     try {
         const docRef = doc(db, 'clients', id);
@@ -372,10 +373,10 @@ export async function fetchClientById(id: string): Promise<Client | null> {
         console.error("Gagal mengambil klien berdasarkan ID:", error);
         return null;
     }
-}
+});
 
 
-export async function fetchCrewMembers(): Promise<CrewMember[]> {
+export const fetchCrewMembers = cache(async (): Promise<CrewMember[]> => {
   if (!db) {
     if (process.env.NODE_ENV !== 'production') {
       console.log("Firestore tidak diinisialisasi. Mengembalikan data kru tiruan.");
@@ -407,6 +408,4 @@ export async function fetchCrewMembers(): Promise<CrewMember[]> {
     console.error("Gagal mengambil data kru:", error);
     return [];
   }
-}
-
-    
+});
