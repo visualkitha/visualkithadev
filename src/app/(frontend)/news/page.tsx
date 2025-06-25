@@ -1,10 +1,13 @@
+
 import { fetchBlogPosts, fetchBlogCategories } from '@/lib/data';
 import { BlogPostCard } from '@/components/frontend/blog-post-card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Search } from 'lucide-react';
+import { Search, Calendar, User } from 'lucide-react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
 
 export const metadata: Metadata = {
   title: 'Blog & Update Terbaru | Visual Kitha CMS',
@@ -12,14 +15,16 @@ export const metadata: Metadata = {
 };
 
 export default async function NewsPage() {
-  const posts = await fetchBlogPosts();
+  const allPosts = await fetchBlogPosts();
   const categories = await fetchBlogCategories();
-  const popularPosts = posts.slice(0, 3); // Ambil 3 post pertama sebagai 'populer'
+  
+  const featuredPost = allPosts.length > 0 ? allPosts[0] : null;
+  const otherPosts = allPosts.length > 1 ? allPosts.slice(1) : [];
 
   return (
     <>
       {/* 1. Hero Section */}
-      <section className="w-full py-24 md:py-28 bg-secondary border-b">
+      <section className="w-full py-20 md:py-24 bg-secondary border-b">
         <div className="container px-4 md:px-6 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Blog & Update Terbaru
@@ -30,72 +35,88 @@ export default async function NewsPage() {
         </div>
       </section>
 
-      {/* 2. Search and Filter */}
-      <section className="py-12 border-b">
-        <div className="container px-4 md:px-6 max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-4 items-center">
-            <div className="relative md:col-span-2">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-              <Input placeholder="Cari artikel berdasarkan judul..." className="pl-10 h-11" />
-            </div>
-            <div className="flex gap-2">
-                 <Button className="w-full h-11">Cari</Button>
-            </div>
-          </div>
-          <div className="flex gap-2 mt-4 justify-center flex-wrap">
-            <Button variant="ghost" size="sm">Semua</Button>
-            {categories.map((category) => (
-              <Button key={category.id} variant="ghost" size="sm">{category.name}</Button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Highlight Artikel */}
-      {popularPosts.length > 0 && (
-        <section className="py-12 md:py-20">
-            <div className="container px-4 md:px-6">
-                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-                    <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">🔥 Artikel Terpopuler</h2>
-                 </div>
-                <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {popularPosts.map((post) => (
-                        <BlogPostCard key={post.id} post={post} />
-                    ))}
+      <div className="container px-4 md:px-6 py-12 md:py-16 lg:py-20">
+        {/* Featured Post Section */}
+        {featuredPost && (
+          <section className="mb-12 md:mb-16 lg:mb-20">
+            <Link href={`/news/${featuredPost.slug}`} className="block group">
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="aspect-video relative rounded-lg overflow-hidden shadow-lg group-hover:shadow-2xl transition-shadow duration-300">
+                  <Image
+                    src={featuredPost.imageUrl}
+                    alt={featuredPost.title}
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    className="transition-transform duration-300 group-hover:scale-105"
+                    data-ai-hint="featured blog post"
+                    priority
+                  />
                 </div>
-            </div>
-        </section>
-      )}
+                <div className="space-y-4">
+                  <Badge variant="default">Artikel Unggulan</Badge>
+                  <h2 className="font-headline text-3xl font-bold tracking-tight group-hover:text-primary transition-colors">
+                    {featuredPost.title}
+                  </h2>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1.5">
+                        <User className="h-4 w-4" />
+                        <span>{featuredPost.author}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <Calendar className="h-4 w-4" />
+                        <time dateTime={featuredPost.createdAt}>{new Date(featuredPost.createdAt).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                    </div>
+                  </div>
+                  <p className="text-muted-foreground line-clamp-3">
+                    {featuredPost.excerpt}
+                  </p>
+                  <Button variant="link" className="p-0 h-auto">
+                    Baca Selengkapnya
+                  </Button>
+                </div>
+              </div>
+            </Link>
+          </section>
+        )}
 
-      {/* 3. Blog Feed */}
-      <section className="py-12 md:py-20 lg:py-24 bg-secondary">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
-              <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">Semua Artikel</h2>
+        {/* Search and All other posts */}
+        <section>
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12">
+            <h2 className="font-headline text-3xl font-bold tracking-tight">Semua Artikel</h2>
+            <div className="flex items-center gap-2 w-full md:w-auto">
+                <div className="relative w-full md:w-64">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input placeholder="Cari artikel..." className="pl-10" />
+                </div>
+                <Button>Cari</Button>
+            </div>
           </div>
-          {posts.length > 0 ? (
+          
+          {otherPosts.length > 0 ? (
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {posts.map((post) => (
+              {otherPosts.map((post) => (
                 <BlogPostCard key={post.id} post={post} />
               ))}
             </div>
           ) : (
-            <div className="text-center text-muted-foreground py-16">
-              <p>Tidak ada artikel yang ditemukan. Silakan periksa kembali nanti.</p>
-            </div>
+             !featuredPost && ( // only show if there are no posts at all
+              <div className="text-center text-muted-foreground py-16 col-span-full">
+                <p>Tidak ada artikel yang ditemukan. Silakan periksa kembali nanti.</p>
+              </div>
+             )
           )}
-
-          {/* 5. Pagination */}
-          {posts.length > 6 && ( // Hanya tampil jika post lebih dari 6
+          
+          {/* Pagination */}
+          {allPosts.length > 9 && ( // Show if more than featured + grid limit
             <div className="flex justify-center mt-16">
                 <Button size="lg">Lihat Artikel Lainnya</Button>
             </div>
           )}
-        </div>
-      </section>
+        </section>
+      </div>
 
-      {/* 6. Call to Action */}
-      <section className="w-full py-20 md:py-28 lg:py-32 bg-primary text-primary-foreground">
+      {/* CTA Section */}
+      <section className="w-full py-20 bg-primary text-primary-foreground">
         <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
           <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Punya Event? Butuh Videotron Keren?</h2>
           <p className="max-w-2xl text-primary-foreground/80">Kalau kamu tertarik dengan apa yang kamu baca, yuk ngobrol sama tim Visual Kitha! Kami siap bantu event kamu jadi makin wow.</p>
