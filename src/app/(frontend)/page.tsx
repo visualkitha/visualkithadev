@@ -12,18 +12,15 @@ export default async function HomePage() {
   return (
     <div className="flex flex-col">
       {/* 1. Hero Section */}
-      <section className="relative w-full py-20 md:py-32 lg:py-40 flex items-center justify-center text-center text-white">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute top-0 left-0 w-full h-full object-cover brightness-50"
-            src="https://videos.pexels.com/video-files/3254421/3254421-hd_1920_1080_25fps.mp4"
-          >
-            <source src="https://videos.pexels.com/video-files/3254421/3254421-hd_1920_1080_25fps.mp4" type="video/mp4" />
-            Browser Anda tidak mendukung tag video.
-          </video>
+      <section className="relative w-full py-20 md:py-32 lg:py-40 flex items-center justify-center text-center text-white overflow-hidden">
+        <iframe
+          className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 border-0 brightness-50"
+          src="https://www.youtube-nocookie.com/embed/jo_mNhGxriQ?si=a2ujeKtcqHcNhtYD&controls=0&autoplay=1&mute=1&loop=1&playlist=jo_mNhGxriQ&playsinline=1"
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
+          allowFullScreen
+        ></iframe>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Bikin Event Kamu Lebih Hidup dengan Visual Kitha
