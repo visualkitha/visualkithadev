@@ -1,3 +1,4 @@
+
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -209,7 +210,7 @@ export function BlogForm({ initialData, categories, onSubmit, onCancel, isSubmit
                   <FormItem>
                     <FormControl>
                       <Input
-                        placeholder="Opsional. Kosongkan untuk gambar placeholder."
+                        placeholder="Opsional. Jika kosong, akan menggunakan logo perusahaan."
                         {...field}
                         disabled={isSubmitting || isUploading}
                       />

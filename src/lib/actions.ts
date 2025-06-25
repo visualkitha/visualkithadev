@@ -7,6 +7,8 @@ import type { Booking, Client, CrewMember, InventoryItem, Page, SiteImages, Tech
 import { addDoc, collection, deleteDoc, doc, serverTimestamp, setDoc, Timestamp } from 'firebase/firestore';
 import { revalidatePath } from 'next/cache';
 
+const LOGO_URL = "https://itoizdelnicxhqadarbo.supabase.co/storage/v1/object/sign/img/IMG_1090.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9kM2QwMjc5Yi04NjlkLTQxNjQtODI3OS04ZTJiNTVjNjZhYjUiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJpbWcvSU1HXzEwOTAuanBnIiwiaWF0IjoxNzUwODU5MDg4LCJleHAiOjE3ODIzOTUwODh9.rwKNivhMSvM7QABznOIJ48i--0LtC7MPEEMfHkp1PnA";
+
 export async function generateDescriptionAction(productName: string, keySpecifications: string): Promise<{ description?: string; error?: string }> {
   if (!productName || !keySpecifications) {
     return { error: 'Nama produk dan spesifikasi utama diperlukan.' };
@@ -144,7 +146,7 @@ export async function saveBlogPost(data: {
     author: data.author,
     status: data.status,
     category: data.category,
-    imageUrl: data.imageUrl || 'https://placehold.co/1200x600.png',
+    imageUrl: data.imageUrl || LOGO_URL,
     excerpt: data.excerpt,
     content: data.content,
   };
