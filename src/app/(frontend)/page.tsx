@@ -6,6 +6,13 @@ import { CheckCircle, Phone, MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import { fetchSiteImages } from '@/lib/data';
 
+const isVideo = (url: string) => {
+    if (!url) return false;
+    const lowerCaseUrl = url.toLowerCase();
+    return lowerCaseUrl.endsWith('.mp4') || lowerCaseUrl.endsWith('.webm') || lowerCaseUrl.endsWith('.ogg');
+};
+
+
 export default async function HomePage() {
   const siteImages = await fetchSiteImages();
 
@@ -13,15 +20,28 @@ export default async function HomePage() {
     <div className="flex flex-col">
       {/* 1. Hero Section */}
       <section className="relative w-full py-20 md:py-32 lg:py-40 flex items-center justify-center text-center text-white overflow-hidden">
-        <video
-          className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover brightness-50"
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
-          <source src="https://itoizdelnicxhqadarbo.supabase.co/storage/v1/object/public/img//Pexels%20Videos%202148906.mp4" type="video/mp4" />
-        </video>
+        {siteImages.homeHero && isVideo(siteImages.homeHero) ? (
+            <video
+              key={siteImages.homeHero}
+              className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 object-cover brightness-50"
+              autoPlay
+              loop
+              muted
+              playsInline
+            >
+              <source src={siteImages.homeHero} type="video/mp4" />
+            </video>
+          ) : (
+            <Image
+              src={siteImages.homeHero || 'https://placehold.co/1920x1080.png'}
+              alt="Visual Kitha Hero"
+              fill
+              style={{objectFit: "cover"}}
+              className="brightness-50"
+              priority
+              data-ai-hint="stage background"
+            />
+        )}
         <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Bikin Event Kamu Lebih Hidup dengan Visual Kitha
@@ -34,7 +54,7 @@ export default async function HomePage() {
 
       {/* 2. Kenapa Memilih Visual Kitha */}
       <section className="w-full py-12 md:py-20 lg:py-28 bg-secondary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-4">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Keunggulan Kami</div>
@@ -79,7 +99,7 @@ export default async function HomePage() {
 
       {/* 3. Layanan Kami */}
       <section className="w-full py-12 md:py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Layanan</div>
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -112,7 +132,7 @@ export default async function HomePage() {
 
       {/* 4. Proyek Terbaru */}
       <section className="w-full py-12 md:py-20 lg:py-28 bg-secondary">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Portofolio</div>
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -134,7 +154,7 @@ export default async function HomePage() {
 
       {/* 5. Telah Dipercaya oleh */}
       <section className="w-full py-12 md:py-20 lg:py-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">
               Telah Dipercaya oleh

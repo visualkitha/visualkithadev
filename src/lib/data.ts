@@ -222,7 +222,7 @@ export const fetchBlogCategories = cache(async (): Promise<BlogCategory[]> => {
 
 const defaultImages: SiteImages = {
   id: 'main' as const,
-  homeHero: 'https://placehold.co/1920x1080.png',
+  homeHero: 'https://itoizdelnicxhqadarbo.supabase.co/storage/v1/object/public/img//Free%20VJ%20loops%20-%20Free%20video%20backgrounds%20loops%20-%20Light%20wall%20arrow%20motion%20background.mp4',
   homeWhyUs: 'https://placehold.co/550x400.png',
   homeProject1: 'https://images.unsplash.com/photo-1516450137517-162bfbeb8dba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtdXNpYyUyMGZlc3R8ZW58MHx8fHwxNzUwODYwNzc0fDA&ixlib=rb-4.1.0&q=80&w=1080',
   homeProject2: 'https://images.unsplash.com/photo-1470229538611-16ba8c7ffbd7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxtdXNpYyUyMGZlc3R8ZW58MHx8fHwxNzUwODYwNzc0fDA&ixlib.rb-4.1.0&q=80&w=1080',

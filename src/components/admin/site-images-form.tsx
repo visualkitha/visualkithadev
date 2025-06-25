@@ -59,8 +59,14 @@ interface SiteImagesFormProps {
   isSubmitting: boolean;
 }
 
-// Reusable Image URL Field Component
-const ImageUrlField = ({
+const isVideo = (url: string) => {
+    if (!url) return false;
+    const lowerCaseUrl = url.toLowerCase();
+    return lowerCaseUrl.endsWith('.mp4') || lowerCaseUrl.endsWith('.webm') || lowerCaseUrl.endsWith('.ogg');
+};
+
+// Reusable Media URL Field Component
+const MediaUrlField = ({
   control,
   name,
   label,
@@ -78,19 +84,31 @@ const ImageUrlField = ({
       render={({ field }) => (
         <FormItem className="space-y-3 rounded-lg border p-4 bg-background">
           <FormLabel className="text-base font-semibold">{label}</FormLabel>
-          {field.value && typeof field.value === 'string' && (
+          {field.value && (
             <div className="w-full aspect-video relative rounded-md overflow-hidden border">
-              <Image
-                src={field.value}
-                alt={`Pratinjau untuk ${label}`}
-                fill
-                style={{objectFit: "cover"}}
-              />
+                {isVideo(field.value) ? (
+                    <video 
+                        key={field.value}
+                        src={field.value} 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                        className="h-full w-full object-cover"
+                    />
+                ) : (
+                    <Image
+                        src={field.value}
+                        alt={`Pratinjau untuk ${label}`}
+                        fill
+                        style={{objectFit: "cover"}}
+                    />
+                )}
             </div>
           )}
           <FormControl>
             <Input
-              placeholder="Masukkan URL gambar..."
+              placeholder="Masukkan URL gambar atau video..."
               {...field}
               value={field.value ?? ''}
               disabled={disabled}
@@ -136,12 +154,12 @@ export function SiteImagesForm({
               <AccordionItem value="beranda" className="border rounded-lg">
                 <AccordionTrigger className="px-4 py-3 text-lg font-headline hover:no-underline">Halaman Beranda</AccordionTrigger>
                 <AccordionContent className="p-4 border-t bg-muted/50 grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <ImageUrlField control={form.control} name="homeHero" label="Gambar Hero" disabled={isSubmitting} />
-                  <ImageUrlField control={form.control} name="homeWhyUs" label="Gambar 'Kenapa Memilih Kami'" disabled={isSubmitting} />
-                  <ImageUrlField control={form.control} name="homeProject1" label="Gambar Proyek 1" disabled={isSubmitting} />
-                  <ImageUrlField control={form.control} name="homeProject2" label="Gambar Proyek 2" disabled={isSubmitting} />
-                  <ImageUrlField control={form.control} name="homeProject3" label="Gambar Proyek 3" disabled={isSubmitting} />
-                  <ImageUrlField control={form.control} name="homeProject4" label="Gambar Proyek 4" disabled={isSubmitting} />
+                  <MediaUrlField control={form.control} name="homeHero" label="Media Hero (Gambar/Video)" disabled={isSubmitting} />
+                  <MediaUrlField control={form.control} name="homeWhyUs" label="Gambar 'Kenapa Memilih Kami'" disabled={isSubmitting} />
+                  <MediaUrlField control={form.control} name="homeProject1" label="Gambar Proyek 1" disabled={isSubmitting} />
+                  <MediaUrlField control={form.control} name="homeProject2" label="Gambar Proyek 2" disabled={isSubmitting} />
+                  <MediaUrlField control={form.control} name="homeProject3" label="Gambar Proyek 3" disabled={isSubmitting} />
+                  <MediaUrlField control={form.control} name="homeProject4" label="Gambar Proyek 4" disabled={isSubmitting} />
                   
                   <div className="md:col-span-2 space-y-4 rounded-lg border p-4 bg-background">
                     <h3 className="text-base font-semibold">Logo "Telah Dipercaya oleh"</h3>
@@ -194,12 +212,12 @@ export function SiteImagesForm({
               <AccordionItem value="tentang-kami" className="border rounded-lg">
                 <AccordionTrigger className="px-4 py-3 text-lg font-headline hover:no-underline">Halaman Tentang Kami</AccordionTrigger>
                 <AccordionContent className="p-4 border-t bg-muted/50 grid grid-cols-1 md:grid-cols-2 gap-6">
-                   <ImageUrlField control={form.control} name="aboutHero" label="Gambar Hero" disabled={isSubmitting} />
-                   <ImageUrlField control={form.control} name="aboutProfile" label="Gambar Profil Perusahaan" disabled={isSubmitting} />
-                   <ImageUrlField control={form.control} name="aboutPortfolio1" label="Gambar Portofolio 1" disabled={isSubmitting} />
-                   <ImageUrlField control={form.control} name="aboutPortfolio2" label="Gambar Portofolio 2" disabled={isSubmitting} />
-                   <ImageUrlField control={form.control} name="aboutPortfolio3" label="Gambar Portofolio 3" disabled={isSubmitting} />
-                   <ImageUrlField control={form.control} name="aboutPortfolio4" label="Gambar Portofolio 4" disabled={isSubmitting} />
+                   <MediaUrlField control={form.control} name="aboutHero" label="Media Hero (Gambar/Video)" disabled={isSubmitting} />
+                   <MediaUrlField control={form.control} name="aboutProfile" label="Gambar Profil Perusahaan" disabled={isSubmitting} />
+                   <MediaUrlField control={form.control} name="aboutPortfolio1" label="Gambar Portofolio 1" disabled={isSubmitting} />
+                   <MediaUrlField control={form.control} name="aboutPortfolio2" label="Gambar Portofolio 2" disabled={isSubmitting} />
+                   <MediaUrlField control={form.control} name="aboutPortfolio3" label="Gambar Portofolio 3" disabled={isSubmitting} />
+                   <MediaUrlField control={form.control} name="aboutPortfolio4" label="Gambar Portofolio 4" disabled={isSubmitting} />
                 </AccordionContent>
               </AccordionItem>
 
@@ -207,7 +225,7 @@ export function SiteImagesForm({
               <AccordionItem value="layanan" className="border rounded-lg">
                 <AccordionTrigger className="px-4 py-3 text-lg font-headline hover:no-underline">Halaman Layanan</AccordionTrigger>
                 <AccordionContent className="p-4 border-t bg-muted/50 grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <ImageUrlField control={form.control} name="servicesWhyUs" label="Gambar 'Layanan Kami Berbeda'" disabled={isSubmitting} />
+                    <MediaUrlField control={form.control} name="servicesWhyUs" label="Gambar 'Layanan Kami Berbeda'" disabled={isSubmitting} />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
