@@ -13,15 +13,17 @@ export default async function HomePage() {
     <div className="flex flex-col">
       {/* 1. Hero Section */}
       <section className="relative w-full py-20 md:py-32 lg:py-40 flex items-center justify-center text-center text-white">
-          <Image 
-            src={siteImages.homeHero}
-            alt="Event meriah dengan videotron Visual Kitha" 
-            fill
-            style={{objectFit: "cover"}}
-            className="brightness-50" 
-            data-ai-hint="concert stage led" 
-            priority
-          />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-0 left-0 w-full h-full object-cover brightness-50"
+            src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
+          >
+            <source src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4" type="video/mp4" />
+            Browser Anda tidak mendukung tag video.
+          </video>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Bikin Event Kamu Lebih Hidup dengan Visual Kitha
