@@ -19,9 +19,9 @@ export default async function HomePage() {
             muted
             playsInline
             className="absolute top-0 left-0 w-full h-full object-cover brightness-50"
-            src="https://videos.pexels.com/video-files/853870/853870-hd_1920_1080_25fps.mp4"
+            src="https://videos.pexels.com/video-files/3254421/3254421-hd_1920_1080_25fps.mp4"
           >
-            <source src="https://videos.pexels.com/video-files/853870/853870-hd_1920_1080_25fps.mp4" type="video/mp4" />
+            <source src="https://videos.pexels.com/video-files/3254421/3254421-hd_1920_1080_25fps.mp4" type="video/mp4" />
             Browser Anda tidak mendukung tag video.
           </video>
         <div className="container relative z-10 mx-auto px-4 md:px-6">
