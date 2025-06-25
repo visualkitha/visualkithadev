@@ -69,10 +69,10 @@ export default function LoginPage() {
         <form onSubmit={handleLogin}>
           <Card className="shadow-2xl">
             <CardHeader className="text-center">
-              <div className="mx-auto mb-4">
-                <Image src={logoUrl} alt="Visual Kitha Logo" width={64} height={64} className="rounded-full" />
+              <div className="flex items-center justify-center gap-3 mx-auto mb-4">
+                <Image src={logoUrl} alt="Visual Kitha Logo" width={48} height={48} className="rounded-full" />
+                <CardTitle className="font-headline text-2xl">Visual Kitha</CardTitle>
               </div>
-              <CardTitle className="font-headline text-2xl">Visual Kitha CMS</CardTitle>
               <CardDescription>Masukkan kredensial Anda untuk mengakses panel admin.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">

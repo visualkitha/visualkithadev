@@ -53,8 +53,9 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-4 md:grid-cols-2">
           
           <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2 text-xl font-bold">
               <Image src={logoUrl} alt="Visual Kitha Logo" width={48} height={48} className="rounded-full" />
+              <span>Visual Kitha</span>
             </Link>
             <p className="text-sm text-gray-400">
               Visual Kitha adalah penyedia jasa sewa videotron profesional untuk semua jenis event. Kualitas visual, layanan maksimal.
