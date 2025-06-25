@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 
-const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/de0c7ccc-e5a4-4b01-8faa-0fad21eddfe0.jpg";
+const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
 
 export const metadata: Metadata = {
   title: 'Visual Kitha CMS',

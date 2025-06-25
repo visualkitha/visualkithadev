@@ -16,7 +16,7 @@ export function Header({ pages }: { pages: Page[] }) {
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/de0c7ccc-e5a4-4b01-8faa-0fad21eddfe0.jpg";
+  const logoUrl = "https://fgzhmpauhvwlllpcrzii.supabase.co/storage/v1/object/public/img/WhatsApp%20Image%202025-06-21%20at%2013.58.18.jpeg";
 
   return (
     <header className="bg-black text-white fixed top-0 left-0 right-0 z-40">
