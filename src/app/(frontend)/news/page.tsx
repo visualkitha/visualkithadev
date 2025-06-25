@@ -4,6 +4,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Blog & Update Terbaru | Visual Kitha CMS',
+  description: 'Dari cerita di balik layar, tips event, sampai update proyek — semua kami tuangkan di sini.',
+};
 
 export default async function NewsPage() {
   const posts = await fetchBlogPosts();

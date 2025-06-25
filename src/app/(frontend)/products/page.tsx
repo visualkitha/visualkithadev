@@ -7,6 +7,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { fetchSiteImages, fetchInventory } from '@/lib/data';
 import { ProductCard } from '@/components/frontend/product-card';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Layanan & Peralatan | Visual Kitha CMS',
+  description: 'Visual Kitha menyediakan berbagai pilihan layanan dan peralatan videotron untuk semua jenis kebutuhan event — dari yang intimate sampai yang megah.',
+};
 
 export default async function ProductsPage() {
   const siteImages = await fetchSiteImages();
