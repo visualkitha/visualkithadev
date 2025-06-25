@@ -11,7 +11,22 @@ export const metadata: Metadata = {
   icons: {
     icon: logoUrl,
     apple: logoUrl,
-  }
+  },
+  openGraph: {
+    title: 'Visual Kitha',
+    description: 'Event Biasa Jadi Luar Biasa',
+    images: [
+      {
+        url: logoUrl,
+        width: 1200,
+        height: 630,
+        alt: 'Visual Kitha Logo',
+      },
+    ],
+    siteName: 'Visual Kitha',
+    type: 'website',
+    locale: 'id_ID',
+  },
 };
 
 export default function RootLayout({
