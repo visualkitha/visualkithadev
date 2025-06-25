@@ -41,6 +41,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { ThemeToggle } from '../theme-toggle';
 
 
 const navItems = [
@@ -206,20 +207,26 @@ export function AdminNav({ isCollapsed }: AdminNavProps) {
           </div>
           <div className="mt-auto p-4 border-t">
             {isCollapsed ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" className="w-full" size="icon" onClick={handleLogout}>
-                      <LogOut className="h-5 w-5" />
-                      <span className="sr-only">Keluar</span>
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="right">Keluar</TooltipContent>
-              </Tooltip>
+              <div className="flex flex-col items-center justify-center gap-2">
+                <ThemeToggle />
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button variant="ghost" size="icon" onClick={handleLogout}>
+                        <LogOut className="h-5 w-5" />
+                        <span className="sr-only">Keluar</span>
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">Keluar</TooltipContent>
+                </Tooltip>
+              </div>
             ) : (
+              <div className="space-y-2">
+                <ThemeToggle />
                 <Button variant="ghost" className="w-full justify-start" onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
                   Keluar
                 </Button>
+              </div>
             )}
           </div>
         </div>

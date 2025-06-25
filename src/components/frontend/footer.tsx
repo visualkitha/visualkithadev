@@ -48,7 +48,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="bg-black text-white font-body">
+    <footer className="bg-secondary text-secondary-foreground font-body">
       <div className="container mx-auto px-4 md:px-6 py-12">
         <div className="grid gap-10 lg:grid-cols-4 md:grid-cols-2">
           
@@ -57,7 +57,7 @@ export function Footer() {
               <Image src={logoUrl} alt="Visual Kitha Logo" width={48} height={48} className="rounded-full" />
               <span>Visual Kitha</span>
             </Link>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-muted-foreground">
               Visual Kitha adalah penyedia jasa sewa videotron profesional untuk semua jenis event. Kualitas visual, layanan maksimal.
             </p>
           </div>
@@ -65,19 +65,19 @@ export function Footer() {
           <div className="space-y-4">
             <h4 className="font-headline font-semibold">Navigasi Cepat</h4>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/" className="text-gray-400 hover:text-white transition-colors">Beranda</Link></li>
-              <li><Link href="/about-us" className="text-gray-400 hover:text-white transition-colors">Tentang Kami</Link></li>
-              <li><Link href="/products" className="text-gray-400 hover:text-white transition-colors">Layanan</Link></li>
-              <li><Link href="/portfolio" className="text-gray-400 hover:text-white transition-colors">Portofolio</Link></li>
-              <li><Link href="/news" className="text-gray-400 hover:text-white transition-colors">News / Artikel</Link></li>
-              <li><Link href="/contact-us" className="text-gray-400 hover:text-white transition-colors">Kontak</Link></li>
-              <li><AuthNavLink className="text-gray-400 hover:text-white" /></li>
+              <li><Link href="/" className="text-muted-foreground hover:text-foreground transition-colors">Beranda</Link></li>
+              <li><Link href="/about-us" className="text-muted-foreground hover:text-foreground transition-colors">Tentang Kami</Link></li>
+              <li><Link href="/products" className="text-muted-foreground hover:text-foreground transition-colors">Layanan</Link></li>
+              <li><Link href="/portfolio" className="text-muted-foreground hover:text-foreground transition-colors">Portofolio</Link></li>
+              <li><Link href="/news" className="text-muted-foreground hover:text-foreground transition-colors">News / Artikel</Link></li>
+              <li><Link href="/contact-us" className="text-muted-foreground hover:text-foreground transition-colors">Kontak</Link></li>
+              <li><AuthNavLink className="text-muted-foreground hover:text-foreground" /></li>
             </ul>
           </div>
 
           <div className="space-y-4">
             <h4 className="font-headline font-semibold">Layanan Unggulan</h4>
-            <ul className="space-y-2 text-sm text-gray-400">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>Sewa Videotron Indoor</li>
               <li>Sewa Videotron Outdoor</li>
               <li>Paket Event</li>
@@ -89,23 +89,23 @@ export function Footer() {
             <h4 className="font-headline font-semibold">Hubungi Kami</h4>
             <address className="space-y-3 text-sm not-italic">
                 <div className="flex items-start gap-3">
-                    <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-gray-400" />
-                    <p className="text-gray-400">Jalan Tentara Pelajar 6 , Blora , jawa tengah, id</p>
+                    <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-muted-foreground" />
+                    <p className="text-muted-foreground">Jalan Tentara Pelajar 6 , Blora , jawa tengah, id</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <Phone className="h-4 w-4 flex-shrink-0 text-gray-400" />
-                    <p className="text-gray-400">+62 821-3397-1373</p>
+                    <Phone className="h-4 w-4 flex-shrink-0 text-muted-foreground" />
+                    <p className="text-muted-foreground">+62 821-3397-1373</p>
                 </div>
             </address>
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-gray-800 grid gap-8 md:grid-cols-2 lg:grid-cols-3 items-center">
+        <div className="mt-12 pt-8 border-t border-border grid gap-8 md:grid-cols-2 lg:grid-cols-3 items-center">
             <div className="space-y-2 lg:col-span-1">
                 <h4 className="font-headline font-semibold">Dapatkan Info Promo & Event</h4>
-                <p className="text-sm text-gray-400">Mau dapet info promo & event seru? Masukin email kamu ya!</p>
+                <p className="text-sm text-muted-foreground">Mau dapet info promo & event seru? Masukin email kamu ya!</p>
                 <form className="flex space-x-2 mt-2" onSubmit={handleNewsletterSubmit}>
-                    <Input name="email" type="email" placeholder="Email Anda" className="max-w-lg flex-1 bg-gray-900 border-gray-700 text-white placeholder:text-gray-500" required />
+                    <Input name="email" type="email" placeholder="Email Anda" className="max-w-lg flex-1" required />
                     <Button type="submit">Langganan</Button>
                 </form>
             </div>
@@ -113,16 +113,16 @@ export function Footer() {
             <div className="space-y-4 lg:text-center">
                 <h4 className="font-headline font-semibold">Ikuti Kami</h4>
                  <div className="flex gap-4 lg:justify-center">
-                    <Link href="#" aria-label="Instagram" className="text-gray-400 hover:text-white transition-colors">
+                    <Link href="#" aria-label="Instagram" className="text-muted-foreground hover:text-foreground transition-colors">
                         <Instagram className="h-6 w-6" />
                     </Link>
-                    <Link href="#" aria-label="TikTok" className="text-gray-400 hover:text-white transition-colors">
+                    <Link href="#" aria-label="TikTok" className="text-muted-foreground hover:text-foreground transition-colors">
                         <TikTokIcon className="h-6 w-6" />
                     </Link>
-                     <Link href="#" aria-label="YouTube" className="text-gray-400 hover:text-white transition-colors">
+                     <Link href="#" aria-label="YouTube" className="text-muted-foreground hover:text-foreground transition-colors">
                         <Youtube className="h-6 w-6" />
                     </Link>
-                    <Link href="https://wa.me/6282133971373" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-gray-400 hover:text-white transition-colors">
+                    <Link href="https://wa.me/6282133971373" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-muted-foreground hover:text-foreground transition-colors">
                         <WhatsAppIcon className="h-6 w-6" />
                     </Link>
                 </div>
@@ -131,17 +131,17 @@ export function Footer() {
             <div className="space-y-4 lg:text-right">
                  <h4 className="font-headline font-semibold">Legal</h4>
                 <div className="text-sm space-y-1">
-                     <p><Link href="/terms-of-service" className="text-gray-400 hover:text-white transition-colors">Syarat & Ketentuan</Link></p>
-                     <p><Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">Kebijakan Privasi</Link></p>
+                     <p><Link href="/terms-of-service" className="text-muted-foreground hover:text-foreground transition-colors">Syarat & Ketentuan</Link></p>
+                     <p><Link href="/privacy-policy" className="text-muted-foreground hover:text-foreground transition-colors">Kebijakan Privasi</Link></p>
                  </div>
             </div>
         </div>
 
       </div>
-      <div className="border-t border-gray-800">
-        <div className="container mx-auto py-4 px-4 md:px-6 flex flex-wrap justify-between items-center gap-2 text-sm text-gray-500">
+      <div className="border-t border-border">
+        <div className="container mx-auto py-4 px-4 md:px-6 flex flex-wrap justify-between items-center gap-2 text-sm text-muted-foreground">
           <p>© {year} Visual Kitha. All rights reserved.</p>
-          <p>Website oleh <Link href="/" className="font-semibold text-gray-300 hover:underline">visualkitha.dev</Link></p>
+          <p>Website oleh <Link href="/" className="font-semibold text-foreground hover:underline">visualkitha.dev</Link></p>
         </div>
       </div>
     </footer>
