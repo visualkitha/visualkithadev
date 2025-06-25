@@ -126,7 +126,7 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <Image src={siteImages.homeProject1} width={400} height={300} alt="Konser musik independen" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="indie concert"/>
-            <Image src={siteImages.homeProject2} width={400} height={300} alt="Pernikahan outdoor" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="outdoor wedding"/>
+            <Image src={siteImages.homeProject2} width={400} height={300} alt="Festival musik di malam hari" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="music festival"/>
             <Image src={siteImages.homeProject3} width={400} height={300} alt="Company gathering" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="corporate gathering"/>
             <Image src={siteImages.homeProject4} width={400} height={300} alt="Kampanye politik" className="rounded-lg object-cover hover:scale-105 transition-transform" data-ai-hint="political campaign"/>
           </div>
