@@ -25,7 +25,7 @@ export default async function NewsPage() {
     <>
       {/* 1. Hero Section */}
       <section className="w-full py-20 md:py-24 bg-secondary border-b">
-        <div className="container px-4 md:px-6 text-center">
+        <div className="px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Blog & Update Terbaru
           </h1>
@@ -117,7 +117,7 @@ export default async function NewsPage() {
 
       {/* CTA Section */}
       <section className="w-full py-20 bg-primary text-primary-foreground">
-        <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-4 text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Punya Event? Butuh Videotron Keren?</h2>
           <p className="max-w-2xl text-primary-foreground/80">Kalau kamu tertarik dengan apa yang kamu baca, yuk ngobrol sama tim Visual Kitha! Kami siap bantu event kamu jadi makin wow.</p>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row">

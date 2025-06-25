@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -43,7 +44,7 @@ export default function ContactUsPage() {
     <>
       {/* 1. Header Section */}
       <section className="w-full py-16 md:py-24 bg-secondary border-b">
-        <div className="container px-4 md:px-6 text-center">
+        <div className="px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Hubungi Visual Kitha
           </h1>
@@ -55,7 +56,7 @@ export default function ContactUsPage() {
 
       {/* Main content section with form and info */}
       <section className="py-16 md:py-24">
-        <div className="container px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             
             {/* 2. Form Kontak */}

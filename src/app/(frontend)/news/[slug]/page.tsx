@@ -48,7 +48,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <>
       <div className="bg-secondary/50 py-12 md:py-20">
-        <div className="container max-w-5xl mx-auto px-4 md:px-6">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <article className="bg-background rounded-lg shadow-lg overflow-hidden">
             {/* 1. Judul Artikel & 2. Meta Info */}
             <header className="p-6 md:p-10 lg:p-12 text-center">
@@ -147,7 +147,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       {/* 6. CTA Section */}
       <section className="w-full mt-16 md:mt-24 py-20 md:py-28 bg-primary text-primary-foreground">
-        <div className="container max-w-4xl mx-auto flex flex-col items-center gap-4 px-4 text-center md:px-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-4 text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Punya Event? Butuh Videotron Keren?</h2>
           <p className="max-w-2xl text-primary-foreground/80">Kalau kamu tertarik dengan apa yang kamu baca, yuk ngobrol sama tim Visual Kitha! Kami siap bantu event kamu jadi makin wow.</p>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row">

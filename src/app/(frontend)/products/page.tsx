@@ -22,7 +22,7 @@ export default async function ProductsPage() {
     <>
       {/* 1. Hero Section */}
       <section className="w-full py-24 md:py-28 bg-secondary border-b">
-        <div className="container px-4 md:px-6 text-center">
+        <div className="px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
             Layanan & Peralatan Kami
           </h1>
@@ -42,7 +42,7 @@ export default async function ProductsPage() {
 
       {/* 2. Section: Ringkasan Jenis Layanan */}
       <section className="w-full py-24 md:py-28 lg:py-32">
-        <div className="container px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
               Solusi untuk Setiap Jenis Acara
@@ -121,7 +121,7 @@ export default async function ProductsPage() {
 
       {/* Section: Product Catalog */}
       <section className="w-full py-24 md:py-28 lg:py-32 bg-secondary">
-        <div className="container px-4 md:px-6">
+        <div className="px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
               Katalog Peralatan Kami
@@ -146,7 +146,7 @@ export default async function ProductsPage() {
 
       {/* 3. Section: Keunggulan Layanan Visual Kitha */}
        <section className="w-full py-24 md:py-28 lg:py-32 bg-background">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-4">
               <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">
@@ -194,7 +194,7 @@ export default async function ProductsPage() {
 
       {/* 4. Section: FAQ */}
       <section className="w-full py-24 md:py-28 lg:py-32 bg-secondary">
-        <div className="container mx-auto max-w-4xl px-4 md:px-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
               Pertanyaan yang Sering Ditanyakan
@@ -237,7 +237,7 @@ export default async function ProductsPage() {
 
        {/* 5. Call to Action (CTA) Penutup */}
        <section className="w-full py-24 md:py-28 lg:py-32 bg-primary text-primary-foreground">
-        <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
+        <div className="max-w-3xl mx-auto flex flex-col items-center gap-4 px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Yuk, Buat Acara Kamu Lebih Standout!</h2>
           <p className="max-w-2xl text-primary-foreground/80">Hubungi tim kami sekarang untuk konsultasi dan penawaran terbaik. Kami siap bantu kamu tampil maksimal!</p>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row">

@@ -20,9 +20,9 @@ export default async function HomePage() {
           muted
           playsInline
         >
-          <source src="https://itoizdelnicxhqadarbo.supabase.co/storage/v1/object/public/img//Free%20VJ%20loops%20-%20Free%20video%20backgrounds%20loops%20-%20Light%20wall%20arrow%20motion%20background.mp4" type="video/mp4" />
+          <source src="https://itoizdelnicxhqadarbo.supabase.co/storage/v1/object/public/img//Pexels%20Videos%202148906.mp4" type="video/mp4" />
         </video>
-        <div className="container relative z-10 mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
           <h1 className="font-headline text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
             Bikin Event Kamu Lebih Hidup dengan Visual Kitha
           </h1>
@@ -34,7 +34,7 @@ export default async function HomePage() {
 
       {/* 2. Kenapa Memilih Visual Kitha */}
       <section className="w-full py-12 md:py-20 lg:py-28 bg-secondary">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-4">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Keunggulan Kami</div>
@@ -79,7 +79,7 @@ export default async function HomePage() {
 
       {/* 3. Layanan Kami */}
       <section className="w-full py-12 md:py-20 lg:py-28">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Layanan</div>
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -112,7 +112,7 @@ export default async function HomePage() {
 
       {/* 4. Proyek Terbaru */}
       <section className="w-full py-12 md:py-20 lg:py-28 bg-secondary">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
            <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Portofolio</div>
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
@@ -134,7 +134,7 @@ export default async function HomePage() {
 
       {/* 5. Telah Dipercaya oleh */}
       <section className="w-full py-12 md:py-20 lg:py-28">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl">
               Telah Dipercaya oleh
@@ -165,7 +165,7 @@ export default async function HomePage() {
       
       {/* 6. Ajakan Aksi */}
       <section className="w-full py-12 md:py-20 lg:py-28 bg-primary text-primary-foreground">
-        <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
+        <div className="max-w-3xl mx-auto flex flex-col items-center gap-4 px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Punya acara dalam waktu dekat?</h2>
           <p className="max-w-2xl text-primary-foreground/80">Butuh tampilan visual yang bikin semua mata tertuju ke panggung? Visual Kitha siap bantu kamu mewujudkannya.</p>
           <div className="mt-6 flex flex-col gap-4 sm:flex-row">

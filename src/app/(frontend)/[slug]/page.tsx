@@ -68,7 +68,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
         {/* Company Profile Section */}
         <section className="py-12 md:py-20 lg:py-24">
-          <div className="container px-4 md:px-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16 items-center">
               <div className="space-y-4">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">Profil Perusahaan</div>
@@ -91,7 +91,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
         {/* Visi & Misi Section */}
         <section className="w-full py-12 md:py-20 lg:py-24 bg-secondary">
-          <div className="container grid items-center justify-center gap-4 px-4 text-center md:px-6">
+          <div className="w-full grid items-center justify-center gap-4 px-4 sm:px-6 lg:px-8 text-center">
             <div className="space-y-3">
               <h2 className="font-headline text-3xl font-bold tracking-tighter md:text-4xl/tight">Visi & Misi Kami</h2>
               <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl/relaxed">
@@ -113,7 +113,7 @@ export default async function DynamicPage({ params }: PageProps) {
         
         {/* Why Choose Us Section */}
         <section className="w-full py-12 md:py-20 lg:py-24">
-          <div className="container px-4 md:px-6">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
               <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm font-medium">
                 Keunggulan Kami
@@ -149,7 +149,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
         {/* Portfolio Section */}
         <section className="w-full py-12 md:py-20 lg:py-24 bg-secondary">
-          <div className="container px-4 md:px-6">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                 <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
                     Pengalaman Kami
@@ -169,7 +169,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
         {/* Testimonials Section */}
         <section className="w-full py-12 md:py-20 lg:py-24">
-            <div className="container px-4 md:px-6">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
                      <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-5xl">
                         Kata Mereka Tentang Kami
@@ -224,7 +224,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
         {/* CTA Section */}
         <section className="w-full py-12 md:py-20 lg:py-24 bg-primary text-primary-foreground">
-          <div className="container flex flex-col items-center gap-4 px-4 text-center md:px-6">
+          <div className="w-full flex flex-col items-center gap-4 px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="font-headline text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Siap bikin acara kamu lebih standout?</h2>
             <p className="max-w-2xl text-primary-foreground/80">Hubungi Visual Kitha sekarang untuk konsultasi gratis dan penawaran terbaik!</p>
             <div className="mt-6 flex flex-col gap-4 sm:flex-row">
@@ -239,7 +239,7 @@ export default async function DynamicPage({ params }: PageProps) {
 
   // Perender halaman generik untuk halaman lainnya
   return (
-    <div className="container mx-auto py-20 px-4 md:px-6">
+    <div className="max-w-4xl mx-auto py-20 px-4 sm:px-6 lg:px-8">
       <Card>
         <CardHeader>
           <CardTitle className="font-headline text-4xl">{page.title}</CardTitle>
