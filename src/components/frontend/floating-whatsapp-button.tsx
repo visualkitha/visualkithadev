@@ -1,7 +1,9 @@
+
 'use client';
 
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { FloatingContactForm } from './floating-contact-form';
 
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" {...props}>
@@ -19,14 +21,18 @@ export function FloatingWhatsAppButton({ phoneNumber, defaultMessage }: Floating
     return null;
   }
 
-  const cleanPhoneNumber = phoneNumber.replace(/\D/g, '');
-  const url = `https://wa.me/${cleanPhoneNumber}?text=${encodeURIComponent(defaultMessage)}`;
-
   return (
-    <Button asChild className="fixed bottom-6 right-6 z-50 h-16 w-16 rounded-full shadow-lg bg-[#25D366] hover:bg-[#128C7E] transition-all animate-in fade-in-50 slide-in-from-bottom-10 duration-500">
-      <Link href={url} target="_blank" rel="noopener noreferrer" aria-label="Chat di WhatsApp">
-        <WhatsAppIcon className="h-8 w-8 text-white" />
-      </Link>
-    </Button>
+     <div className="fixed bottom-6 right-6 z-50 animate-in fade-in-50 slide-in-from-bottom-10 duration-500">
+        <Popover>
+            <PopoverTrigger asChild>
+                <Button className="h-16 w-16 rounded-full shadow-lg bg-[#25D366] hover:bg-[#128C7E] transition-all">
+                    <WhatsAppIcon className="h-8 w-8 text-white" />
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 mr-4 mb-2" side="top" align="end">
+                <FloatingContactForm whatsAppNumber={phoneNumber} defaultMessage={defaultMessage} />
+            </PopoverContent>
+        </Popover>
+     </div>
   );
 }
