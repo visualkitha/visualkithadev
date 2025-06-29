@@ -1,3 +1,4 @@
+'use client';
 
 import Image from 'next/image';
 import type { InventoryItem } from '@/lib/types';
@@ -15,7 +16,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <CardHeader>
         <div className="aspect-video overflow-hidden rounded-md border bg-card">
           <Image
-            src={product.imageUrl}
+            src={product.imageUrl || 'https://placehold.co/400x225.png'}
             alt={product.name}
             width={400}
             height={225}
