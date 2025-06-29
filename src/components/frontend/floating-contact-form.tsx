@@ -15,7 +15,7 @@ interface FloatingContactFormProps {
 
 export function FloatingContactForm({ whatsAppNumber, defaultMessage }: FloatingContactFormProps) {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
   const [message, setMessage] = useState(defaultMessage || '');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -23,7 +23,7 @@ export function FloatingContactForm({ whatsAppNumber, defaultMessage }: Floating
     
     let text = `Halo Visual Kitha,\n\nBerikut detail saya:\n`;
     text += `*Nama:* ${name}\n`;
-    text += `*No. HP/WA:* ${phone}\n`;
+    text += `*Alamat:* ${address}\n`;
     text += `\n*Pesan:*\n${message}\n\nTerima kasih.`;
 
     const encodedText = encodeURIComponent(text);
@@ -46,8 +46,8 @@ export function FloatingContactForm({ whatsAppNumber, defaultMessage }: Floating
                 <Input id="float-name" placeholder="Nama Anda" required value={name} onChange={(e) => setName(e.target.value)} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="float-phone">No. WhatsApp</Label>
-                <Input id="float-phone" type="tel" placeholder="08123..." required value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <Label htmlFor="float-address">Alamat</Label>
+                <Input id="float-address" type="text" placeholder="Alamat Anda" required value={address} onChange={(e) => setAddress(e.target.value)} />
             </div>
             <div className="grid gap-2">
                 <Label htmlFor="float-message">Pesan</Label>
