@@ -61,6 +61,9 @@ export type SiteImages = {
   aboutPortfolio4: string;
   // Services page
   servicesWhyUs: string;
+  // Contact Settings
+  whatsAppNumber?: string;
+  whatsAppDefaultMessage?: string;
 };
 
 export type TechnicalNeed = {

@@ -23,7 +23,7 @@ export function SiteImagesClientPage({ initialImages }: SiteImagesClientPageProp
     if (result.success) {
       toast({
         title: 'Berhasil!',
-        description: 'Gambar situs telah diperbarui.',
+        description: 'Pengaturan situs telah diperbarui.',
       });
       router.refresh();
     } else {
@@ -38,8 +38,8 @@ export function SiteImagesClientPage({ initialImages }: SiteImagesClientPageProp
   return (
     <div className="space-y-6">
       <div className="space-y-1">
-        <h1 className="font-headline text-3xl font-bold tracking-tight">Gambar Situs</h1>
-        <p className="text-muted-foreground">Kelola gambar utama di halaman Beranda, Tentang Kami, dan Layanan.</p>
+        <h1 className="font-headline text-3xl font-bold tracking-tight">Pengaturan Situs</h1>
+        <p className="text-muted-foreground">Kelola gambar utama, tautan kontak, dan pengaturan lainnya untuk situs web Anda.</p>
       </div>
       <SiteImagesForm
         initialData={initialImages}

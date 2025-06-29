@@ -25,6 +25,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '../ui/textarea';
 
 // Schema for form validation, allows for a valid URL or an empty string
 const urlOrEmpty = z.string().url({ message: "URL tidak valid." }).or(z.literal("")).optional();
@@ -49,6 +50,8 @@ const formSchema = z.object({
   aboutPortfolio3: urlOrEmpty,
   aboutPortfolio4: urlOrEmpty,
   servicesWhyUs: urlOrEmpty,
+  whatsAppNumber: z.string().optional(),
+  whatsAppDefaultMessage: z.string().optional(),
 });
 
 type SiteImagesFormValues = z.infer<typeof formSchema>;
@@ -132,6 +135,8 @@ export function SiteImagesForm({
     defaultValues: {
       ...initialData,
       trustedByLogos: initialData.trustedByLogos || [],
+      whatsAppNumber: initialData.whatsAppNumber || '',
+      whatsAppDefaultMessage: initialData.whatsAppDefaultMessage || '',
     },
   });
 
@@ -147,7 +152,7 @@ export function SiteImagesForm({
           <CardContent className="p-4 md:p-6">
             <Accordion
               type="multiple"
-              defaultValue={['beranda', 'tentang-kami', 'layanan']}
+              defaultValue={['beranda', 'tentang-kami', 'layanan', 'kontak']}
               className="w-full space-y-4"
             >
               {/* Halaman Beranda */}
@@ -220,12 +225,45 @@ export function SiteImagesForm({
                    <MediaUrlField control={form.control} name="aboutPortfolio4" label="Gambar Portofolio 4" disabled={isSubmitting} />
                 </AccordionContent>
               </AccordionItem>
-
-              {/* Halaman Layanan */}
+              
+               {/* Halaman Layanan */}
               <AccordionItem value="layanan" className="border rounded-lg">
                 <AccordionTrigger className="px-4 py-3 text-lg font-headline hover:no-underline">Halaman Layanan</AccordionTrigger>
                 <AccordionContent className="p-4 border-t bg-muted/50 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <MediaUrlField control={form.control} name="servicesWhyUs" label="Gambar 'Layanan Kami Berbeda'" disabled={isSubmitting} />
+                </AccordionContent>
+              </AccordionItem>
+              
+              {/* Pengaturan Kontak */}
+              <AccordionItem value="kontak" className="border rounded-lg">
+                <AccordionTrigger className="px-4 py-3 text-lg font-headline hover:no-underline">Pengaturan Kontak</AccordionTrigger>
+                <AccordionContent className="p-4 border-t bg-muted/50 grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField
+                    control={form.control}
+                    name="whatsAppNumber"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nomor WhatsApp</FormLabel>
+                        <FormControl>
+                          <Input placeholder="cth., 6281234567890" {...field} value={field.value ?? ''} disabled={isSubmitting} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="whatsAppDefaultMessage"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Pesan Default WhatsApp</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Pesan yang akan diisi otomatis..." {...field} value={field.value ?? ''} disabled={isSubmitting} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </AccordionContent>
               </AccordionItem>
             </Accordion>

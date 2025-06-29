@@ -241,6 +241,8 @@ const defaultImages: SiteImages = {
   aboutPortfolio3: 'https://placehold.co/400x300.png',
   aboutPortfolio4: 'https://placehold.co/400x300.png',
   servicesWhyUs: 'https://placehold.co/550x400.png',
+  whatsAppNumber: '6282133971373',
+  whatsAppDefaultMessage: 'Halo Visual Kitha, saya tertarik dengan layanan Anda.',
 };
 
 export const fetchSiteImages = cache(async (): Promise<SiteImages> => {
